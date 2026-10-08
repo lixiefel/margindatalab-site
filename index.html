@@ -1,0 +1,1598 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="theme-color" content="#0c0a09" />
+<title>MarginLab — Pricing intelligence for independent cafés</title>
+<meta name="description" content="A pricing engine for independent cafés. Delivery-app margin audits, a demand model calibrated to your sales and psychology-aware rounding, turned into one decision you can act on Monday." />
+<link rel="canonical" href="https://margindatalab.com/">
+<meta property="og:url" content="https://margindatalab.com/">
+<meta property="og:title" content="MarginLab — Pricing intelligence for independent cafés">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet" />
+<style>
+/* ============================================================
+   MARGINLAB — DESIGN SYSTEM
+   Dark editorial cockpit · warm ochre · gallery-calm motion
+   ============================================================ */
+:root{
+  /* surfaces */
+  --bg:#0c0a09;
+  --bg-2:#100d0a;
+  --surface:#15110c;
+  --surface-2:#1b1610;
+  --surface-3:#221b13;
+  /* ink */
+  --cream:#f4eee3;
+  --cream-dim:#dacfbd;
+  --muted:#a39988;
+  --muted-2:#766d5e;
+  --muted-3:#4b4439;
+  /* accent */
+  --ochre:#d09a47;
+  --ochre-bright:#e7b75f;
+  --ochre-deep:#a8762c;
+  --terra:#c66a3d;
+  --sage:#94a382;
+  --teal:#5d918a;
+  /* lines */
+  --line:rgba(244,238,227,.09);
+  --line-2:rgba(244,238,227,.16);
+  --line-3:rgba(244,238,227,.28);
+  /* type */
+  --serif:"Fraunces",Georgia,serif;
+  --sans:"Inter",-apple-system,BlinkMacSystemFont,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,monospace;
+  /* motion */
+  --ease:cubic-bezier(.22,.61,.21,1);
+  --ease-out:cubic-bezier(.16,1,.3,1);
+  --slow:1.2s;
+  /* layout */
+  --maxw:1240px;
+  --gutter:clamp(20px,5vw,80px);
+}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+
+body{
+  background:var(--bg);
+  color:var(--cream);
+  font-family:var(--sans);
+  font-weight:400;
+  line-height:1.6;
+  font-size:clamp(15px,1.05vw,17px);
+  letter-spacing:.005em;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+  overflow-x:hidden;
+  position:relative;
+}
+
+/* atmosphere: layered radial glows + vignette */
+body::before{
+  content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(120vw 80vh at 78% -8%, rgba(208,154,71,.10), transparent 55%),
+    radial-gradient(90vw 70vh at 8% 12%, rgba(93,145,138,.05), transparent 60%),
+    radial-gradient(120vw 90vh at 50% 120%, rgba(166,118,44,.07), transparent 60%);
+}
+/* film grain */
+.grain{
+  position:fixed;inset:-50%;z-index:1;pointer-events:none;opacity:.05;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation:grain 7s steps(6) infinite;mix-blend-mode:overlay;
+}
+@keyframes grain{
+  0%{transform:translate(0,0)}10%{transform:translate(-3%,-2%)}20%{transform:translate(2%,3%)}
+  30%{transform:translate(-1%,2%)}40%{transform:translate(3%,-1%)}50%{transform:translate(-2%,2%)}
+  60%{transform:translate(2%,-3%)}70%{transform:translate(-3%,1%)}80%{transform:translate(1%,-2%)}
+  90%{transform:translate(-2%,-1%)}100%{transform:translate(0,0)}
+}
+
+/* ============ TYPOGRAPHY ============ */
+h1,h2,h3,h4{font-family:var(--serif);font-weight:400;line-height:1.02;letter-spacing:-.02em;color:var(--cream);font-optical-sizing:auto}
+.italic,em{font-style:italic}
+.eyebrow{
+  font-family:var(--mono);font-size:.72rem;font-weight:500;letter-spacing:.32em;
+  text-transform:uppercase;color:var(--ochre);display:inline-flex;align-items:center;gap:.7em;
+}
+.eyebrow::before{content:"";width:26px;height:1px;background:linear-gradient(90deg,var(--ochre),transparent)}
+.eyebrow.center::after{content:"";width:26px;height:1px;background:linear-gradient(90deg,transparent,var(--ochre))}
+.mono{font-family:var(--mono)}
+.dim{color:var(--muted)}
+.lede{font-size:clamp(1.05rem,1.5vw,1.35rem);color:var(--cream-dim);line-height:1.65;font-weight:300;max-width:62ch}
+.tnum{font-family:var(--mono);font-variant-numeric:tabular-nums;font-feature-settings:"tnum"}
+
+/* ============ LAYOUT ============ */
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 var(--gutter);position:relative;z-index:2}
+section{position:relative;z-index:2}
+.sec-pad{padding:clamp(90px,13vh,170px) 0}
+.rule{height:1px;background:linear-gradient(90deg,transparent,var(--line-2),transparent);border:0}
+
+/* ============ NAV ============ */
+.nav{
+  position:fixed;top:0;left:0;right:0;z-index:90;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:18px var(--gutter);
+  transition:padding .5s var(--ease),background .5s var(--ease),border-color .5s var(--ease);
+  border-bottom:1px solid transparent;
+}
+.nav.scrolled{
+  padding:13px var(--gutter);
+  background:rgba(12,10,9,.72);backdrop-filter:blur(16px) saturate(140%);
+  -webkit-backdrop-filter:blur(16px) saturate(140%);
+  border-bottom:1px solid var(--line);
+}
+.brand{display:flex;align-items:center;gap:11px;text-decoration:none;color:var(--cream);z-index:2}
+.brand-mark{width:30px;height:30px;flex:none;display:block}
+.brand-name{font-family:var(--serif);font-size:1.28rem;letter-spacing:-.02em;font-weight:500}
+.brand-name b{color:var(--ochre);font-weight:500}
+.nav-links{display:flex;align-items:center;gap:34px;list-style:none}
+.nav-links a{
+  color:var(--cream-dim);text-decoration:none;font-size:.82rem;letter-spacing:.04em;
+  font-weight:500;position:relative;padding:4px 0;transition:color .3s;
+}
+.nav-links a::after{content:"";position:absolute;left:0;bottom:-2px;height:1px;width:0;background:var(--ochre);transition:width .4s var(--ease)}
+.nav-links a:hover{color:var(--cream)}
+.nav-links a:hover::after,.nav-links a.active::after{width:100%}
+.nav-links a.active{color:var(--cream)}
+.nav-cta{
+  font-family:var(--sans);font-size:.8rem;font-weight:600;letter-spacing:.02em;line-height:1;
+  color:var(--bg);background:var(--ochre);border:0;border-radius:100px;white-space:nowrap;
+  padding:12px 24px;text-decoration:none;cursor:pointer;position:relative;overflow:hidden;
+  transition:transform .35s var(--ease),box-shadow .35s var(--ease);
+}
+.nav-cta::after{content:"";position:absolute;inset:0;background:var(--ochre-bright);opacity:0;transition:opacity .35s}
+.nav-cta span{position:relative;z-index:2}
+.nav-cta:hover{transform:translateY(-2px);box-shadow:0 10px 30px -10px rgba(208,154,71,.6)}
+.nav-cta:hover::after{opacity:1}
+.menu-toggle{display:none;background:none;border:0;cursor:pointer;width:30px;height:22px;position:relative;z-index:101}
+.menu-toggle span{position:absolute;left:0;height:1.6px;width:100%;background:var(--cream);transition:.4s var(--ease)}
+.menu-toggle span:nth-child(1){top:2px}
+.menu-toggle span:nth-child(2){top:10px}
+.menu-toggle span:nth-child(3){top:18px}
+body.menu-open .menu-toggle span:nth-child(1){top:10px;transform:rotate(45deg)}
+body.menu-open .menu-toggle span:nth-child(2){opacity:0}
+body.menu-open .menu-toggle span:nth-child(3){top:10px;transform:rotate(-45deg)}
+
+@media(max-width:900px){
+  .nav-links{
+    position:fixed;inset:0;flex-direction:column;justify-content:center;gap:30px;
+    background:rgba(12,10,9,.97);backdrop-filter:blur(20px);
+    transform:translateX(100%);transition:transform .55s var(--ease);z-index:100;
+  }
+  body.menu-open .nav-links{transform:translateX(0)}
+  .nav-links a{font-size:1.4rem;font-family:var(--serif)}
+  .nav-links .nav-cta{font-family:var(--sans);font-size:1rem}
+  .menu-toggle{display:block}
+}
+
+/* ============ BUTTONS ============ */
+.btn{
+  display:inline-flex;align-items:center;gap:.6em;font-family:var(--sans);font-weight:600;
+  font-size:.9rem;letter-spacing:.01em;text-decoration:none;cursor:pointer;border-radius:100px;
+  padding:15px 28px;transition:transform .35s var(--ease),box-shadow .35s var(--ease),background .35s,border-color .35s,color .35s;
+  position:relative;border:1px solid transparent;
+}
+.btn .arrow{transition:transform .4s var(--ease)}
+.btn:hover .arrow{transform:translateX(5px)}
+.btn-primary{background:var(--ochre);color:#1a1206}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 16px 40px -14px rgba(208,154,71,.65);background:var(--ochre-bright)}
+.btn-ghost{background:transparent;color:var(--cream);border-color:var(--line-2)}
+.btn-ghost:hover{border-color:var(--ochre);color:var(--ochre);transform:translateY(-2px)}
+
+/* ============ HERO ============ */
+.hero{min-height:100svh;display:flex;align-items:center;position:relative;padding-top:90px;overflow:hidden}
+.hero-orbits{position:absolute;top:50%;right:-12vw;transform:translateY(-50%);width:min(85vh,900px);height:min(85vh,900px);z-index:1;pointer-events:none;opacity:.85}
+.hero-orbits svg{width:100%;height:100%;overflow:visible}
+.orbit-ring{fill:none;stroke:var(--line-2);transform-origin:center}
+.orbit-dot{fill:var(--ochre)}
+.spotlight{position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:radial-gradient(420px 420px at var(--mx,70%) var(--my,40%),rgba(231,183,95,.10),transparent 70%);
+  transition:background .25s linear;}
+.hero-inner{position:relative;z-index:3;max-width:920px}
+.hero h1{
+  font-size:clamp(2.9rem,8.2vw,7.2rem);line-height:.97;letter-spacing:-.035em;font-weight:340;
+  margin:26px 0 0;
+}
+.hero h1 .em{font-style:italic;color:var(--ochre);font-weight:380}
+.hero h1 .small{display:block;font-size:.42em;letter-spacing:-.01em;color:var(--cream-dim);font-weight:340;margin-top:.5em;font-style:normal}
+.hero-sub{margin-top:32px;max-width:54ch}
+.hero-cta{display:flex;flex-wrap:wrap;gap:16px;margin-top:42px}
+.hero-stats{display:flex;flex-wrap:wrap;gap:clamp(28px,5vw,64px);margin-top:64px;padding-top:34px;border-top:1px solid var(--line)}
+.hstat{display:flex;flex-direction:column;gap:6px}
+.hstat .num{font-family:var(--mono);font-size:clamp(1.5rem,3vw,2.1rem);font-weight:500;color:var(--cream);letter-spacing:-.02em}
+.hstat .num .u{color:var(--ochre);font-size:.62em}
+.hstat .lbl{font-size:.74rem;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;font-family:var(--mono);max-width:20ch}
+.scroll-cue{position:absolute;bottom:30px;left:var(--gutter);z-index:3;display:flex;align-items:center;gap:12px;color:var(--muted);font-family:var(--mono);font-size:.68rem;letter-spacing:.25em;text-transform:uppercase}
+.scroll-cue .line{width:1px;height:46px;background:linear-gradient(var(--ochre),transparent);position:relative;overflow:hidden}
+.scroll-cue .line::after{content:"";position:absolute;top:-50%;left:0;width:100%;height:50%;background:var(--cream);animation:scrolldown 2.2s var(--ease) infinite}
+@keyframes scrolldown{0%{top:-50%}60%,100%{top:100%}}
+
+/* ticker */
+.ticker{border-top:1px solid var(--line);border-bottom:1px solid var(--line);overflow:hidden;white-space:nowrap;padding:14px 0;background:var(--bg-2);position:relative;z-index:2}
+.ticker-track{display:inline-flex;gap:0;animation:tick 42s linear infinite;will-change:transform}
+.ticker:hover .ticker-track{animation-play-state:paused}
+.ticker-track span{font-family:var(--mono);font-size:.78rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);padding:0 26px;display:inline-flex;align-items:center;gap:26px}
+.ticker-track span::after{content:"◦";color:var(--ochre)}
+@keyframes tick{to{transform:translateX(-50%)}}
+
+/* ============ REVEAL ============ */
+.reveal{opacity:0;transform:translateY(34px);transition:opacity 1s var(--ease-out),transform 1s var(--ease-out)}
+.reveal.in{opacity:1;transform:none}
+.reveal.d1{transition-delay:.08s}.reveal.d2{transition-delay:.16s}.reveal.d3{transition-delay:.24s}
+.reveal.d4{transition-delay:.32s}.reveal.d5{transition-delay:.4s}.reveal.d6{transition-delay:.48s}
+@media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}}
+
+/* ============ SECTION HEADERS ============ */
+.sec-head{max-width:760px;margin-bottom:clamp(48px,7vh,90px)}
+.sec-head.center{margin-left:auto;margin-right:auto;text-align:center}
+.sec-head h2{font-size:clamp(2.1rem,5.2vw,4rem);line-height:1.0;margin:22px 0 0;letter-spacing:-.03em;font-weight:350}
+.sec-head h2 .em{font-style:italic;color:var(--ochre)}
+.sec-head p{margin-top:24px}
+.sec-index{font-family:var(--mono);font-size:.72rem;color:var(--muted-2);letter-spacing:.2em}
+
+/* ============ ETHOS ============ */
+.ethos{position:relative}
+.ethos-quote{font-family:var(--serif);font-size:clamp(1.8rem,4.4vw,3.4rem);line-height:1.18;font-weight:340;letter-spacing:-.02em;max-width:20ch}
+.ethos-quote .em{font-style:italic;color:var(--ochre)}
+.ethos-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:clamp(40px,7vw,110px);align-items:start;margin-top:60px}
+.ethos-points{display:flex;flex-direction:column;gap:34px}
+.epoint{padding-left:24px;border-left:1px solid var(--line-2);position:relative}
+.epoint::before{content:"";position:absolute;left:-1px;top:0;width:1px;height:0;background:var(--ochre);transition:height 1.1s var(--ease)}
+.epoint.in::before{height:100%}
+.epoint h4{font-family:var(--mono);font-weight:500;font-size:.78rem;letter-spacing:.16em;text-transform:uppercase;color:var(--ochre);margin-bottom:10px}
+.epoint p{font-size:.96rem;color:var(--cream-dim);line-height:1.6}
+@media(max-width:860px){.ethos-grid{grid-template-columns:1fr;gap:48px}}
+
+/* ============ METHOD ============ */
+.method-intro{display:grid;grid-template-columns:1fr 1fr;gap:clamp(30px,5vw,72px);align-items:end}
+@media(max-width:860px){.method-intro{grid-template-columns:1fr;gap:30px}}
+
+.method-block{
+  padding:clamp(28px,4vw,52px) 0;border-top:1px solid var(--line);
+  display:grid;grid-template-columns:.9fr 1.1fr;gap:clamp(32px,5vw,80px);align-items:center;
+}
+.method-block.flip{grid-template-columns:1.1fr .9fr}
+.method-block.flip .mb-text{order:2}
+.method-block.flip .mb-vis{order:1}
+@media(max-width:920px){
+  .method-block,.method-block.flip{grid-template-columns:1fr;gap:30px}
+  .method-block.flip .mb-text{order:1}.method-block.flip .mb-vis{order:2}
+}
+.mb-tag{font-family:var(--mono);font-size:.72rem;color:var(--ochre);letter-spacing:.18em;text-transform:uppercase;display:flex;align-items:center;gap:10px}
+.mb-tag .n{color:var(--muted-2)}
+.mb-text h3{font-size:clamp(1.5rem,3vw,2.2rem);margin:18px 0 16px;line-height:1.05;font-weight:380;letter-spacing:-.02em}
+.mb-text h3 .em{font-style:italic;color:var(--ochre)}
+.mb-text p{color:var(--cream-dim);font-size:.97rem;line-height:1.62}
+.mb-text p+p{margin-top:14px}
+.formula{
+  font-family:var(--mono);font-size:.86rem;color:var(--cream);background:var(--surface);
+  border:1px solid var(--line-2);border-radius:10px;padding:14px 18px;margin-top:20px;
+  display:inline-flex;align-items:center;gap:12px;letter-spacing:.01em;
+}
+.formula .res{color:var(--ochre)}
+.chart-card{
+  background:linear-gradient(160deg,var(--surface),var(--bg-2));
+  border:1px solid var(--line-2);border-radius:16px;padding:24px;position:relative;overflow:hidden;
+  box-shadow:0 30px 70px -40px rgba(0,0,0,.9), inset 0 1px 0 rgba(244,238,227,.04);
+}
+.chart-card::before{content:"";position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--ochre),transparent);opacity:.5}
+.cc-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:14px;gap:12px;flex-wrap:wrap}
+.cc-title{font-family:var(--mono);font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.cc-meta{font-family:var(--mono);font-size:.74rem;color:var(--ochre)}
+.chart-svg{width:100%;height:auto;display:block;overflow:visible}
+
+/* svg primitives */
+.axis{stroke:var(--line-2);stroke-width:1}
+.grid-l{stroke:var(--line);stroke-width:1}
+.axis-lbl{fill:var(--muted-2);font-family:var(--mono);font-size:10px;letter-spacing:.06em}
+.draw{stroke-dasharray:var(--len);stroke-dashoffset:var(--len);transition:stroke-dashoffset 1.8s var(--ease-out)}
+.in .draw{stroke-dashoffset:0}
+.pt{opacity:0;transition:opacity .5s var(--ease)}
+.in .pt{opacity:1}
+.fade-fill{opacity:0;transition:opacity 1.4s var(--ease)}
+.in .fade-fill{opacity:1}
+
+/* role caps bars */
+.bar-track{transition:none}
+.role-bar{fill:var(--surface-2)}
+.role-fill{transform:scaleX(0);transform-origin:left center;transition:transform 1.3s var(--ease-out)}
+.in .role-fill{transform:scaleX(1)}
+
+/* tooltip */
+.q-tip{position:absolute;pointer-events:none;background:rgba(20,16,11,.96);border:1px solid var(--line-2);border-radius:9px;padding:9px 12px;font-family:var(--mono);font-size:.72rem;color:var(--cream);opacity:0;transition:opacity .2s;z-index:20;white-space:nowrap;transform:translate(-50%,-115%);box-shadow:0 12px 30px -12px rgba(0,0,0,.8)}
+.q-tip b{color:var(--ochre);font-weight:500}
+.q-tip.show{opacity:1}
+
+/* ============ LATTE WORKED EXAMPLE ============ */
+.latte{background:linear-gradient(180deg,var(--bg),var(--bg-2));border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.latte-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(40px,6vw,90px);align-items:center}
+@media(max-width:920px){.latte-grid{grid-template-columns:1fr;gap:44px}}
+.latte-steps{display:flex;flex-direction:column;gap:0}
+.lstep{display:grid;grid-template-columns:auto 1fr;gap:22px;padding:22px 0;border-bottom:1px solid var(--line);position:relative}
+.lstep:last-child{border-bottom:0}
+.lstep .ln{font-family:var(--mono);font-size:.82rem;color:var(--ochre);padding-top:3px}
+.lstep h4{font-family:var(--sans);font-weight:600;font-size:1rem;color:var(--cream);margin-bottom:6px;letter-spacing:0}
+.lstep p{font-size:.9rem;color:var(--muted);line-height:1.55}
+.lstep .val{font-family:var(--mono);color:var(--cream-dim)}
+.lstep .val b{color:var(--ochre);font-weight:500}
+.result-card{
+  background:linear-gradient(160deg,var(--surface-2),var(--bg-2));
+  border:1px solid var(--line-2);border-radius:20px;padding:clamp(28px,4vw,44px);position:relative;overflow:hidden;
+  box-shadow:0 40px 90px -50px rgba(0,0,0,.95);
+}
+.result-card .ribbon{font-family:var(--mono);font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--ochre);margin-bottom:8px}
+.price-move{display:flex;align-items:baseline;gap:18px;margin:18px 0 6px;flex-wrap:wrap}
+.price-move .from{font-family:var(--mono);font-size:clamp(1.6rem,4vw,2.4rem);color:var(--muted-2);text-decoration:line-through;text-decoration-color:var(--muted-3)}
+.price-move .arr{color:var(--ochre);font-size:1.5rem}
+.price-move .to{font-family:var(--serif);font-size:clamp(2.8rem,7vw,4.6rem);color:var(--cream);line-height:1;font-weight:420}
+.result-stats{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:30px;padding-top:26px;border-top:1px solid var(--line)}
+.rstat .num{font-family:var(--mono);font-size:clamp(1.4rem,3vw,1.9rem);color:var(--ochre);font-weight:500;letter-spacing:-.01em}
+.rstat .lbl{font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;font-family:var(--mono);margin-top:4px}
+.result-note{margin-top:26px;font-size:.84rem;color:var(--muted);line-height:1.55;padding-top:20px;border-top:1px solid var(--line)}
+
+/* ============ LAB ============ */
+.lab{background:radial-gradient(120vw 90vh at 50% 0%,rgba(208,154,71,.06),transparent 55%)}
+.lab-shell{
+  background:linear-gradient(165deg,var(--surface),var(--bg-2));
+  border:1px solid var(--line-2);border-radius:22px;overflow:hidden;
+  box-shadow:0 50px 110px -60px rgba(0,0,0,.95), inset 0 1px 0 rgba(244,238,227,.05);
+}
+.lab-top{display:flex;justify-content:space-between;align-items:center;padding:18px 26px;border-bottom:1px solid var(--line);background:var(--bg-2);flex-wrap:wrap;gap:14px}
+.lab-top .dot-row{display:flex;gap:7px}
+.lab-top .dot-row i{width:9px;height:9px;border-radius:50%;background:var(--surface-3);display:block}
+.lab-top .dot-row i:first-child{background:var(--ochre)}
+.lab-title{font-family:var(--mono);font-size:.76rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+.seg{display:inline-flex;background:var(--surface);border:1px solid var(--line-2);border-radius:100px;padding:3px}
+.seg button{font-family:var(--mono);font-size:.72rem;letter-spacing:.04em;color:var(--muted);background:none;border:0;padding:6px 14px;border-radius:100px;cursor:pointer;transition:.3s}
+.seg button.on{background:var(--ochre);color:#1a1206;font-weight:500}
+.lab-body{display:grid;grid-template-columns:.85fr 1.15fr;gap:0}
+@media(max-width:940px){.lab-body{grid-template-columns:1fr}}
+.lab-controls{padding:clamp(24px,3vw,38px);border-right:1px solid var(--line);display:flex;flex-direction:column;gap:26px}
+@media(max-width:940px){.lab-controls{border-right:0;border-bottom:1px solid var(--line)}}
+.lab-presets{display:flex;gap:8px;flex-wrap:wrap}
+.preset{font-family:var(--mono);font-size:.7rem;letter-spacing:.04em;color:var(--cream-dim);background:var(--surface-2);border:1px solid var(--line-2);border-radius:100px;padding:7px 13px;cursor:pointer;transition:.3s}
+.preset:hover{border-color:var(--ochre);color:var(--ochre)}
+.ctrl{display:flex;flex-direction:column;gap:9px}
+.ctrl-head{display:flex;justify-content:space-between;align-items:baseline}
+.ctrl-head label{font-family:var(--mono);font-size:.74rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.ctrl-head .v{font-family:var(--mono);font-size:.92rem;color:var(--ochre);font-weight:500}
+input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:3px;background:var(--surface-3);border-radius:3px;outline:none;cursor:pointer}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:17px;height:17px;border-radius:50%;background:var(--ochre);border:3px solid var(--bg);box-shadow:0 0 0 1px var(--ochre),0 6px 16px -4px rgba(208,154,71,.7);transition:transform .2s}
+input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.18)}
+input[type=range]::-moz-range-thumb{width:17px;height:17px;border-radius:50%;background:var(--ochre);border:3px solid var(--bg);box-shadow:0 0 0 1px var(--ochre);cursor:pointer}
+.role-seg{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}
+.role-seg button{font-family:var(--mono);font-size:.66rem;letter-spacing:.02em;color:var(--muted);background:var(--surface-2);border:1px solid var(--line);border-radius:8px;padding:9px 6px;cursor:pointer;transition:.3s;text-align:center}
+.role-seg button.on{border-color:var(--ochre);color:var(--ochre);background:rgba(208,154,71,.08)}
+.conf-seg{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}
+.conf-seg button{font-family:var(--mono);font-size:.7rem;color:var(--muted);background:var(--surface-2);border:1px solid var(--line);border-radius:8px;padding:10px;cursor:pointer;transition:.3s}
+.conf-seg button.on{border-color:var(--ochre);color:var(--ochre);background:rgba(208,154,71,.08)}
+.conf-seg button small{display:block;color:var(--muted-2);font-size:.78em;margin-top:2px}
+.conf-seg button.on small{color:var(--ochre)}
+
+.lab-out{padding:clamp(24px,3vw,38px);display:flex;flex-direction:column;gap:24px}
+.lab-rec{display:flex;align-items:baseline;gap:18px;flex-wrap:wrap}
+.lab-rec .label{font-family:var(--mono);font-size:.74rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);width:100%}
+.lab-rec .from{font-family:var(--mono);font-size:1.4rem;color:var(--muted-2);text-decoration:line-through;text-decoration-color:var(--muted-3)}
+.lab-rec .arr{color:var(--ochre)}
+.lab-rec .to{font-family:var(--serif);font-size:clamp(2.4rem,6vw,3.6rem);color:var(--cream);line-height:1;font-weight:420}
+.lab-rec .pct{font-family:var(--mono);font-size:.9rem;padding:4px 10px;border-radius:100px;border:1px solid var(--line-2);color:var(--ochre)}
+.lab-metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+@media(max-width:520px){.lab-metrics{grid-template-columns:1fr 1fr}}
+.metric{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:15px 16px}
+.metric .num{font-family:var(--mono);font-size:1.25rem;color:var(--cream);font-weight:500;letter-spacing:-.01em}
+.metric .num.pos{color:var(--sage)}
+.metric .lbl{font-size:.66rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;font-family:var(--mono);margin-top:5px;line-height:1.3}
+.lab-curve{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px 18px 8px}
+.lab-curve .cc-head{margin-bottom:6px}
+.lab-foot{font-size:.78rem;color:var(--muted-2);line-height:1.5;font-family:var(--mono)}
+
+/* ============ LIMITATIONS ============ */
+.limits{background:var(--bg-2)}
+.limits-head{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:end}
+@media(max-width:860px){.limits-head{grid-template-columns:1fr;gap:24px}}
+.limit-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:60px}
+@media(max-width:860px){.limit-cards{grid-template-columns:1fr}}
+.limit-card{
+  background:linear-gradient(165deg,var(--surface),var(--bg-2));border:1px solid var(--line);
+  border-radius:16px;padding:30px 26px;position:relative;overflow:hidden;transition:transform .5s var(--ease),border-color .5s;
+}
+.limit-card:hover{transform:translateY(-5px);border-color:var(--line-3)}
+.limit-card .ln{font-family:var(--mono);font-size:.78rem;color:var(--ochre);letter-spacing:.16em}
+.limit-card .icon{margin:18px 0;width:46px;height:46px}
+.limit-card h4{font-family:var(--serif);font-size:1.35rem;font-weight:420;margin-bottom:12px;line-height:1.12;letter-spacing:-.01em}
+.limit-card p{font-size:.9rem;color:var(--muted);line-height:1.6}
+.limit-card .why{margin-top:18px;padding-top:16px;border-top:1px solid var(--line);font-size:.82rem;color:var(--cream-dim)}
+.limit-card .why b{color:var(--ochre);font-weight:500}
+.limit-banner{margin-top:40px;background:linear-gradient(110deg,rgba(208,154,71,.1),transparent);border:1px solid var(--line-2);border-left:2px solid var(--ochre);border-radius:12px;padding:26px 30px;display:flex;align-items:center;gap:24px;flex-wrap:wrap;justify-content:space-between}
+.limit-banner p{font-family:var(--serif);font-size:clamp(1.1rem,2vw,1.5rem);font-weight:340;font-style:italic;max-width:40ch;line-height:1.3}
+
+/* ============ WORK / TIERS ============ */
+.tiers{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:64px;align-items:stretch}
+@media(max-width:920px){.tiers{grid-template-columns:1fr;max-width:520px;margin-left:auto;margin-right:auto}}
+.tier{
+  background:linear-gradient(170deg,var(--surface),var(--bg-2));border:1px solid var(--line-2);
+  border-radius:18px;padding:34px 30px;display:flex;flex-direction:column;position:relative;overflow:hidden;
+  transition:transform .5s var(--ease),border-color .5s,box-shadow .5s;
+}
+.tier:hover{transform:translateY(-6px);border-color:var(--line-3);box-shadow:0 40px 80px -50px rgba(0,0,0,.9)}
+.tier.feature{border-color:rgba(208,154,71,.4);background:linear-gradient(170deg,var(--surface-2),var(--bg-2))}
+.tier.feature::before{content:"";position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--ochre),transparent)}
+.tier .badge{position:absolute;top:18px;right:18px;font-family:var(--mono);font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:#1a1206;background:var(--ochre);padding:4px 10px;border-radius:100px}
+.tier .tname{font-family:var(--mono);font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ochre)}
+.tier .tsub{font-size:.82rem;color:var(--muted);margin-top:4px}
+.tier .price{display:flex;align-items:baseline;gap:6px;margin:22px 0}
+.tier .price .cur{font-family:var(--serif);font-size:2.6rem;color:var(--cream);font-weight:420}
+.tier .price .per{font-family:var(--mono);font-size:.82rem;color:var(--muted)}
+.tier ul{list-style:none;display:flex;flex-direction:column;gap:13px;margin:8px 0 28px;flex:1}
+.tier li{display:flex;gap:12px;font-size:.9rem;color:var(--cream-dim);line-height:1.45}
+.tier li svg{flex:none;margin-top:3px;color:var(--ochre)}
+.tier .btn{justify-content:center;width:100%}
+.work-note{text-align:center;margin-top:40px;font-family:var(--mono);font-size:.8rem;color:var(--muted-2);letter-spacing:.04em}
+
+/* ============ PROCESS ============ */
+.process{background:linear-gradient(180deg,var(--bg-2),var(--bg))}
+.steps{display:grid;grid-template-columns:repeat(7,1fr);gap:14px;margin-top:60px;counter-reset:s}
+@media(max-width:1040px){.steps{grid-template-columns:repeat(4,1fr)}}
+@media(max-width:640px){.steps{grid-template-columns:repeat(2,1fr)}}
+.step{position:relative;padding-top:30px;border-top:1px solid var(--line)}
+.step::before{counter-increment:s;content:"0" counter(s);font-family:var(--mono);font-size:.72rem;color:var(--ochre);position:absolute;top:-1px;left:0;padding-top:10px;letter-spacing:.1em}
+.step h5{font-family:var(--sans);font-weight:600;font-size:.92rem;margin-bottom:8px;letter-spacing:-.01em;color:var(--cream)}
+.step p{font-size:.8rem;color:var(--muted);line-height:1.5}
+.step .dotline{position:absolute;top:-4px;left:0;width:7px;height:7px;border-radius:50%;background:var(--ochre);opacity:0;transform:scale(0);transition:.5s var(--ease)}
+.step.in .dotline{opacity:1;transform:scale(1)}
+
+/* ============ ABOUT ============ */
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(40px,7vw,100px);align-items:center}
+@media(max-width:860px){.about-grid{grid-template-columns:1fr;gap:44px}}
+.about-portrait{position:relative;aspect-ratio:4/5;border-radius:18px;overflow:hidden;border:1px solid var(--line-2);background:
+  radial-gradient(80% 80% at 30% 20%,rgba(208,154,71,.18),transparent 60%),
+  linear-gradient(160deg,var(--surface-2),var(--bg));display:flex;align-items:center;justify-content:center}
+.about-portrait svg{width:78%;height:78%;opacity:.9}
+.about-portrait .tag{position:absolute;bottom:18px;left:18px;font-family:var(--mono);font-size:.7rem;color:var(--cream-dim);letter-spacing:.1em;background:rgba(12,10,9,.7);padding:6px 12px;border-radius:8px;border:1px solid var(--line)}
+.about-text h2{font-size:clamp(2rem,4.4vw,3.2rem);margin:20px 0;line-height:1.04;font-weight:350}
+.about-text h2 .em{font-style:italic;color:var(--ochre)}
+.about-text p{color:var(--cream-dim);font-size:1rem;line-height:1.7}
+.about-text p+p{margin-top:18px}
+.about-sign{margin-top:28px;display:flex;align-items:center;gap:16px}
+.about-sign .name{font-family:var(--serif);font-size:1.5rem;font-style:italic;color:var(--cream)}
+.about-sign .role{font-family:var(--mono);font-size:.74rem;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;border-left:1px solid var(--line-2);padding-left:16px}
+
+/* ============ CONTACT ============ */
+.contact{position:relative;overflow:hidden}
+.contact-orbits{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:min(120vw,1100px);height:min(120vw,1100px);opacity:.4;pointer-events:none;z-index:0}
+.contact-inner{text-align:center;position:relative;z-index:2;max-width:840px;margin:0 auto}
+.contact h2{font-size:clamp(2.6rem,7.5vw,6rem);line-height:.98;font-weight:340;letter-spacing:-.03em}
+.contact h2 .em{font-style:italic;color:var(--ochre)}
+.contact .lede{margin:30px auto 0;text-align:center}
+.contact-cta{display:flex;flex-wrap:wrap;gap:16px;justify-content:center;margin-top:46px}
+.email-pill{display:inline-flex;align-items:center;gap:14px;margin-top:40px;background:var(--surface);border:1px solid var(--line-2);border-radius:100px;padding:10px 10px 10px 24px;font-family:var(--mono);font-size:.92rem;color:var(--cream);cursor:pointer;transition:border-color .3s}
+.email-pill:hover{border-color:var(--ochre)}
+.email-pill .copy{font-family:var(--sans);font-size:.78rem;font-weight:600;color:#1a1206;background:var(--ochre);padding:8px 16px;border-radius:100px;transition:.3s}
+.email-pill.copied .copy{background:var(--sage)}
+.contact-meta{display:flex;gap:36px;justify-content:center;flex-wrap:wrap;margin-top:50px;padding-top:34px;border-top:1px solid var(--line)}
+.cmeta{font-family:var(--mono);font-size:.76rem;color:var(--muted);letter-spacing:.04em}
+.cmeta b{color:var(--cream-dim);font-weight:400}
+
+/* ============ FOOTER ============ */
+.footer{border-top:1px solid var(--line);padding:50px 0 40px;background:var(--bg-2)}
+.footer-grid{display:flex;justify-content:space-between;align-items:flex-start;gap:40px;flex-wrap:wrap}
+.footer .brand-name{font-size:1.1rem}
+.footer-tag{font-size:.84rem;color:var(--muted);max-width:34ch;margin-top:14px;line-height:1.55}
+.footer-cols{display:flex;gap:60px;flex-wrap:wrap}
+.fcol h6{font-family:var(--mono);font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted-2);margin-bottom:16px}
+.fcol a{display:block;color:var(--cream-dim);text-decoration:none;font-size:.86rem;margin-bottom:10px;transition:color .3s}
+.fcol a:hover{color:var(--ochre)}
+.footer-bottom{display:flex;justify-content:space-between;align-items:center;margin-top:50px;padding-top:24px;border-top:1px solid var(--line);flex-wrap:wrap;gap:12px;font-family:var(--mono);font-size:.72rem;color:var(--muted-2);letter-spacing:.04em}
+
+/* ============ PRELOADER ============ */
+.preloader{position:fixed;inset:0;z-index:9999;background:var(--bg);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:22px;transition:opacity .8s var(--ease),visibility .8s}
+.preloader.done{opacity:0;visibility:hidden}
+.pre-mark{width:54px;height:54px;animation:prespin 2.4s var(--ease) infinite}
+@keyframes prespin{to{transform:rotate(360deg)}}
+.pre-text{font-family:var(--mono);font-size:.74rem;letter-spacing:.34em;text-transform:uppercase;color:var(--muted);overflow:hidden}
+.pre-text span{display:inline-block;animation:prefade 1.4s var(--ease) infinite alternate}
+@keyframes prefade{from{opacity:.3}to{opacity:1}}
+
+/* selection */
+::selection{background:rgba(208,154,71,.3);color:var(--cream)}
+::-webkit-scrollbar{width:11px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--surface-3);border-radius:6px;border:3px solid var(--bg)}
+::-webkit-scrollbar-thumb:hover{background:var(--ochre-deep)}
+
+/* ===== ADDED: scroll progress + card cursor-spotlight ===== */
+.scroll-prog{position:fixed;top:0;left:0;height:2px;width:0;z-index:95;background:linear-gradient(90deg,var(--ochre-deep),var(--ochre-bright));box-shadow:0 0 12px rgba(231,183,95,.5);transition:width .1s linear}
+.tier,.limit-card{isolation:isolate}
+.tier::after,.limit-card::after{content:"";position:absolute;inset:0;border-radius:inherit;background:radial-gradient(280px 220px at var(--mx,50%) var(--my,50%),rgba(231,183,95,.12),transparent 60%);opacity:0;transition:opacity .45s var(--ease);pointer-events:none;z-index:-1}
+.tier:hover::after,.limit-card:hover::after{opacity:1}
+@media (prefers-reduced-motion:reduce){.scroll-prog{display:none}}
+</style>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Ccircle cx=%2716%27 cy=%2716%27 r=%2714%27 fill=%27%230c0a09%27 stroke=%27%23d09a47%27 stroke-width=%272%27/%3E%3Ccircle cx=%2716%27 cy=%2716%27 r=%274%27 fill=%27%23d09a47%27/%3E%3C/svg%3E">
+</head>
+<body>
+<div class="scroll-prog" id="scrollProg"></div>
+<div class="grain"></div>
+
+<!-- PRELOADER -->
+<div class="preloader" id="preloader">
+  <svg class="pre-mark" viewBox="0 0 60 60" fill="none">
+    <circle cx="30" cy="30" r="26" stroke="#221b13" stroke-width="2"/>
+    <circle cx="30" cy="30" r="26" stroke="#d09a47" stroke-width="2" stroke-dasharray="40 200" stroke-linecap="round"/>
+    <circle cx="30" cy="30" r="14" stroke="#221b13" stroke-width="2"/>
+    <circle cx="30" cy="4" r="3" fill="#e7b75f"/>
+  </svg>
+  <div class="pre-text"><span>Calibrating&nbsp;·&nbsp;MarginLab</span></div>
+</div>
+
+<!-- NAV -->
+<nav class="nav" id="nav">
+  <a href="#top" class="brand" aria-label="MarginLab home">
+    <svg class="brand-mark" viewBox="0 0 60 60" fill="none">
+      <circle cx="30" cy="30" r="26" stroke="#d09a47" stroke-width="2.2"/>
+      <circle cx="30" cy="30" r="15" stroke="#766d5e" stroke-width="1.4"/>
+      <circle cx="30" cy="4" r="3.2" fill="#e7b75f"/>
+      <circle cx="49" cy="42" r="2.2" fill="#d09a47"/>
+    </svg>
+    <span class="brand-name">Margin<b>Lab</b></span>
+  </a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#method" class="navlink">Method</a></li>
+    <li><a href="#lab" class="navlink">The Lab</a></li>
+    <li><a href="sample-audit-en.html" class="navlink">Sample audit</a></li>
+    <li><a href="#work" class="navlink">Engagements</a></li>
+    <li><a href="#process" class="navlink">Process</a></li>
+    <li><a href="#contact" class="nav-cta"><span>Book an audit</span></a></li>
+  </ul>
+  <button class="menu-toggle" id="menuToggle" aria-label="Menu"><span></span><span></span><span></span></button>
+</nav>
+
+<!-- HERO -->
+<header class="hero" id="top">
+  <div class="spotlight" id="spotlight"></div>
+  <div class="hero-orbits" id="heroOrbits">
+    <svg viewBox="-300 -300 600 600">
+      <circle class="orbit-ring" r="285" style="animation:spin 90s linear infinite"/>
+      <circle class="orbit-ring" r="215" stroke="rgba(208,154,71,.22)" style="animation:spinR 70s linear infinite"/>
+      <circle class="orbit-ring" r="150" style="animation:spin 55s linear infinite"/>
+      <circle class="orbit-ring" r="92" stroke="rgba(93,145,138,.2)"/>
+      <g style="animation:spin 90s linear infinite"><circle class="orbit-dot" cx="0" cy="-285" r="5"/></g>
+      <g style="animation:spinR 70s linear infinite"><circle class="orbit-dot" cx="0" cy="-215" r="3.4" fill="#5d918a"/></g>
+      <g style="animation:spin 55s linear infinite"><circle class="orbit-dot" cx="0" cy="-150" r="4" fill="#e7b75f"/></g>
+      <g style="animation:spinR 38s linear infinite"><circle class="orbit-dot" cx="0" cy="-92" r="3" fill="#c66a3d"/></g>
+      <circle r="3" fill="#d09a47"/>
+    </svg>
+  </div>
+  <div class="wrap hero-inner">
+    <div class="eyebrow reveal in">Pricing intelligence · independent cafés</div>
+    <h1 class="reveal in d1">Every café leaves<br>money on the table.<span class="small">We tell you <span class="em">exactly</span> where it's hiding — and what to do Monday.</span></h1>
+    <p class="lede hero-sub reveal in d2">MarginLab is a pricing engine for independent cafés. It shows what every GoFood and GrabFood order really leaves you, prices your menu with a demand model calibrated to your own sales, and rounds to prices that feel right — distilled into one decision you can act on this week.</p>
+    <div class="hero-cta reveal in d3">
+      <a href="#lab" class="btn btn-primary">Try the live optimizer <span class="arrow">→</span></a>
+      <a href="#method" class="btn btn-ghost">See the method</a>
+    </div>
+    <div class="hero-stats reveal in d4">
+      <div class="hstat"><div class="num"><span data-count="29.6" data-dec="1">0</span><span class="u">%</span></div><div class="lbl">GoFood's real cut on a Rp 15.000 item</div></div>
+      <div class="hstat"><div class="num"><span data-count="681" data-dec="0">0</span><span class="u"> checks</span></div><div class="lbl">automated tests the engine passes</div></div>
+      <div class="hstat"><div class="num"><span data-count="200" data-dec="0">0</span><span class="u">+ items</span></div><div class="lbl">per audit, Bahasa &amp; English</div></div>
+    </div>
+  </div>
+  <div class="scroll-cue"><span class="line"></span>Scroll</div>
+</header>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-track">
+    <span>Delivery margin audit</span><span>Settlement reconciliation</span><span>Calibrated demand model</span><span>Switchback price tests</span><span>Psychology thresholds</span><span>Charm endings</span><span>Role-aware guardrails</span><span>Competitor positioning</span>
+    <span>Delivery margin audit</span><span>Settlement reconciliation</span><span>Calibrated demand model</span><span>Switchback price tests</span><span>Psychology thresholds</span><span>Charm endings</span><span>Role-aware guardrails</span><span>Competitor positioning</span>
+  </div>
+</div>
+
+<!-- ETHOS -->
+<section class="ethos sec-pad" id="ethos">
+  <div class="wrap">
+    <div class="eyebrow reveal">01 — The premise</div>
+    <p class="ethos-quote reveal d1">Most cafés set prices by <span class="em">feel,</span> copy the shop next door, and never revisit it. The margin you're missing is <span class="em">already on the menu.</span></p>
+    <div class="ethos-grid">
+      <div class="lede reveal d1">A few cents in the wrong place compounds across thousands of cups a month. The fix isn't raising everything — it's knowing which item can take a lift, which must stay a magnet, and where a number ending changes how a price <em>feels</em> without changing what it earns.</div>
+      <div class="ethos-points">
+        <div class="epoint reveal"><h4>Priced by intuition</h4><p>Owners price from gut and competitor-glancing. Intuition is good at flavour, blind to elasticity.</p></div>
+        <div class="epoint reveal d1"><h4>Frozen for years</h4><p>Costs drift up; prices don't. Margin quietly erodes one invoice at a time.</p></div>
+        <div class="epoint reveal d2"><h4>Left on the table</h4><p>The gap between the price you charge and the price the math supports — that's MarginLab's entire job.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="rule"/>
+
+<!-- METHOD -->
+<section class="method sec-pad" id="method">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow reveal">02 — The engine</div>
+      <h2 class="reveal d1">Not a guess. A <span class="em">model</span> — and a test to check it.</h2>
+      <p class="lede reveal d2">The same logic behind the screen we turn around to clients. Eight passes turn a raw menu, its costs and a month of sales into a defensible price for every item — at the counter and on the apps.</p>
+    </div>
+
+    <!-- 1 ELASTICITY -->
+    <div class="method-block">
+      <div class="mb-text reveal">
+        <div class="mb-tag"><span class="n">i.</span> Calibrated demand</div>
+        <h3>How sensitive is each item to <span class="em">price?</span></h3>
+        <p>We calibrate a nested-logit demand model so that, at today's prices, it reproduces your actual sales item by item. Items that substitute for each other sit in the same nest, so a move on one shows up in the other.</p>
+        <p>One café's sales can't reveal price sensitivity on their own, so the engine starts from published research, says so, and shows the whole range — then a short price test (pass vii) measures it.</p>
+        <div class="formula">ε = elasticity&nbsp;&nbsp;→&nbsp;&nbsp;<span class="res">the band, until a test measures it</span></div>
+      </div>
+      <div class="mb-vis reveal d1">
+        <div class="chart-card" id="chart-elasticity">
+          <div class="cc-head"><span class="cc-title">Demand curve · "Latte"</span><span class="cc-meta" id="elast-meta">ε = −1.50 · plausible band</span></div>
+          <div class="chart-host"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2 LERNER -->
+    <div class="method-block flip">
+      <div class="mb-text reveal">
+        <div class="mb-tag"><span class="n">ii.</span> Lerner-optimal markup</div>
+        <h3>The price that <span class="em">maximises</span> profit, exactly.</h3>
+        <p>For one item on its own, microeconomics hands us the answer: the Lerner rule sets the markup over cost from elasticity alone. The engine goes further and solves every price together, because raising one item moves guests to its neighbours.</p>
+        <p>The optimiser walks the curve and lands on its summit. Too cheap leaves margin behind; too dear sheds more cups than the price makes up for. We find the top.</p>
+        <div class="formula">P* = c · <span class="res">|ε| / (|ε| − 1)</span></div>
+      </div>
+      <div class="mb-vis reveal d1">
+        <div class="chart-card" id="chart-lerner">
+          <div class="cc-head"><span class="cc-title">Profit vs price · "Latte"</span><span class="cc-meta">peak → €4.20</span></div>
+          <div class="chart-host"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3 CONFIDENCE SHRINK -->
+    <div class="method-block">
+      <div class="mb-text reveal">
+        <div class="mb-tag"><span class="n">iii.</span> Stress-tested moves</div>
+        <h3>We move as far as the <span class="em">data earns.</span></h3>
+        <p>A textbook optimum from thin data is a liability. So every recommendation is re-run with price sensitivity anywhere from ×0.3 to ×2, and a move that only pays under one assumption is cut back or held.</p>
+        <p>It's the difference between a model that's right on paper and advice that's safe to act on.</p>
+      </div>
+      <div class="mb-vis reveal d1">
+        <div class="chart-card" id="chart-shrink">
+          <div class="cc-head"><span class="cc-title">How much of the move survives</span><span class="cc-meta">robust / partly / held</span></div>
+          <div class="chart-host"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4 ROLE CAPS -->
+    <div class="method-block flip">
+      <div class="mb-text reveal">
+        <div class="mb-tag"><span class="n">iv.</span> Role-aware guardrails</div>
+        <h3>An anchor and a magnet aren't priced the <span class="em">same way.</span></h3>
+        <p>Every item plays a role on your menu. A <em>Traffic Driver</em> earns its keep by pulling people in — it stays cheap on purpose. A <em>Premium Anchor</em> can stretch. We cap each item's allowed movement to its job.</p>
+        <p>No recommendation ever pushes a magnet out of reach or holds an anchor below its worth.</p>
+      </div>
+      <div class="mb-vis reveal d1">
+        <div class="chart-card" id="chart-roles">
+          <div class="cc-head"><span class="cc-title">Allowed price movement by role</span><span class="cc-meta">guardrail bands</span></div>
+          <div class="chart-host"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5 PSYCHOLOGY / CHARM -->
+    <div class="method-block">
+      <div class="mb-text reveal">
+        <div class="mb-tag"><span class="n">v.</span> Psychology &amp; charm endings</div>
+        <h3>The same money, in a number that <span class="em">feels</span> right.</h3>
+        <p>€4.00 and €3.95 earn nearly the same, but read very differently. We round each optimum to a psychologically tuned ending and keep it clear of barrier prices — the round numbers that make a guest hesitate.</p>
+        <p>Thresholds are currency-aware: charm endings for euros, clean breaks for rupiah, never tripping a customer over a mental line.</p>
+      </div>
+      <div class="mb-vis reveal d1">
+        <div class="chart-card" id="chart-charm">
+          <div class="cc-head"><span class="cc-title">Raw optimum → charmed price</span><span class="cc-meta">barrier-aware</span></div>
+          <div class="chart-host"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 6 MENU ENGINEERING -->
+    <div class="method-block flip">
+      <div class="mb-text reveal">
+        <div class="mb-tag"><span class="n">vi.</span> Menu-engineering quadrants</div>
+        <h3>Every item, placed on the <span class="em">map.</span></h3>
+        <p>Popularity against profitability sorts the menu into four well-known camps: <em>Stars</em> to protect, <em>Plowhorses</em> to quietly firm up, <em>Puzzles</em> to reposition, and <em>Dogs</em> to fix or cut.</p>
+        <p>The quadrant tells you not just what to price, but where to spend your attention. Hover any point.</p>
+      </div>
+      <div class="mb-vis reveal d1">
+        <div class="chart-card" id="chart-quadrant">
+          <div class="cc-head"><span class="cc-title">Popularity × margin</span><span class="cc-meta">12 menu items</span></div>
+          <div class="chart-host"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 7 SENSITIVITY -->
+    <div class="method-block">
+      <div class="mb-text reveal">
+        <div class="mb-tag"><span class="n">vii.</span> Sensitivity analysis</div>
+        <h3>Which assumption actually <span class="em">moves the answer?</span></h3>
+        <p>Before we hand over a number, we shake it: price sensitivity, the share of app orders that are new customers, costs and commissions — so you know which figures are load-bearing and which are noise.</p>
+        <p>Then we measure the biggest one. A two-week switchback test on GoFood (one price this week, the other the next — reversible in seconds) replaces the assumption with what your customers actually did.</p>
+      </div>
+      <div class="mb-vis reveal d1">
+        <div class="chart-card" id="chart-tornado">
+          <div class="cc-head"><span class="cc-title">Impact on monthly uplift · ±20%</span><span class="cc-meta">tornado</span></div>
+          <div class="chart-host"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 8 COMPETITOR -->
+    <div class="method-block flip">
+      <div class="mb-text reveal">
+        <div class="mb-tag"><span class="n">viii.</span> Competitor positioning</div>
+        <h3>Optimal, but never <span class="em">out of step.</span></h3>
+        <p>The math is calibrated against the street. We plot where your current and recommended prices sit among the cafés around you — unlimited comparison points, not a fixed three — so a move is profit-optimal <em>and</em> defensible to a regular.</p>
+        <p>The goal is the sweet spot: the most your menu can earn without ever looking expensive.</p>
+      </div>
+      <div class="mb-vis reveal d1">
+        <div class="chart-card" id="chart-competitor">
+          <div class="cc-head"><span class="cc-title">Market position · "Latte"</span><span class="cc-meta">7 nearby cafés</span></div>
+          <div class="chart-host"></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- LATTE WORKED EXAMPLE -->
+<section class="latte sec-pad" id="latte">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow reveal">03 — Worked example</div>
+      <h2 class="reveal d1">One item, start to <span class="em">finish.</span></h2>
+      <p class="lede reveal d2">An illustrative Latte, computed by hand. Watch a single price travel through the passes.</p>
+    </div>
+    <div class="latte-grid">
+      <div class="latte-steps reveal">
+        <div class="lstep"><div class="ln">i</div><div><h4>Calibrate elasticity</h4><p class="val">Demand reproduces today's 315 cups; sensitivity starts at <b>ε = −1.50</b> until a test measures it.</p></div></div>
+        <div class="lstep"><div class="ln">ii</div><div><h4>Find the optimum</h4><p class="val">Marginal cost €1.40 → P* = 1.40 · 1.5/0.5 = <b>€4.20</b>.</p></div></div>
+        <div class="lstep"><div class="ln">iii</div><div><h4>Shrink the move</h4><p class="val">€3.80 → €4.20 is +€0.40. Apply confidence → a measured <b>+€0.20</b>.</p></div></div>
+        <div class="lstep"><div class="ln">iv</div><div><h4>Check the role cap</h4><p class="val">"Core" item, band −3%…+9%. A +5.3% move sits <b>well inside</b>.</p></div></div>
+        <div class="lstep"><div class="ln">v</div><div><h4>Charm the ending</h4><p class="val">€4.00 holds — clean, below the next barrier, <b>no friction</b>.</p></div></div>
+        <div class="lstep"><div class="ln">vi–viii</div><div><h4>Place, stress-test, position</h4><p class="val">A "Star". Uplift survives ±20%. Sits mid-pack vs <b>7 neighbours</b>.</p></div></div>
+      </div>
+      <div class="result-card reveal d1">
+        <div class="ribbon">◦ Illustrative example</div>
+        <div class="price-move">
+          <span class="from">€3.80</span>
+          <span class="arr">→</span>
+          <span class="to">€4.00</span>
+        </div>
+        <p class="dim" style="font-size:.9rem">A twenty-cent move, fully defensible — and that's before a single other item is touched.</p>
+        <div class="result-stats">
+          <div class="rstat"><div class="num">+€<span data-count="63" data-dec="0">0</span>/mo</div><div class="lbl">added margin · this item</div></div>
+          <div class="rstat"><div class="num">+<span data-count="5.3" data-dec="1">0</span>%</div><div class="lbl">price · −7% volume</div></div>
+          <div class="rstat"><div class="num"><span data-count="67" data-dec="0">0</span>%</div><div class="lbl">gross margin at P*</div></div>
+          <div class="rstat"><div class="num">€<span data-count="756" data-dec="0">0</span>/yr</div><div class="lbl">annualised · one line</div></div>
+        </div>
+        <p class="result-note">The audit does this for every item at once, on the counter and on every delivery app — and a price test confirms it before you commit.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LAB -->
+<section class="lab sec-pad" id="lab">
+  <div class="wrap">
+    <div class="sec-head center">
+      <div class="eyebrow center reveal">04 — The Lab</div>
+      <h2 class="reveal d1">Drive the engine <span class="em">yourself.</span></h2>
+      <p class="lede reveal d2" style="margin-left:auto;margin-right:auto;text-align:center">A single-item slice of the maths — the classic Lerner rule. Set an item's economics and watch the recommendation, the profit curve and the margin shift in real time.</p>
+    </div>
+
+    <div class="lab-shell reveal d1">
+      <div class="lab-top">
+        <div style="display:flex;align-items:center;gap:14px">
+          <span class="dot-row"><i></i><i></i><i></i></span>
+          <span class="lab-title">marginlab · optimizer</span>
+        </div>
+        <div class="seg" id="curSeg">
+          <button data-cur="IDR" class="on">Rp IDR</button>
+          <button data-cur="EUR">€ EUR</button>
+        </div>
+      </div>
+      <div class="lab-body">
+        <div class="lab-controls">
+          <div>
+            <div class="ctrl-head" style="margin-bottom:10px"><label>Presets</label></div>
+            <div class="lab-presets" id="presets">
+              <button class="preset" data-preset="latte">☕ Latte</button>
+              <button class="preset" data-preset="coldbrew">🧊 Cold Brew</button>
+              <button class="preset" data-preset="croissant">🥐 Croissant</button>
+            </div>
+          </div>
+          <div class="ctrl">
+            <div class="ctrl-head"><label>Current price</label><span class="v" id="vPrice">€3.80</span></div>
+            <input type="range" id="inPrice" min="1" max="12" step="0.05" value="3.80"/>
+          </div>
+          <div class="ctrl">
+            <div class="ctrl-head"><label>Unit cost</label><span class="v" id="vCost">€1.40</span></div>
+            <input type="range" id="inCost" min="0.3" max="8" step="0.05" value="1.40"/>
+          </div>
+          <div class="ctrl">
+            <div class="ctrl-head"><label>Elasticity · |ε|</label><span class="v" id="vEps">1.50</span></div>
+            <input type="range" id="inEps" min="1.1" max="4" step="0.05" value="1.5"/>
+          </div>
+          <div class="ctrl">
+            <div class="ctrl-head"><label>Monthly volume</label><span class="v" id="vVol">315</span></div>
+            <input type="range" id="inVol" min="20" max="2000" step="5" value="315"/>
+          </div>
+          <div class="ctrl">
+            <div class="ctrl-head"><label>Confidence</label></div>
+            <div class="conf-seg" id="confSeg">
+              <button data-c="1" class="on">High<small>×1.0</small></button>
+              <button data-c="0.5">Med<small>×0.5</small></button>
+              <button data-c="0.25">Low<small>×0.25</small></button>
+            </div>
+          </div>
+          <div class="ctrl">
+            <div class="ctrl-head"><label>Menu role</label></div>
+            <div class="role-seg" id="roleSeg">
+              <button data-role="traffic">Traffic</button>
+              <button data-role="core" class="on">Core</button>
+              <button data-role="complement">Complement</button>
+              <button data-role="profit">Profit Drv</button>
+              <button data-role="signature">Signature</button>
+              <button data-role="anchor">Anchor</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="lab-out">
+          <div class="lab-rec">
+            <span class="label">Recommended price</span>
+            <span class="from" id="outFrom">€3.80</span>
+            <span class="arr">→</span>
+            <span class="to" id="outTo">€4.00</span>
+            <span class="pct" id="outPct">+5.3%</span>
+          </div>
+          <div class="lab-metrics">
+            <div class="metric"><div class="num pos" id="mGross">+€63/mo</div><div class="lbl">margin uplift</div></div>
+            <div class="metric"><div class="num" id="mOpt">€4.20</div><div class="lbl">unconstrained P*</div></div>
+            <div class="metric"><div class="num" id="mLerner">65%</div><div class="lbl">Lerner @ rec</div></div>
+            <div class="metric"><div class="num" id="mVol">−7%</div><div class="lbl">volume response</div></div>
+            <div class="metric"><div class="num" id="mAnnual">€756/yr</div><div class="lbl">annualised</div></div>
+            <div class="metric"><div class="num" id="mCap">inside</div><div class="lbl">role guardrail</div></div>
+          </div>
+          <div class="lab-curve">
+            <div class="cc-head"><span class="cc-title">Profit curve · live</span><span class="cc-meta" id="curveMeta">current · rec · optimum</span></div>
+            <div id="labCurveHost"></div>
+          </div>
+          <p class="lab-foot">↳ Headline uplift holds volume; the curve and "volume response" show the elasticity-adjusted reality. The full engine prices every item together, checks your delivery margins and stress-tests price sensitivity — that's the audit.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LIMITATIONS -->
+<section class="limits sec-pad" id="limits">
+  <div class="wrap">
+    <div class="limits-head">
+      <div>
+        <div class="eyebrow reveal">05 — Honest by design</div>
+        <h2 class="reveal d1" style="font-size:clamp(2.1rem,5vw,3.6rem);margin-top:20px;line-height:1.02;font-weight:350">Three things a model <span class="em">can't</span> see.</h2>
+      </div>
+      <p class="lede reveal d2">We're upfront about the edges of the math. These aren't oversights — they're deliberately left out, because each one needs a human who knows <em>your</em> café. That's the conversation.</p>
+    </div>
+    <div class="limit-cards">
+      <div class="limit-card reveal">
+        <div class="ln">L·01</div>
+        <svg class="icon" viewBox="0 0 48 48" fill="none" stroke="#d09a47" stroke-width="1.4"><path d="M8 36 L20 24 L28 30 L40 14"/><circle cx="20" cy="24" r="2.5" fill="#d09a47"/><circle cx="28" cy="30" r="2.5" fill="#d09a47"/><path d="M14 18 L22 18 M14 18 L14 26" stroke-dasharray="3 3"/></svg>
+        <h4>How strongly your guests react to price</h4>
+        <p>The model knows your sales, costs and platform fees. What one menu can't reveal is how hard your guests push back on a price rise — that comes from research until we test it.</p>
+        <div class="why"><b>So we talk:</b> which item to test first, and what result would change the plan.</div>
+      </div>
+      <div class="limit-card reveal d1">
+        <div class="ln">L·02</div>
+        <svg class="icon" viewBox="0 0 48 48" fill="none" stroke="#d09a47" stroke-width="1.4"><circle cx="16" cy="16" r="7"/><circle cx="32" cy="32" r="7"/><path d="M21 21 L27 27" stroke-dasharray="3 3"/><path d="M30 14 L34 14 M32 12 L32 16"/></svg>
+        <h4>The basket &amp; attach rate</h4>
+        <p>A coffee often pulls a pastry with it. Firm up the coffee and you might quietly suppress the attached sale. The per-item optimum can't see the whole receipt.</p>
+        <div class="why"><b>So we talk:</b> your attach patterns, and where a held price protects a bigger basket.</div>
+      </div>
+      <div class="limit-card reveal d2">
+        <div class="ln">L·03</div>
+        <svg class="icon" viewBox="0 0 48 48" fill="none" stroke="#d09a47" stroke-width="1.4"><circle cx="24" cy="24" r="15"/><path d="M24 24 L24 14 M24 24 L31 28"/><path d="M9 24 L13 24 M35 24 L39 24" stroke-dasharray="2 3"/></svg>
+        <h4>Day-part &amp; weekday mix</h4>
+        <p>Morning rush and a quiet Tuesday afternoon behave nothing alike. The model averages a month into one figure — it doesn't split the clock or the calendar.</p>
+        <div class="why"><b>So we talk:</b> when your real margin lives, and whether timing changes the call.</div>
+      </div>
+    </div>
+    <div class="limit-banner reveal">
+      <p>These three gaps are precisely why the audit isn't a PDF you read alone.</p>
+      <a href="#work" class="btn btn-primary">See the engagements <span class="arrow">→</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- WORK / TIERS -->
+<section class="work sec-pad" id="work">
+  <div class="wrap">
+    <div class="sec-head center">
+      <div class="eyebrow center reveal">06 — Engagements</div>
+      <h2 class="reveal d1">Three ways to <span class="em">work together.</span></h2>
+      <p class="lede reveal d2" style="margin-left:auto;margin-right:auto;text-align:center">Start with a single conversation, run a full implementation, or keep the menu tuned as costs move. No retainers you can't leave.</p>
+    </div>
+    <div class="tiers">
+      <div class="tier reveal">
+        <div class="tname">Tier I</div>
+        <div class="tsub">Delivery Margin Audit</div>
+        <div class="price"><span class="cur">Rp 1,8jt</span><span class="per">one-off</span></div>
+        <ul>
+          <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 8.5 L6.5 12 L13 4"/></svg>Every item on GoFood, GrabFood &amp; ShopeeFood</li>
+          <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 8.5 L6.5 12 L13 4"/></svg>Your settlement statement reconciled</li>
+          <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 8.5 L6.5 12 L13 4"/></svg>New app price list · PDF, phone page &amp; workbook</li>
+          <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 8.5 L6.5 12 L13 4"/></svg>60-minute walkthrough, Bahasa or English</li>
+        </ul>
+        <a href="#contact" class="btn btn-ghost">Book the audit</a>
+      </div>
+      <div class="tier feature reveal d1">
+        <div class="badge">Most chosen</div>
+        <div class="tname">Tier II</div>
+        <div class="tsub">Implementation Sprint</div>
+        <div class="price"><span class="cur">Rp 7,5jt</span><span class="per">/ 3 minggu</span></div>
+        <ul>
+          <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 8.5 L6.5 12 L13 4"/></svg>Everything in the Audit, plus the full menu</li>
+          <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 8.5 L6.5 12 L13 4"/></svg>We roll out the top 3 changes with you</li>
+          <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 8.5 L6.5 12 L13 4"/></svg>A two-week price test, read with you</li>
+          <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 8.5 L6.5 12 L13 4"/></svg>Prices re-run on what your guests actually did</li>
+        </ul>
+        <a href="#contact" class="btn btn-primary">Start a sprint <span class="arrow">→</span></a>
+      </div>
+      <div class="tier reveal d2">
+        <div class="tname">Tier III</div>
+        <div class="tsub">Ongoing Pricing Partner</div>
+        <div class="price"><span class="cur">Rp 2,5jt</span><span class="per">/ bulan</span></div>
+        <ul>
+          <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 8.5 L6.5 12 L13 4"/></svg>Quarterly full re-audit of the menu</li>
+          <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 8.5 L6.5 12 L13 4"/></svg>Monthly check-in on the numbers</li>
+          <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 8.5 L6.5 12 L13 4"/></svg>Repricing as costs &amp; menu shift</li>
+          <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 8.5 L6.5 12 L13 4"/></svg>Priority line for quick questions</li>
+        </ul>
+        <a href="#contact" class="btn btn-ghost">Become a partner</a>
+      </div>
+    </div>
+    <p class="work-note reveal">Serving independent cafés in Jakarta · Amsterdam · Almere · and remotely worldwide</p>
+  </div>
+</section>
+
+<hr class="rule"/>
+
+<!-- PROCESS -->
+<section class="process sec-pad" id="process">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow reveal">07 — How it runs</div>
+      <h2 class="reveal d1">Seven steps, <span class="em">one screen</span> turned around.</h2>
+      <p class="lede reveal d2">From your menu to a decision you act on. The whole flow is built so the moment we turn the laptop toward you, the answer is already obvious.</p>
+    </div>
+    <div class="steps">
+      <div class="step reveal"><span class="dotline"></span><h5>Client</h5><p>Your café, your market, your currency, your goals.</p></div>
+      <div class="step reveal"><span class="dotline"></span><h5>Menu &amp; Cost</h5><p>Items, prices and unit costs go in.</p></div>
+      <div class="step reveal"><span class="dotline"></span><h5>Analysis</h5><p>Delivery margins, demand and roles, calibrated.</p></div>
+      <div class="step reveal"><span class="dotline"></span><h5>Opportunities</h5><p>Where the money is sitting, ranked.</p></div>
+      <div class="step reveal"><span class="dotline"></span><h5>Recommendations</h5><p>A defensible price for every item.</p></div>
+      <div class="step reveal"><span class="dotline"></span><h5>Scenarios</h5><p>Tune assumptions, watch outcomes move.</p></div>
+      <div class="step reveal"><span class="dotline"></span><h5>Final Review</h5><p>PDF, phone page and workbook — Bahasa &amp; English.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about sec-pad" id="about">
+  <div class="wrap">
+    <div class="about-grid">
+      <div class="about-portrait reveal">
+        <svg viewBox="0 0 200 200" fill="none">
+          <circle cx="100" cy="100" r="80" stroke="#d09a47" stroke-width="1.5" opacity=".5"/>
+          <circle cx="100" cy="100" r="55" stroke="#766d5e" stroke-width="1" opacity=".6"/>
+          <path d="M40 140 Q100 80 160 140" stroke="#e7b75f" stroke-width="2" fill="none"/>
+          <circle cx="70" cy="118" r="3" fill="#d09a47"/><circle cx="100" cy="98" r="4" fill="#e7b75f"/><circle cx="130" cy="118" r="3" fill="#c66a3d"/>
+          <path d="M100 20 L100 36 M100 164 L100 180 M20 100 L36 100 M164 100 L180 100" stroke="#766d5e" stroke-width="1"/>
+        </svg>
+        <span class="tag">Built in the Netherlands · for Jakarta &amp; the EU</span>
+      </div>
+      <div class="about-text reveal d1">
+        <div class="eyebrow">08 — Who's behind it</div>
+        <h2>A model built the <span class="em">hard way,</span> so the advice is easy.</h2>
+        <p>MarginLab grew out of a stubborn spreadsheet — version eleven of a pricing model rebuilt until it was right. A calibrated nested-logit demand model, a delivery audit that reconciles against your own settlement statement, price tests for what a model can't know, role caps, the lot — checked by hundreds of automated tests before it touches a real menu.</p>
+        <p>The discipline is quantitative; the delivery is human. Independent café owners don't need a dashboard to babysit — they need one clear, defensible move, explained in plain language, on a call. That's the whole company.</p>
+        <div class="about-sign">
+          <span class="name">Felix Sean</span>
+          <span class="role">Founder · MarginLab</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact sec-pad" id="contact">
+  <div class="contact-orbits">
+    <svg viewBox="-300 -300 600 600">
+      <circle class="orbit-ring" r="280" style="animation:spin 120s linear infinite"/>
+      <circle class="orbit-ring" r="200" stroke="rgba(208,154,71,.2)" style="animation:spinR 90s linear infinite"/>
+      <circle class="orbit-ring" r="120"/>
+      <g style="animation:spin 120s linear infinite"><circle class="orbit-dot" cx="0" cy="-280" r="4"/></g>
+      <g style="animation:spinR 90s linear infinite"><circle class="orbit-dot" cx="0" cy="-200" r="3" fill="#5d918a"/></g>
+    </svg>
+  </div>
+  <div class="wrap">
+    <div class="contact-inner">
+      <div class="eyebrow center reveal" style="justify-content:center">09 — Let's find it</div>
+      <h2 class="reveal d1">The margin's already<br>on your <span class="em">menu.</span></h2>
+      <p class="lede reveal d2">Start free: a one-page analysis from your public GoFood and GrabFood prices. The full audit — every item, every platform, a new app price list and a 60-minute walkthrough — is Rp 1,8jt.</p>
+      <div class="contact-cta reveal d3">
+        <a href="mailto:felix@margindatalab.com?subject=MarginLab%20%E2%80%94%20Analisis%20gratis&body=Halo%20Felix%2C%0A%0ASaya%20ingin%20analisis%201%20halaman%20gratis%20untuk%20kafe%20saya.%0A%0ANama%20kafe%3A%0ALink%20GoFood%20/%20GrabFood%3A%0A%0ATerima%20kasih%21" class="btn btn-primary">Get the free analysis <span class="arrow">→</span></a>
+        <a href="#lab" class="btn btn-ghost">Play with the optimizer first</a>
+      </div>
+      <div class="email-pill reveal d4" id="emailPill" title="Click to copy">
+        <span id="emailText">felix@margindatalab.com</span>
+        <span class="copy" id="emailCopy">Copy</span>
+      </div>
+      <div class="contact-meta reveal d4">
+        <span class="cmeta">Response in <b>24 hours</b></span>
+        <span class="cmeta">Remote <b>worldwide</b></span>
+        <span class="cmeta">Bahasa &amp; <b>English</b></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <div class="brand" style="margin-bottom:0">
+          <svg class="brand-mark" viewBox="0 0 60 60" fill="none" style="width:26px;height:26px">
+            <circle cx="30" cy="30" r="26" stroke="#d09a47" stroke-width="2.2"/>
+            <circle cx="30" cy="30" r="15" stroke="#766d5e" stroke-width="1.4"/>
+            <circle cx="30" cy="4" r="3.2" fill="#e7b75f"/>
+          </svg>
+          <span class="brand-name">Margin<b>Lab</b></span>
+        </div>
+        <p class="footer-tag">Pricing intelligence for independent cafés. The margin you're missing is already on the menu.</p>
+      </div>
+      <div class="footer-cols">
+        <div class="fcol">
+          <h6>Explore</h6>
+          <a href="#method">The Method</a>
+          <a href="#lab">The Lab</a>
+          <a href="sample-audit-en.html">Sample audit (EN)</a>
+          <a href="contoh-audit-id.html">Contoh audit (ID)</a>
+          <a href="#latte">Worked Example</a>
+          <a href="#process">Process</a>
+        </div>
+        <div class="fcol">
+          <h6>Work</h6>
+          <a href="#work">Delivery Margin Audit</a>
+          <a href="#work">Implementation Sprint</a>
+          <a href="#work">Pricing Partner</a>
+          <a href="#contact">Book a call</a>
+        </div>
+        <div class="fcol">
+          <h6>Contact</h6>
+          <a href="mailto:felix@margindatalab.com">felix@margindatalab.com</a>
+          <a href="#contact">Jakarta · ID</a>
+          <a href="#contact">Almere · NL</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 MarginLab · Felix Sean</span>
+      <span>Engine checked by 681 automated tests · built with intent</span>
+    </div>
+  </div>
+</footer>
+
+<div class="q-tip" id="qtip"></div>
+
+<style>
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes spinR{to{transform:rotate(-360deg)}}
+</style>
+
+<script>
+(function(){
+  "use strict";
+  const RM = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const $ = (s,r=document)=>r.querySelector(s);
+  const $$ = (s,r=document)=>Array.from(r.querySelectorAll(s));
+  const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+  const COL={ochre:'#d09a47',ochreB:'#e7b75f',ochreD:'#a8762c',cream:'#f4eee3',creamD:'#dacfbd',
+    muted:'#a39988',muted2:'#766d5e',line:'rgba(244,238,227,.10)',line2:'rgba(244,238,227,.18)',
+    terra:'#c66a3d',sage:'#94a382',teal:'#5d918a',surf:'#15110c'};
+
+  /* ---------- PRELOADER ---------- */
+  window.addEventListener('load',()=>{ setTimeout(()=>$('#preloader')?.classList.add('done'),350); });
+  document.addEventListener('DOMContentLoaded',()=>{ setTimeout(()=>$('#preloader')?.classList.add('done'),1400); });
+
+  /* ---------- NAV ---------- */
+  const nav=$('#nav');
+  const onScroll=()=>{ if(window.scrollY>40) nav.classList.add('scrolled'); else nav.classList.remove('scrolled'); };
+  window.addEventListener('scroll',onScroll,{passive:true}); onScroll();
+
+  const toggle=$('#menuToggle');
+  toggle?.addEventListener('click',()=>document.body.classList.toggle('menu-open'));
+  $$('#navLinks a').forEach(a=>a.addEventListener('click',()=>document.body.classList.remove('menu-open')));
+
+  // scrollspy
+  const navlinks=$$('.navlink');
+  const secMap=navlinks.map(a=>({a,sec:$(a.getAttribute('href'))})).filter(o=>o.sec);
+  const spy=new IntersectionObserver((es)=>{
+    es.forEach(e=>{ if(e.isIntersecting){ const id='#'+e.target.id;
+      navlinks.forEach(a=>a.classList.toggle('active',a.getAttribute('href')===id)); } });
+  },{rootMargin:'-45% 0px -50% 0px'});
+  secMap.forEach(o=>spy.observe(o.sec));
+
+  /* ---------- HERO spotlight + parallax ---------- */
+  const spotlight=$('#spotlight'), heroOrbits=$('#heroOrbits'), hero=$('.hero');
+  if(!RM && hero){
+    hero.addEventListener('pointermove',(e)=>{
+      const r=hero.getBoundingClientRect();
+      spotlight.style.setProperty('--mx',((e.clientX-r.left)/r.width*100)+'%');
+      spotlight.style.setProperty('--my',((e.clientY-r.top)/r.height*100)+'%');
+    });
+    window.addEventListener('scroll',()=>{ const y=window.scrollY;
+      if(y<window.innerHeight) heroOrbits.style.transform=`translateY(calc(-50% + ${y*0.18}px))`;
+    },{passive:true});
+  }
+
+  /* ---------- REVEAL ---------- */
+  const revObs=new IntersectionObserver((es)=>{
+    es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); revObs.unobserve(e.target);} });
+  },{rootMargin:'0px 0px -8% 0px',threshold:.12});
+  $$('.reveal:not(.in)').forEach(el=>revObs.observe(el));
+
+  /* ---------- COUNT-UP ---------- */
+  function countUp(el){
+    const target=parseFloat(el.dataset.count), dec=parseInt(el.dataset.dec||'0',10);
+    if(RM){ el.textContent=target.toFixed(dec); return; }
+    const dur=1500, t0=performance.now();
+    const ease=t=>1-Math.pow(1-t,3);
+    function tick(now){ const p=clamp((now-t0)/dur,0,1); const v=target*ease(p);
+      el.textContent=v.toFixed(dec); if(p<1) requestAnimationFrame(tick); else el.textContent=target.toFixed(dec); }
+    requestAnimationFrame(tick);
+  }
+  const cObs=new IntersectionObserver((es)=>{
+    es.forEach(e=>{ if(e.isIntersecting){ countUp(e.target); cObs.unobserve(e.target);} });
+  },{threshold:.5});
+  $$('[data-count]').forEach(el=>cObs.observe(el));
+
+  /* ---------- EMAIL COPY ---------- */
+  const pill=$('#emailPill');
+  pill?.addEventListener('click',()=>{
+    const txt=$('#emailText').textContent.trim();
+    navigator.clipboard?.writeText(txt).then(()=>{
+      pill.classList.add('copied'); $('#emailCopy').textContent='Copied ✓';
+      setTimeout(()=>{ pill.classList.remove('copied'); $('#emailCopy').textContent='Copy'; },2000);
+    }).catch(()=>{});
+  });
+
+  /* =====================================================
+     SVG CHART TOOLKIT
+     ===================================================== */
+  const NS='http://www.w3.org/2000/svg';
+  function svgWrap(vb,inner){ return `<svg class="chart-svg" viewBox="${vb}" preserveAspectRatio="xMidYMid meet" xmlns="${NS}">${inner}</svg>`; }
+  function setDraw(host){ // measure .draw paths, set --len
+    $$('.draw',host).forEach(p=>{ try{ const L=p.getTotalLength(); p.style.setProperty('--len',L); }catch(e){} });
+  }
+  const fmtPct=v=>(v>=0?'+':'')+Math.round(v)+'%';
+
+  // observer to trigger draw-in on each chart-card
+  const chartObs=new IntersectionObserver((es)=>{
+    es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); chartObs.unobserve(e.target);} });
+  },{threshold:.25});
+  function mount(id,vb,inner,after){
+    const card=$('#'+id); if(!card) return; const host=$('.chart-host',card)||card;
+    host.innerHTML=svgWrap(vb,inner); setDraw(host); chartObs.observe(card);
+    if(after) after(card,host);
+  }
+
+  /* ---------- 1. ELASTICITY scatter + CI band ---------- */
+  (function(){
+    const W=460,H=300,pl=42,pr=18,pt=18,pb=34;
+    const x0=pl,x1=W-pr,y0=H-pb,y1=pt;
+    // price domain 3.0..5.0, demand Q=A*P^-1.5
+    const eps=1.5, A=2600;
+    const Pmin=3.0,Pmax=5.0;
+    const Q=p=>A*Math.pow(p,-eps);
+    const Qmax=Q(Pmin)*1.05, Qmin=0;
+    const X=p=>x0+(p-Pmin)/(Pmax-Pmin)*(x1-x0);
+    const Y=q=>y0-(q-Qmin)/(Qmax-Qmin)*(y0-y1);
+    let inner='';
+    // grid
+    for(let i=0;i<=4;i++){ const gy=y1+(y0-y1)*i/4; inner+=`<line class="grid-l" x1="${x0}" y1="${gy.toFixed(1)}" x2="${x1}" y2="${gy.toFixed(1)}"/>`; }
+    // axes
+    inner+=`<line class="axis" x1="${x0}" y1="${y0}" x2="${x1}" y2="${y0}"/><line class="axis" x1="${x0}" y1="${y1}" x2="${x0}" y2="${y0}"/>`;
+    // CI band (offset curves ±)
+    const steps=40; let up='',dn='';
+    for(let i=0;i<=steps;i++){ const p=Pmin+(Pmax-Pmin)*i/steps; const q=Q(p); const w=q*0.12;
+      up+=(i?'L':'M')+X(p).toFixed(1)+' '+Y(q+w).toFixed(1)+' '; }
+    for(let i=steps;i>=0;i--){ const p=Pmin+(Pmax-Pmin)*i/steps; const q=Q(p); const w=q*0.12;
+      dn+='L'+X(p).toFixed(1)+' '+Y(q-w).toFixed(1)+' '; }
+    inner+=`<path class="fade-fill" d="${up}${dn}Z" fill="${COL.ochre}" opacity="0" style="--o:.09" fill-opacity=".09"/>`;
+    // fit curve
+    let cv='';
+    for(let i=0;i<=steps;i++){ const p=Pmin+(Pmax-Pmin)*i/steps; cv+=(i?'L':'M')+X(p).toFixed(1)+' '+Y(Q(p)).toFixed(1)+' '; }
+    inner+=`<path class="draw" d="${cv}" fill="none" stroke="${COL.ochre}" stroke-width="2" stroke-linecap="round"/>`;
+    // scatter points (deterministic noise)
+    const pts=[[3.10,.06],[3.35,-.05],[3.55,.08],[3.70,-.07],[3.85,.04],[4.00,-.03],[4.20,.07],[4.45,-.06],[4.70,.05],[4.90,-.04]];
+    pts.forEach((d,i)=>{ const p=d[0]; const q=Q(p)*(1+d[1]); const cx=X(p),cy=Y(q);
+      inner+=`<circle class="pt" cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" r="4" fill="${COL.cream}" stroke="${COL.surf}" stroke-width="1.5" style="transition-delay:${0.5+i*0.06}s"/>`; });
+    // axis labels
+    inner+=`<text class="axis-lbl" x="${X(3.0)}" y="${y0+18}">€3.00</text><text class="axis-lbl" x="${X(5.0)-26}" y="${y0+18}">€5.00</text>`;
+    inner+=`<text class="axis-lbl" x="${x0-32}" y="${y1+6}" >cups</text><text class="axis-lbl" x="${(x0+x1)/2-14}" y="${y0+30}">price →</text>`;
+    mount('chart-elasticity',`0 0 ${W} ${H}`,inner);
+  })();
+
+  /* ---------- PROFIT CURVE (reused) ---------- */
+  function profitCurve(params){
+    const {P0,c,eps,rec,Pstar,cur}=params;
+    const W=460,H=250,pl=40,pr=16,pt=16,pb=30;
+    const x0=pl,x1=W-pr,y0=H-pb,y1=pt;
+    const pmin=c*1.04, pmax=Math.max(Pstar,P0,rec)*1.42;
+    const Q=p=>Math.pow(p,-eps);
+    const prof=p=>(p-c)*Q(p);
+    const N=90; let maxP=0;
+    for(let i=0;i<=N;i++){ const p=pmin+(pmax-pmin)*i/N; maxP=Math.max(maxP,prof(p)); }
+    const X=p=>x0+(p-pmin)/(pmax-pmin)*(x1-x0);
+    const Y=v=>y0-(v/maxP)*(y0-y1);
+    let inner='';
+    for(let i=0;i<=3;i++){ const gy=y1+(y0-y1)*i/3; inner+=`<line class="grid-l" x1="${x0}" y1="${gy.toFixed(1)}" x2="${x1}" y2="${gy.toFixed(1)}"/>`; }
+    // curve + area
+    let cv='',area=`M${X(pmin).toFixed(1)} ${y0} `;
+    for(let i=0;i<=N;i++){ const p=pmin+(pmax-pmin)*i/N; const xx=X(p).toFixed(1),yy=Y(prof(p)).toFixed(1);
+      cv+=(i?'L':'M')+xx+' '+yy+' '; area+='L'+xx+' '+yy+' '; }
+    area+=`L${X(pmax).toFixed(1)} ${y0} Z`;
+    inner+=`<path class="fade-fill" d="${area}" fill="${COL.ochre}" fill-opacity=".06"/>`;
+    inner+=`<path class="draw" d="${cv}" fill="none" stroke="${COL.ochre}" stroke-width="2.2" stroke-linecap="round"/>`;
+    // markers
+    const mk=(p,color,label,dash,emph,anchor,dy)=>{ if(p<pmin||p>pmax) return '';
+      const xx=X(p), yy=Y(prof(p));
+      const tx = anchor==='start'? xx+4 : anchor==='end'? xx-4 : xx;
+      let s=`<line x1="${xx.toFixed(1)}" y1="${y0}" x2="${xx.toFixed(1)}" y2="${yy.toFixed(1)}" stroke="${color}" stroke-width="1.2" ${dash?'stroke-dasharray="3 3"':''} opacity=".55"/>`;
+      s+=`<circle class="pt" cx="${xx.toFixed(1)}" cy="${yy.toFixed(1)}" r="${emph?6:4.5}" fill="${color}" stroke="${COL.surf}" stroke-width="1.5" style="transition-delay:1.2s"/>`;
+      s+=`<text class="axis-lbl" x="${tx.toFixed(1)}" y="${y0+(dy||15)}" text-anchor="${anchor||'middle'}" fill="${color}">${label}</text>`;
+      return s; };
+    inner+=mk(Pstar,COL.sage,'P*',true,false,'start',15);
+    inner+=mk(P0,COL.creamD,'now',false,false,'end',15);
+    inner+=mk(rec,COL.ochreB,'rec',false,true,'middle',27);
+    inner+=`<text class="axis-lbl" x="${x0-32}" y="${y1+6}">profit</text>`;
+    return svgWrap(`0 0 ${W} ${H}`,inner);
+  }
+  // method static Latte curve
+  (function(){
+    const card=$('#chart-lerner'); if(!card) return; const host=$('.chart-host',card);
+    host.innerHTML=profitCurve({P0:3.80,c:1.40,eps:1.5,rec:4.00,Pstar:4.20,cur:'EUR'});
+    setDraw(host); chartObs.observe(card);
+  })();
+
+  /* ---------- 3. CONFIDENCE SHRINK ---------- */
+  (function(){
+    const W=460,H=300,pl=20,pr=20;
+    const x0=pl+30,x1=W-pr-40; const fullLen=x1-x0;
+    const rows=[['Textbook optimum',1,COL.muted2],['Holds at every sensitivity',1,COL.ochreB],['Holds at most',0.5,COL.ochre],['Fragile · held back',0.25,COL.ochreD]];
+    let inner=`<text class="axis-lbl" x="${x0}" y="28">€3.80</text><text class="axis-lbl" x="${x1-4}" y="28">€4.20 (P*)</text>`;
+    inner+=`<line class="grid-l" x1="${x0}" y1="34" x2="${x0}" y2="${H-30}" stroke-dasharray="3 4"/><line class="grid-l" x1="${x1}" y1="34" x2="${x1}" y2="${H-30}" stroke-dasharray="3 4"/>`;
+    rows.forEach((r,i)=>{ const y=64+i*56; const len=fullLen*r[1]; const end=x0+len;
+      inner+=`<text class="axis-lbl" x="${x0}" y="${y-12}" fill="${COL.creamD}">${r[0]}</text>`;
+      inner+=`<line x1="${x0}" y1="${y}" x2="${x1}" y2="${y}" stroke="${COL.line}" stroke-width="6" stroke-linecap="round"/>`;
+      inner+=`<line class="role-fill" x1="${x0}" y1="${y}" x2="${end.toFixed(1)}" y2="${y}" stroke="${r[2]}" stroke-width="6" stroke-linecap="round" style="transition-delay:${i*0.15}s"/>`;
+      inner+=`<circle class="pt" cx="${end.toFixed(1)}" cy="${y}" r="5" fill="${r[2]}" style="transition-delay:${0.6+i*0.15}s"/>`;
+      if(i===2) inner+=`<text class="axis-lbl" x="${end.toFixed(1)}" y="${y-10}" text-anchor="middle" fill="${COL.ochre}">→ €4.00</text>`;
+    });
+    mount('chart-shrink',`0 0 ${W} ${H}`,inner);
+  })();
+
+  /* ---------- 4. ROLE CAPS ---------- */
+  const ROLECAPS={ traffic:{min:-0.06,max:0.04,label:'Traffic Driver'}, core:{min:-0.03,max:0.09,label:'Core'},
+    complement:{min:-0.02,max:0.12,label:'Complement'}, profit:{min:0,max:0.16,label:'Profit Driver'},
+    signature:{min:0,max:0.20,label:'Signature'}, anchor:{min:0.02,max:0.26,label:'Premium Anchor'} };
+  (function(){
+    const W=460,H=300,pl=92,pr=24,pt=26,pb=28;
+    const x0=pl,x1=W-pr,y0=pt,y1=H-pb;
+    const dmin=-0.10,dmax=0.28;
+    const X=v=>x0+(v-dmin)/(dmax-dmin)*(x1-x0);
+    const order=['traffic','core','complement','profit','signature','anchor'];
+    const colors=[COL.teal,COL.ochre,COL.sage,COL.ochreB,COL.terra,COL.ochreD];
+    let inner='';
+    // zero line + axis ticks
+    [-0.10,0,0.10,0.20,0.28].forEach(t=>{ const xx=X(t);
+      inner+=`<line class="grid-l" x1="${xx.toFixed(1)}" y1="${y0}" x2="${xx.toFixed(1)}" y2="${y1}" ${t===0?'stroke="'+COL.line2+'"':''}/>`;
+      inner+=`<text class="axis-lbl" x="${xx.toFixed(1)}" y="${y1+16}" text-anchor="middle">${t>0?'+':''}${Math.round(t*100)}%</text>`; });
+    const rh=(y1-y0)/order.length;
+    order.forEach((k,i)=>{ const cap=ROLECAPS[k]; const y=y0+rh*i+rh/2; const xa=X(cap.min),xb=X(cap.max);
+      inner+=`<text class="axis-lbl" x="${x0-8}" y="${y+3}" text-anchor="end" fill="${COL.creamD}">${cap.label}</text>`;
+      inner+=`<rect x="${x0}" y="${(y-6).toFixed(1)}" width="${x1-x0}" height="12" rx="6" fill="${COL.surf}"/>`;
+      inner+=`<rect class="role-fill" x="${xa.toFixed(1)}" y="${(y-6).toFixed(1)}" width="${(xb-xa).toFixed(1)}" height="12" rx="6" fill="${colors[i]}" fill-opacity=".85" style="transition-delay:${i*0.1}s"/>`;
+    });
+    mount('chart-roles',`0 0 ${W} ${H}`,inner);
+  })();
+
+  /* ---------- 5. CHARM LADDER ---------- */
+  (function(){
+    const W=460,H=300,pl=30,pr=30;
+    const x0=pl,x1=W-pr,yAxis=180;
+    const Pmin=3.40,Pmax=4.60;
+    const X=p=>x0+(p-Pmin)/(Pmax-Pmin)*(x1-x0);
+    let inner=`<line class="axis" x1="${x0}" y1="${yAxis}" x2="${x1}" y2="${yAxis}"/>`;
+    // ticks at psychological endings
+    const ticks=[3.50,3.95,3.99,4.00,4.50,4.95,4.99];
+    ticks.forEach(t=>{ const xx=X(t); inner+=`<line x1="${xx.toFixed(1)}" y1="${yAxis-5}" x2="${xx.toFixed(1)}" y2="${yAxis+5}" stroke="${COL.muted2}" stroke-width="1"/>`;
+      inner+=`<text class="axis-lbl" x="${xx.toFixed(1)}" y="${yAxis+20}" text-anchor="middle">€${t.toFixed(2)}</text>`; });
+    // barrier band near 4.00 (round number)
+    inner+=`<rect class="fade-fill" x="${(X(3.985)).toFixed(1)}" y="60" width="${(X(4.015)-X(3.985)).toFixed(1)}" height="${yAxis-60}" fill="${COL.terra}" fill-opacity=".07"/>`;
+    inner+=`<text class="axis-lbl" x="${X(4.00).toFixed(1)}" y="52" text-anchor="middle" fill="${COL.terra}">round-number barrier</text>`;
+    // raw optimum (hollow) at 4.14
+    const raw=4.142, charmed=4.00;
+    const xr=X(raw), xc=X(charmed), yTop=110;
+    inner+=`<circle class="pt" cx="${xr.toFixed(1)}" cy="${yTop}" r="6" fill="none" stroke="${COL.creamD}" stroke-width="2" style="transition-delay:.4s"/>`;
+    inner+=`<text class="axis-lbl" x="${xr.toFixed(1)}" y="${yTop-12}" text-anchor="middle" fill="${COL.creamD}">raw €4.14</text>`;
+    inner+=`<line x1="${xr.toFixed(1)}" y1="${yTop}" x2="${xr.toFixed(1)}" y2="${yAxis}" stroke="${COL.creamD}" stroke-width="1" stroke-dasharray="2 3" opacity=".5"/>`;
+    // arrow to charmed
+    inner+=`<path class="draw" d="M${(xr-6).toFixed(1)} ${yTop+22} Q ${((xr+xc)/2).toFixed(1)} ${yTop+46} ${(xc+5).toFixed(1)} ${(yAxis-24).toFixed(1)}" fill="none" stroke="${COL.ochre}" stroke-width="1.6" marker-end="url(#ah)"/>`;
+    inner+=`<circle class="pt" cx="${xc.toFixed(1)}" cy="${(yAxis).toFixed(1)}" r="7" fill="${COL.ochreB}" stroke="${COL.surf}" stroke-width="1.5" style="transition-delay:1.4s"/>`;
+    inner+=`<text class="axis-lbl" x="${xc.toFixed(1)}" y="${yAxis+38}" text-anchor="middle" fill="${COL.ochre}">charmed €4.00</text>`;
+    inner=`<defs><marker id="ah" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="${COL.ochre}"/></marker></defs>`+inner;
+    mount('chart-charm',`0 0 ${W} ${H}`,inner);
+  })();
+
+  /* ---------- 6. MENU-ENGINEERING QUADRANT ---------- */
+  (function(){
+    const W=460,H=320,pl=40,pr=20,pt=22,pb=34;
+    const x0=pl,x1=W-pr,y0=H-pb,y1=pt;
+    const X=v=>x0+v/100*(x1-x0);
+    const Y=v=>y0-v/100*(y0-y1);
+    const mx=52,my=54; // median splits
+    const items=[
+      ['Latte',78,66,'star'],['Cappuccino',70,60,'star'],['Flat White',58,62,'star'],
+      ['Cold Brew',46,72,'puzzle'],['Matcha',34,68,'puzzle'],['Affogato',22,58,'puzzle'],
+      ['Drip Coffee',82,38,'plow'],['Croissant',74,42,'plow'],['Muffin',60,40,'plow'],
+      ['Avo Toast',30,44,'dog'],['Bottled Water',38,30,'dog'],['Cookie',24,34,'dog']
+    ];
+    const qc={star:COL.ochreB,puzzle:COL.teal,plow:COL.sage,dog:COL.muted2};
+    let inner='';
+    // quadrant fills
+    inner+=`<rect x="${X(mx)}" y="${y1}" width="${x1-X(mx)}" height="${Y(my)-y1}" fill="${COL.ochre}" fill-opacity=".05"/>`;
+    // grid
+    inner+=`<line class="axis" x1="${x0}" y1="${y0}" x2="${x1}" y2="${y0}"/><line class="axis" x1="${x0}" y1="${y1}" x2="${x0}" y2="${y0}"/>`;
+    inner+=`<line class="grid-l" x1="${X(mx).toFixed(1)}" y1="${y1}" x2="${X(mx).toFixed(1)}" y2="${y0}" stroke="${COL.line2}" stroke-dasharray="4 4"/>`;
+    inner+=`<line class="grid-l" x1="${x0}" y1="${Y(my).toFixed(1)}" x2="${x1}" y2="${Y(my).toFixed(1)}" stroke="${COL.line2}" stroke-dasharray="4 4"/>`;
+    // quadrant labels
+    inner+=`<text class="axis-lbl" x="${x1-6}" y="${y1+14}" text-anchor="end" fill="${qc.star}">★ STARS</text>`;
+    inner+=`<text class="axis-lbl" x="${x0+6}" y="${y1+14}" fill="${qc.puzzle}">PUZZLES</text>`;
+    inner+=`<text class="axis-lbl" x="${x1-6}" y="${y0-8}" text-anchor="end" fill="${qc.plow}">PLOWHORSES</text>`;
+    inner+=`<text class="axis-lbl" x="${x0+6}" y="${y0-8}" fill="${qc.muted2}">DOGS</text>`;
+    // axis titles
+    inner+=`<text class="axis-lbl" x="${(x0+x1)/2-26}" y="${y0+26}">popularity →</text>`;
+    inner+=`<text class="axis-lbl" x="${x0-30}" y="${y1+4}">margin ↑</text>`;
+    // points
+    items.forEach((it,i)=>{ const cx=X(it[1]),cy=Y(it[2]);
+      inner+=`<circle class="pt qp" data-n="${it[0]}" data-pop="${it[1]}" data-mar="${it[2]}" data-q="${it[3]}" cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" r="6.5" fill="${qc[it[3]]}" fill-opacity=".9" stroke="${COL.surf}" stroke-width="1.5" style="transition-delay:${0.3+i*0.05}s;cursor:pointer"/>`; });
+    mount('chart-quadrant',`0 0 ${W} ${H}`,inner,(card,host)=>{
+      const tip=$('#qtip'); const QN={star:'Star',puzzle:'Puzzle',plow:'Plowhorse',dog:'Dog'};
+      $$('.qp',host).forEach(p=>{
+        p.addEventListener('pointerenter',(e)=>{
+          tip.innerHTML=`<b>${p.dataset.n}</b> · ${QN[p.dataset.q]}<br>pop ${p.dataset.pop} · margin ${p.dataset.mar}%`;
+          tip.classList.add('show');
+          p.setAttribute('r','9');
+        });
+        p.addEventListener('pointermove',(e)=>{ tip.style.left=e.clientX+'px'; tip.style.top=e.clientY+'px'; });
+        p.addEventListener('pointerleave',()=>{ tip.classList.remove('show'); p.setAttribute('r','6.5'); });
+      });
+    });
+  })();
+
+  /* ---------- 7. SENSITIVITY TORNADO ---------- */
+  (function(){
+    const W=460,H=300,pl=96,pr=30,pt=26,pb=30;
+    const x0=pl,x1=W-pr,y0=pt,y1=H-pb;
+    const cx=(x0+x1)/2;
+    const vars=[['Elasticity',0.9,COL.ochreB],['Unit cost',0.62,COL.ochre],['Volume',0.5,COL.sage],['Competitor band',0.28,COL.teal]];
+    const half=(x1-x0)/2;
+    let inner=`<line x1="${cx}" y1="${y0}" x2="${cx}" y2="${y1}" stroke="${COL.line2}" stroke-width="1.5"/>`;
+    inner+=`<text class="axis-lbl" x="${cx}" y="${y1+16}" text-anchor="middle" fill="${COL.muted}">base uplift</text>`;
+    inner+=`<text class="axis-lbl" x="${x0}" y="${y1+16}">−20%</text><text class="axis-lbl" x="${x1-22}" y="${y1+16}">+20%</text>`;
+    const rh=(y1-y0)/vars.length;
+    vars.forEach((v,i)=>{ const y=y0+rh*i+rh/2; const w=half*v[1];
+      inner+=`<text class="axis-lbl" x="${x0-8}" y="${y+3}" text-anchor="end" fill="${COL.creamD}">${v[0]}</text>`;
+      inner+=`<rect class="role-fill" x="${(cx-w).toFixed(1)}" y="${(y-9).toFixed(1)}" width="${w.toFixed(1)}" height="18" rx="3" fill="${v[2]}" fill-opacity=".5" style="transform-origin:right center;transition-delay:${i*0.1}s"/>`;
+      inner+=`<rect class="role-fill" x="${cx}" y="${(y-9).toFixed(1)}" width="${w.toFixed(1)}" height="18" rx="3" fill="${v[2]}" fill-opacity=".85" style="transition-delay:${i*0.1}s"/>`;
+    });
+    mount('chart-tornado',`0 0 ${W} ${H}`,inner);
+  })();
+
+  /* ---------- 8. COMPETITOR POSITIONING ---------- */
+  (function(){
+    const W=460,H=260,pl=30,pr=30;
+    const x0=pl,x1=W-pr,yAxis=150;
+    const Pmin=3.20,Pmax=4.80;
+    const X=p=>x0+(p-Pmin)/(Pmax-Pmin)*(x1-x0);
+    const comps=[3.40,3.60,3.75,3.90,4.10,4.25,4.50];
+    const cmin=Math.min(...comps),cmax=Math.max(...comps);
+    let inner='';
+    // band
+    inner+=`<rect class="fade-fill" x="${X(cmin).toFixed(1)}" y="${yAxis-26}" width="${(X(cmax)-X(cmin)).toFixed(1)}" height="52" rx="6" fill="${COL.muted2}" fill-opacity=".14"/>`;
+    inner+=`<line class="axis" x1="${x0}" y1="${yAxis}" x2="${x1}" y2="${yAxis}"/>`;
+    [3.20,3.60,4.00,4.40,4.80].forEach(t=>{ const xx=X(t); inner+=`<line x1="${xx.toFixed(1)}" y1="${yAxis-4}" x2="${xx.toFixed(1)}" y2="${yAxis+4}" stroke="${COL.muted2}"/>`;
+      inner+=`<text class="axis-lbl" x="${xx.toFixed(1)}" y="${yAxis+20}" text-anchor="middle">€${t.toFixed(2)}</text>`; });
+    comps.forEach((p,i)=>{ const xx=X(p); inner+=`<circle class="pt" cx="${xx.toFixed(1)}" cy="${yAxis}" r="5" fill="${COL.muted}" stroke="${COL.surf}" stroke-width="1.5" style="transition-delay:${0.3+i*0.07}s"/>`; });
+    inner+=`<text class="axis-lbl" x="${X((cmin+cmax)/2).toFixed(1)}" y="${yAxis-34}" text-anchor="middle" fill="${COL.muted}">neighbourhood range</text>`;
+    // you now
+    const now=3.80, rec=4.00;
+    inner+=`<line x1="${X(now).toFixed(1)}" y1="${yAxis+30}" x2="${X(now).toFixed(1)}" y2="${yAxis+58}" stroke="${COL.creamD}" stroke-width="1.5"/>`;
+    inner+=`<circle class="pt" cx="${X(now).toFixed(1)}" cy="${yAxis}" r="7" fill="none" stroke="${COL.creamD}" stroke-width="2.5" style="transition-delay:1s"/>`;
+    inner+=`<text class="axis-lbl" x="${X(now).toFixed(1)}" y="${yAxis+72}" text-anchor="middle" fill="${COL.creamD}">you · now</text>`;
+    // you rec
+    inner+=`<circle class="pt" cx="${X(rec).toFixed(1)}" cy="${yAxis}" r="8" fill="${COL.ochreB}" stroke="${COL.surf}" stroke-width="2" style="transition-delay:1.2s"/>`;
+    inner+=`<text class="axis-lbl" x="${X(rec).toFixed(1)}" y="${yAxis-16}" text-anchor="middle" fill="${COL.ochre}">you · rec</text>`;
+    mount('chart-competitor',`0 0 ${W} ${H}`,inner);
+  })();
+
+  /* =====================================================
+     THE LAB — live optimizer
+     ===================================================== */
+  (function(){
+    const shell=$('#lab'); if(!shell) return;
+    const RANGE={
+      EUR:{price:[1,12,0.05],cost:[0.3,8,0.05],eps:[1.1,4,0.05],vol:[20,2000,5]},
+      IDR:{price:[8000,80000,500],cost:[2000,50000,500],eps:[1.1,4,0.05],vol:[50,5000,10]}
+    };
+    const PRESETS={
+      EUR:{ latte:{price:3.80,cost:1.40,eps:1.5,vol:315,conf:0.5,role:'core'},
+            coldbrew:{price:4.20,cost:1.20,eps:1.3,vol:180,conf:1,role:'profit'},
+            croissant:{price:3.20,cost:0.95,eps:1.4,vol:240,conf:1,role:'complement'} },
+      IDR:{ latte:{price:18000,cost:7500,eps:1.4,vol:900,conf:0.5,role:'core'},
+            coldbrew:{price:25000,cost:9000,eps:1.3,vol:320,conf:1,role:'profit'},
+            croissant:{price:22000,cost:8000,eps:1.4,vol:400,conf:1,role:'complement'} }
+    };
+    let cur='IDR', presetKey='latte';
+    const state={...PRESETS.IDR.latte};
+
+    const els={ price:$('#inPrice'),cost:$('#inCost'),eps:$('#inEps'),vol:$('#inVol'),
+      vPrice:$('#vPrice'),vCost:$('#vCost'),vEps:$('#vEps'),vVol:$('#vVol'),
+      outFrom:$('#outFrom'),outTo:$('#outTo'),outPct:$('#outPct'),
+      mGross:$('#mGross'),mOpt:$('#mOpt'),mLerner:$('#mLerner'),mVol:$('#mVol'),mAnnual:$('#mAnnual'),mCap:$('#mCap'),
+      curveHost:$('#labCurveHost'),curveMeta:$('#curveMeta') };
+
+    const money=v=> cur==='EUR' ? '€'+v.toFixed(2) : 'Rp'+Math.round(v).toLocaleString('en-US');
+    const moneyK=v=>{ if(cur==='EUR') return '€'+(Math.abs(v)>=1000?(v/1000).toFixed(1)+'k':Math.round(v));
+      return 'Rp'+(Math.abs(v)>=1e6?(v/1e6).toFixed(2)+'M':Math.abs(v)>=1000?Math.round(v/1000)+'k':Math.round(v)); };
+
+    function charmEUR(x,lo,hi){ let v=Math.round(x/0.05)*0.05; if(hi!=null&&v>hi)v=Math.floor(hi/0.05+1e-9)*0.05; if(lo!=null&&v<lo)v=Math.ceil(lo/0.05-1e-9)*0.05; return Math.round(v*100)/100; }
+    function charmIDR(x,lo,hi){ let v=Math.round(x/500)*500; if(hi!=null&&v>hi)v=Math.floor(hi/500+1e-9)*500; if(lo!=null&&v<lo)v=Math.ceil(lo/500-1e-9)*500; return v; }
+    const charm=(x,lo,hi)=> cur==='EUR'?charmEUR(x,lo,hi):charmIDR(x,lo,hi);
+
+    function optimize(s){
+      const eps=s.eps, c=s.cost, P0=s.price, conf=s.conf, cap=ROLECAPS[s.role], vol=s.vol;
+      const Pstar = c*eps/(eps-1);
+      const full = Pstar - P0;
+      let cand = P0 + full*conf;
+      const rawPct=(cand-P0)/P0;
+      const cl=clamp(rawPct,cap.min,cap.max);
+      const capped = Math.abs(cl-rawPct)>1e-9;
+      cand = P0*(1+cl);
+      const lo=P0*(1+cap.min), hi=P0*(1+cap.max);
+      let rec = charm(cand,lo,hi);
+      const recPct=(rec-P0)/P0;
+      const q1=vol*Math.pow(rec/P0,-eps);
+      const gross=(rec-P0)*vol;
+      const net=(rec-c)*q1-(P0-c)*vol;
+      const lerner=(rec-c)/rec;
+      const volResp=q1/vol-1;
+      return {Pstar,rec,recPct,gross,net,lerner,volResp,annual:gross*12,capped,vol,P0,c,eps};
+    }
+
+    function render(){
+      const r=optimize(state);
+      els.outFrom.textContent=money(state.price);
+      els.outTo.textContent=money(r.rec);
+      els.outPct.textContent=(r.recPct>=0?'+':'')+(r.recPct*100).toFixed(1)+'%';
+      els.mGross.textContent=(r.gross>=0?'+':'')+moneyK(r.gross)+'/mo';
+      els.mGross.classList.toggle('pos',r.gross>=0);
+      els.mOpt.textContent=money(r.Pstar);
+      els.mLerner.textContent=Math.round(r.lerner*100)+'%';
+      els.mVol.textContent=(r.volResp>=0?'+':'')+(r.volResp*100).toFixed(0)+'%';
+      els.mAnnual.textContent=(r.annual>=0?'+':'')+moneyK(r.annual)+'/yr';
+      els.mCap.textContent=r.capped?'capped':'inside';
+      els.mCap.style.color=r.capped?COL.terra:COL.sage;
+      // curve
+      els.curveHost.innerHTML=profitCurve({P0:state.price,c:state.cost,eps:state.eps,rec:r.rec,Pstar:r.Pstar,cur});
+      const host=els.curveHost;
+      setDraw(host);
+      requestAnimationFrame(()=>{
+        $$('.draw',host).forEach(p=>{p.style.strokeDashoffset='0';});
+        $$('.pt,.fade-fill',host).forEach(p=>{p.style.opacity='1';});
+      });
+    }
+
+    function fmtCtrl(){
+      els.vPrice.textContent=money(state.price);
+      els.vCost.textContent=money(state.cost);
+      els.vEps.textContent=state.eps.toFixed(2);
+      els.vVol.textContent=Math.round(state.vol).toLocaleString('en-US');
+    }
+    function applyRanges(){
+      const R=RANGE[cur];
+      [['price',els.price],['cost',els.cost],['eps',els.eps],['vol',els.vol]].forEach(([k,el])=>{
+        el.min=R[k][0]; el.max=R[k][1]; el.step=R[k][2];
+      });
+    }
+    function pushToInputs(){ els.price.value=state.price; els.cost.value=state.cost; els.eps.value=state.eps; els.vol.value=state.vol; }
+    function setConf(){ $$('#confSeg button').forEach(b=>b.classList.toggle('on',parseFloat(b.dataset.c)===state.conf)); }
+    function setRole(){ $$('#roleSeg button').forEach(b=>b.classList.toggle('on',b.dataset.role===state.role)); }
+
+    function loadPreset(k){ presetKey=k; Object.assign(state,PRESETS[cur][k]);
+      applyRanges(); pushToInputs(); fmtCtrl(); setConf(); setRole(); render(); }
+
+    // events
+    els.price.addEventListener('input',()=>{ state.price=parseFloat(els.price.value); fmtCtrl(); render(); });
+    els.cost.addEventListener('input',()=>{ state.cost=parseFloat(els.cost.value); fmtCtrl(); render(); });
+    els.eps.addEventListener('input',()=>{ state.eps=parseFloat(els.eps.value); fmtCtrl(); render(); });
+    els.vol.addEventListener('input',()=>{ state.vol=parseFloat(els.vol.value); fmtCtrl(); render(); });
+    $$('#confSeg button').forEach(b=>b.addEventListener('click',()=>{ state.conf=parseFloat(b.dataset.c); setConf(); render(); }));
+    $$('#roleSeg button').forEach(b=>b.addEventListener('click',()=>{ state.role=b.dataset.role; setRole(); render(); }));
+    $$('#presets .preset').forEach(b=>b.addEventListener('click',()=>loadPreset(b.dataset.preset)));
+    $$('#curSeg button').forEach(b=>b.addEventListener('click',()=>{
+      $$('#curSeg button').forEach(x=>x.classList.remove('on')); b.classList.add('on');
+      cur=b.dataset.cur; loadPreset(presetKey);
+    }));
+
+    applyRanges(); pushToInputs(); fmtCtrl(); setConf(); setRole();
+    // initial render when scrolled into view (so curve draws)
+    const labObs=new IntersectionObserver((es)=>{ es.forEach(e=>{ if(e.isIntersecting){ render(); labObs.disconnect(); } }); },{threshold:.2});
+    labObs.observe(shell);
+    render();
+  })();
+
+})();
+</script>
+<script>
+/* ===== ADDED: scroll-progress bar + card cursor-spotlight (additive, self-contained) ===== */
+(function(){
+  var RM=window.matchMedia&&window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+  var prog=document.getElementById('scrollProg');
+  function onScroll(){ if(!prog)return; var sc=window.scrollY||document.documentElement.scrollTop||0;
+    var h=document.documentElement.scrollHeight-window.innerHeight; prog.style.width=(h>0?Math.min(100,sc/h*100):0)+'%'; }
+  window.addEventListener('scroll',onScroll,{passive:true}); onScroll();
+  if(!RM){
+    Array.prototype.forEach.call(document.querySelectorAll('.tier,.limit-card'),function(c){
+      c.addEventListener('pointermove',function(e){ var r=c.getBoundingClientRect();
+        c.style.setProperty('--mx',(e.clientX-r.left)+'px'); c.style.setProperty('--my',(e.clientY-r.top)+'px'); });
+    });
+  }
+})();
+</script>
+<script>
+document.addEventListener('click',function(e){
+  var a=e.target.closest&&e.target.closest('a[href^="#"]'); if(!a) return;
+  var id=a.getAttribute('href').slice(1); var t=id?document.getElementById(id):null; if(!t) return;
+  e.preventDefault(); t.scrollIntoView({behavior:'smooth',block:'start'});
+  try{history.replaceState(null,'','#'+id);}catch(_){}
+});
+</script>
+<style>section,header{scroll-margin-top:72px}</style>
+</body>
+</html>
