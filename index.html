@@ -10,6 +10,14 @@
 <meta property="og:url" content="https://margindatalab.com/">
 <meta property="og:title" content="MarginLab — Pricing intelligence for independent cafés">
 <meta property="og:type" content="website">
+<script>try{if(sessionStorage.getItem("ml_seen"))document.documentElement.classList.add("seen");sessionStorage.setItem("ml_seen","1")}catch(e){}</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"ProfessionalService","name":"MarginLab",
+ "url":"https://margindatalab.com/","email":"felix@margindatalab.com",
+ "description":"Pricing intelligence for independent cafés.",
+ "areaServed":["Jakarta","Indonesia","Netherlands"],"founder":{"@type":"Person","name":"Felix Sean"},
+ "knowsLanguage":["id","en"],"priceRange":"Rp 1.800.000 – Rp 7.500.000"}
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet" />
@@ -29,7 +37,7 @@
   --cream:#f4eee3;
   --cream-dim:#dacfbd;
   --muted:#a39988;
-  --muted-2:#766d5e;
+  --muted-2:#8e8474;
   --muted-3:#4b4439;
   /* accent */
   --ochre:#d09a47;
@@ -133,16 +141,16 @@ section{position:relative;z-index:2}
 .brand-name{font-family:var(--serif);font-size:1.28rem;letter-spacing:-.02em;font-weight:500}
 .brand-name b{color:var(--ochre);font-weight:500}
 .nav-links{display:flex;align-items:center;gap:34px;list-style:none}
-.nav-links a{
+.nav-links a:not(.nav-cta){
   color:var(--cream-dim);text-decoration:none;font-size:.82rem;letter-spacing:.04em;
   font-weight:500;position:relative;padding:4px 0;transition:color .3s;
 }
-.nav-links a::after{content:"";position:absolute;left:0;bottom:-2px;height:1px;width:0;background:var(--ochre);transition:width .4s var(--ease)}
-.nav-links a:hover{color:var(--cream)}
-.nav-links a:hover::after,.nav-links a.active::after{width:100%}
+.nav-links a:not(.nav-cta)::after{content:"";position:absolute;left:0;bottom:-2px;height:1px;width:0;background:var(--ochre);transition:width .4s var(--ease)}
+.nav-links a:not(.nav-cta):hover{color:var(--cream)}
+.nav-links a:not(.nav-cta):hover::after,.nav-links a.active::after{width:100%}
 .nav-links a.active{color:var(--cream)}
 .nav-cta{
-  font-family:var(--sans);font-size:.8rem;font-weight:600;letter-spacing:.02em;line-height:1;
+  display:inline-block;font-family:var(--sans);font-size:.8rem;font-weight:600;letter-spacing:.02em;line-height:1;
   color:var(--bg);background:var(--ochre);border:0;border-radius:100px;white-space:nowrap;
   padding:12px 24px;text-decoration:none;cursor:pointer;position:relative;overflow:hidden;
   transition:transform .35s var(--ease),box-shadow .35s var(--ease);
@@ -167,8 +175,8 @@ body.menu-open .menu-toggle span:nth-child(3){top:10px;transform:rotate(-45deg)}
     transform:translateX(100%);transition:transform .55s var(--ease);z-index:100;
   }
   body.menu-open .nav-links{transform:translateX(0)}
-  .nav-links a{font-size:1.4rem;font-family:var(--serif)}
-  .nav-links .nav-cta{font-family:var(--sans);font-size:1rem}
+  .nav-links a:not(.nav-cta){font-size:1.4rem;font-family:var(--serif)}
+  .nav-links .nav-cta{font-family:var(--sans);font-size:1rem;padding:15px 34px}
   .menu-toggle{display:block}
 }
 
@@ -352,8 +360,8 @@ body.menu-open .menu-toggle span:nth-child(3){top:10px;transform:rotate(-45deg)}
 .seg{display:inline-flex;background:var(--surface);border:1px solid var(--line-2);border-radius:100px;padding:3px}
 .seg button{font-family:var(--mono);font-size:.72rem;letter-spacing:.04em;color:var(--muted);background:none;border:0;padding:6px 14px;border-radius:100px;cursor:pointer;transition:.3s}
 .seg button.on{background:var(--ochre);color:#1a1206;font-weight:500}
-.lab-body{display:grid;grid-template-columns:.85fr 1.15fr;gap:0}
-@media(max-width:940px){.lab-body{grid-template-columns:1fr}}
+.lab-body{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:0}
+@media(max-width:940px){.lab-body{grid-template-columns:minmax(0,1fr)}}
 .lab-controls{padding:clamp(24px,3vw,38px);border-right:1px solid var(--line);display:flex;flex-direction:column;gap:26px}
 @media(max-width:940px){.lab-controls{border-right:0;border-bottom:1px solid var(--line)}}
 .lab-presets{display:flex;gap:8px;flex-wrap:wrap}
@@ -367,10 +375,10 @@ input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:3px;
 input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:17px;height:17px;border-radius:50%;background:var(--ochre);border:3px solid var(--bg);box-shadow:0 0 0 1px var(--ochre),0 6px 16px -4px rgba(208,154,71,.7);transition:transform .2s}
 input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.18)}
 input[type=range]::-moz-range-thumb{width:17px;height:17px;border-radius:50%;background:var(--ochre);border:3px solid var(--bg);box-shadow:0 0 0 1px var(--ochre);cursor:pointer}
-.role-seg{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}
-.role-seg button{font-family:var(--mono);font-size:.66rem;letter-spacing:.02em;color:var(--muted);background:var(--surface-2);border:1px solid var(--line);border-radius:8px;padding:9px 6px;cursor:pointer;transition:.3s;text-align:center}
+.role-seg{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}
+.role-seg button{font-family:var(--mono);font-size:.66rem;letter-spacing:.02em;color:var(--muted);background:var(--surface-2);border:1px solid var(--line);border-radius:8px;padding:9px 6px;cursor:pointer;transition:.3s;text-align:center;min-width:0;overflow-wrap:anywhere}
 .role-seg button.on{border-color:var(--ochre);color:var(--ochre);background:rgba(208,154,71,.08)}
-.conf-seg{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}
+.conf-seg{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}
 .conf-seg button{font-family:var(--mono);font-size:.7rem;color:var(--muted);background:var(--surface-2);border:1px solid var(--line);border-radius:8px;padding:10px;cursor:pointer;transition:.3s}
 .conf-seg button.on{border-color:var(--ochre);color:var(--ochre);background:rgba(208,154,71,.08)}
 .conf-seg button small{display:block;color:var(--muted-2);font-size:.78em;margin-top:2px}
@@ -383,8 +391,8 @@ input[type=range]::-moz-range-thumb{width:17px;height:17px;border-radius:50%;bac
 .lab-rec .arr{color:var(--ochre)}
 .lab-rec .to{font-family:var(--serif);font-size:clamp(2.4rem,6vw,3.6rem);color:var(--cream);line-height:1;font-weight:420}
 .lab-rec .pct{font-family:var(--mono);font-size:.9rem;padding:4px 10px;border-radius:100px;border:1px solid var(--line-2);color:var(--ochre)}
-.lab-metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
-@media(max-width:520px){.lab-metrics{grid-template-columns:1fr 1fr}}
+.lab-metrics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+@media(max-width:520px){.lab-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}}
 .metric{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:15px 16px}
 .metric .num{font-family:var(--mono);font-size:1.25rem;color:var(--cream);font-weight:500;letter-spacing:-.01em}
 .metric .num.pos{color:var(--sage)}
@@ -472,7 +480,7 @@ input[type=range]::-moz-range-thumb{width:17px;height:17px;border-radius:50%;bac
 .contact h2 .em{font-style:italic;color:var(--ochre)}
 .contact .lede{margin:30px auto 0;text-align:center}
 .contact-cta{display:flex;flex-wrap:wrap;gap:16px;justify-content:center;margin-top:46px}
-.email-pill{display:inline-flex;align-items:center;gap:14px;margin-top:40px;background:var(--surface);border:1px solid var(--line-2);border-radius:100px;padding:10px 10px 10px 24px;font-family:var(--mono);font-size:.92rem;color:var(--cream);cursor:pointer;transition:border-color .3s}
+.email-pill{display:inline-flex;align-items:center;gap:14px;max-width:100%;margin-top:40px;background:var(--surface);border:1px solid var(--line-2);border-radius:100px;padding:10px 10px 10px 24px;font-family:var(--mono);font-size:.92rem;color:var(--cream);cursor:pointer;transition:border-color .3s}
 .email-pill:hover{border-color:var(--ochre)}
 .email-pill .copy{font-family:var(--sans);font-size:.78rem;font-weight:600;color:#1a1206;background:var(--ochre);padding:8px 16px;border-radius:100px;transition:.3s}
 .email-pill.copied .copy{background:var(--sage)}
@@ -494,6 +502,19 @@ input[type=range]::-moz-range-thumb{width:17px;height:17px;border-radius:50%;bac
 /* ============ PRELOADER ============ */
 .preloader{position:fixed;inset:0;z-index:9999;background:var(--bg);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:22px;transition:opacity .8s var(--ease),visibility .8s}
 .preloader.done{opacity:0;visibility:hidden}
+.seen .preloader{display:none}
+.lang-sw{display:inline-flex;border:1px solid var(--line-2);border-radius:100px;padding:2px}
+.lang-sw button{font:600 .7rem var(--sans);letter-spacing:.06em;color:var(--muted);background:none;border:0;
+  border-radius:100px;padding:5px 10px;cursor:pointer;transition:background .25s,color .25s}
+.lang-sw button:hover{color:var(--cream)}
+.lang-sw button[aria-pressed=true]{background:var(--ochre);color:var(--bg)}
+@media(max-width:1100px) and (min-width:901px){.nav-links{gap:24px}}
+/* keyboard users see where they are; mouse users don't get rings */
+:focus-visible{outline:2px solid var(--ochre-bright);outline-offset:3px;border-radius:6px}
+.skip{position:fixed;left:16px;top:-60px;z-index:10000;background:var(--ochre);color:var(--bg);padding:10px 16px;
+  border-radius:100px;font:600 .85rem var(--sans);text-decoration:none;transition:top .2s}
+.skip:focus{top:14px}
+body.menu-open{overflow:hidden}
 .pre-mark{width:54px;height:54px;animation:prespin 2.4s var(--ease) infinite}
 @keyframes prespin{to{transform:rotate(360deg)}}
 .pre-text{font-family:var(--mono);font-size:.74rem;letter-spacing:.34em;text-transform:uppercase;color:var(--muted);overflow:hidden}
@@ -515,12 +536,22 @@ input[type=range]::-moz-range-thumb{width:17px;height:17px;border-radius:50%;bac
 @media (prefers-reduced-motion:reduce){.scroll-prog{display:none}}
 </style>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Ccircle cx=%2716%27 cy=%2716%27 r=%2714%27 fill=%27%230c0a09%27 stroke=%27%23d09a47%27 stroke-width=%272%27/%3E%3Ccircle cx=%2716%27 cy=%2716%27 r=%274%27 fill=%27%23d09a47%27/%3E%3C/svg%3E">
+<meta property="og:site_name" content="MarginLab">
+<meta property="og:image" content="https://margindatalab.com/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="apple-touch-icon" href="/icon-180.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta property="og:description" content="A pricing engine for independent cafés. Delivery-app margin audits, a demand model calibrated to your sales and psychology-aware rounding, turned into one decision you can act on Monday.">
+<script>(function(){var l;try{l=localStorage.getItem("ml_lang")}catch(e){}if(!l){l=(navigator.languages||[navigator.language||""]).some(function(x){return/^(id|in)\b/i.test(x)})?"id":"en"}if(l==="id"){var d=document.documentElement;d.classList.add("ml-pending");setTimeout(function(){d.classList.remove("ml-pending")},1500)}})()</script><style>.ml-pending body{opacity:0}</style>
 </head>
 <body>
 <div class="scroll-prog" id="scrollProg"></div>
 <div class="grain"></div>
 
 <!-- PRELOADER -->
+<a class="skip" href="#top">Skip to content</a>
 <div class="preloader" id="preloader">
   <svg class="pre-mark" viewBox="0 0 60 60" fill="none">
     <circle cx="30" cy="30" r="26" stroke="#221b13" stroke-width="2"/>
@@ -545,12 +576,13 @@ input[type=range]::-moz-range-thumb{width:17px;height:17px;border-radius:50%;bac
   <ul class="nav-links" id="navLinks">
     <li><a href="#method" class="navlink">Method</a></li>
     <li><a href="#lab" class="navlink">The Lab</a></li>
-    <li><a href="sample-audit-en.html" class="navlink">Sample audit</a></li>
+    <li><a href="/sample-audit-en" data-href-id="/contoh-audit-id" class="navlink">Sample audit</a></li>
     <li><a href="#work" class="navlink">Engagements</a></li>
     <li><a href="#process" class="navlink">Process</a></li>
-    <li><a href="#contact" class="nav-cta"><span>Book an audit</span></a></li>
+    <li class="lang-li"><div class="lang-sw" data-no-t><button data-set-lang="en">EN</button><button data-set-lang="id">ID</button></div></li>
+    <li><a href="https://contact.margindatalab.com/" class="nav-cta"><span>Free analysis</span></a></li>
   </ul>
-  <button class="menu-toggle" id="menuToggle" aria-label="Menu"><span></span><span></span><span></span></button>
+  <button class="menu-toggle" id="menuToggle" aria-label="Menu" aria-expanded="false" aria-controls="navLinks"><span></span><span></span><span></span></button>
 </nav>
 
 <!-- HERO -->
@@ -572,14 +604,14 @@ input[type=range]::-moz-range-thumb{width:17px;height:17px;border-radius:50%;bac
   <div class="wrap hero-inner">
     <div class="eyebrow reveal in">Pricing intelligence · independent cafés</div>
     <h1 class="reveal in d1">Every café leaves<br>money on the table.<span class="small">We tell you <span class="em">exactly</span> where it's hiding — and what to do Monday.</span></h1>
-    <p class="lede hero-sub reveal in d2">MarginLab is a pricing engine for independent cafés. It shows what every GoFood and GrabFood order really leaves you, prices your menu with a demand model calibrated to your own sales, and rounds to prices that feel right — distilled into one decision you can act on this week.</p>
+    <p class="lede hero-sub reveal in d2">MarginLab is a pricing engine for independent cafés. It prices your menu from your own sales, checks what each delivery order really leaves you, and rounds to prices that feel right — one clear decision you can act on this week.</p>
     <div class="hero-cta reveal in d3">
       <a href="#lab" class="btn btn-primary">Try the live optimizer <span class="arrow">→</span></a>
       <a href="#method" class="btn btn-ghost">See the method</a>
     </div>
     <div class="hero-stats reveal in d4">
       <div class="hstat"><div class="num"><span data-count="29.6" data-dec="1">0</span><span class="u">%</span></div><div class="lbl">GoFood's real cut on a Rp 15.000 item</div></div>
-      <div class="hstat"><div class="num"><span data-count="681" data-dec="0">0</span><span class="u"> checks</span></div><div class="lbl">automated tests the engine passes</div></div>
+      <div class="hstat"><div class="num"><span data-count="650" data-dec="0">0</span><span class="u">+ checks</span></div><div class="lbl">automated tests the engine passes</div></div>
       <div class="hstat"><div class="num"><span data-count="200" data-dec="0">0</span><span class="u">+ items</span></div><div class="lbl">per audit, Bahasa &amp; English</div></div>
     </div>
   </div>
@@ -600,11 +632,11 @@ input[type=range]::-moz-range-thumb{width:17px;height:17px;border-radius:50%;bac
     <div class="eyebrow reveal">01 — The premise</div>
     <p class="ethos-quote reveal d1">Most cafés set prices by <span class="em">feel,</span> copy the shop next door, and never revisit it. The margin you're missing is <span class="em">already on the menu.</span></p>
     <div class="ethos-grid">
-      <div class="lede reveal d1">A few cents in the wrong place compounds across thousands of cups a month. The fix isn't raising everything — it's knowing which item can take a lift, which must stay a magnet, and where a number ending changes how a price <em>feels</em> without changing what it earns.</div>
+      <div class="lede reveal d1">A few cents in the wrong place adds up over thousands of cups. The fix isn't raising everything — it's knowing which item can take a lift and which must stay cheap.</div>
       <div class="ethos-points">
-        <div class="epoint reveal"><h4>Priced by intuition</h4><p>Owners price from gut and competitor-glancing. Intuition is good at flavour, blind to elasticity.</p></div>
-        <div class="epoint reveal d1"><h4>Frozen for years</h4><p>Costs drift up; prices don't. Margin quietly erodes one invoice at a time.</p></div>
-        <div class="epoint reveal d2"><h4>Left on the table</h4><p>The gap between the price you charge and the price the math supports — that's MarginLab's entire job.</p></div>
+        <div class="epoint reveal"><h4>Priced by intuition</h4><p>Gut feel, and a glance at the café next door.</p></div>
+        <div class="epoint reveal d1"><h4>Frozen for years</h4><p>Costs rise; prices don't. Margin leaks quietly.</p></div>
+        <div class="epoint reveal d2"><h4>Left on the table</h4><p>The gap between your price and the right one. That's our job.</p></div>
       </div>
     </div>
   </div>
@@ -618,7 +650,7 @@ input[type=range]::-moz-range-thumb{width:17px;height:17px;border-radius:50%;bac
     <div class="sec-head">
       <div class="eyebrow reveal">02 — The engine</div>
       <h2 class="reveal d1">Not a guess. A <span class="em">model</span> — and a test to check it.</h2>
-      <p class="lede reveal d2">The same logic behind the screen we turn around to clients. Eight passes turn a raw menu, its costs and a month of sales into a defensible price for every item — at the counter and on the apps.</p>
+      <p class="lede reveal d2">Eight passes turn your menu, costs and a month of sales into a defensible price for every item — at the counter and on the apps.</p>
     </div>
 
     <!-- 1 ELASTICITY -->
@@ -626,8 +658,7 @@ input[type=range]::-moz-range-thumb{width:17px;height:17px;border-radius:50%;bac
       <div class="mb-text reveal">
         <div class="mb-tag"><span class="n">i.</span> Calibrated demand</div>
         <h3>How sensitive is each item to <span class="em">price?</span></h3>
-        <p>We calibrate a nested-logit demand model so that, at today's prices, it reproduces your actual sales item by item. Items that substitute for each other sit in the same nest, so a move on one shows up in the other.</p>
-        <p>One café's sales can't reveal price sensitivity on their own, so the engine starts from published research, says so, and shows the whole range — then a short price test (pass vii) measures it.</p>
+        <p>A demand model tuned to reproduce your actual sales, item by item. Price sensitivity starts from published research until a short price test measures it.</p>
         <div class="formula">ε = elasticity&nbsp;&nbsp;→&nbsp;&nbsp;<span class="res">the band, until a test measures it</span></div>
       </div>
       <div class="mb-vis reveal d1">
@@ -643,8 +674,7 @@ input[type=range]::-moz-range-thumb{width:17px;height:17px;border-radius:50%;bac
       <div class="mb-text reveal">
         <div class="mb-tag"><span class="n">ii.</span> Lerner-optimal markup</div>
         <h3>The price that <span class="em">maximises</span> profit, exactly.</h3>
-        <p>For one item on its own, microeconomics hands us the answer: the Lerner rule sets the markup over cost from elasticity alone. The engine goes further and solves every price together, because raising one item moves guests to its neighbours.</p>
-        <p>The optimiser walks the curve and lands on its summit. Too cheap leaves margin behind; too dear sheds more cups than the price makes up for. We find the top.</p>
+        <p>The Lerner rule gives one item's profit-maximising markup. The engine solves every price together, because raising one item moves guests to its neighbours.</p>
         <div class="formula">P* = c · <span class="res">|ε| / (|ε| − 1)</span></div>
       </div>
       <div class="mb-vis reveal d1">
@@ -660,8 +690,7 @@ input[type=range]::-moz-range-thumb{width:17px;height:17px;border-radius:50%;bac
       <div class="mb-text reveal">
         <div class="mb-tag"><span class="n">iii.</span> Stress-tested moves</div>
         <h3>We move as far as the <span class="em">data earns.</span></h3>
-        <p>A textbook optimum from thin data is a liability. So every recommendation is re-run with price sensitivity anywhere from ×0.3 to ×2, and a move that only pays under one assumption is cut back or held.</p>
-        <p>It's the difference between a model that's right on paper and advice that's safe to act on.</p>
+        <p>Every move is re-run with price sensitivity from ×0.3 to ×2. A move that only pays under one assumption is cut back or held.</p>
       </div>
       <div class="mb-vis reveal d1">
         <div class="chart-card" id="chart-shrink">
@@ -676,8 +705,7 @@ input[type=range]::-moz-range-thumb{width:17px;height:17px;border-radius:50%;bac
       <div class="mb-text reveal">
         <div class="mb-tag"><span class="n">iv.</span> Role-aware guardrails</div>
         <h3>An anchor and a magnet aren't priced the <span class="em">same way.</span></h3>
-        <p>Every item plays a role on your menu. A <em>Traffic Driver</em> earns its keep by pulling people in — it stays cheap on purpose. A <em>Premium Anchor</em> can stretch. We cap each item's allowed movement to its job.</p>
-        <p>No recommendation ever pushes a magnet out of reach or holds an anchor below its worth.</p>
+        <p>Each item has a job. A <em>Traffic Driver</em> stays cheap on purpose; a <em>Premium Anchor</em> can stretch. Every move is capped to the item's role.</p>
       </div>
       <div class="mb-vis reveal d1">
         <div class="chart-card" id="chart-roles">
@@ -692,8 +720,7 @@ input[type=range]::-moz-range-thumb{width:17px;height:17px;border-radius:50%;bac
       <div class="mb-text reveal">
         <div class="mb-tag"><span class="n">v.</span> Psychology &amp; charm endings</div>
         <h3>The same money, in a number that <span class="em">feels</span> right.</h3>
-        <p>€4.00 and €3.95 earn nearly the same, but read very differently. We round each optimum to a psychologically tuned ending and keep it clear of barrier prices — the round numbers that make a guest hesitate.</p>
-        <p>Thresholds are currency-aware: charm endings for euros, clean breaks for rupiah, never tripping a customer over a mental line.</p>
+        <p>€4.00 and €3.95 earn nearly the same but read differently. We round to endings that feel right and stay clear of barrier prices — in euros or rupiah.</p>
       </div>
       <div class="mb-vis reveal d1">
         <div class="chart-card" id="chart-charm">
@@ -708,8 +735,8 @@ input[type=range]::-moz-range-thumb{width:17px;height:17px;border-radius:50%;bac
       <div class="mb-text reveal">
         <div class="mb-tag"><span class="n">vi.</span> Menu-engineering quadrants</div>
         <h3>Every item, placed on the <span class="em">map.</span></h3>
-        <p>Popularity against profitability sorts the menu into four well-known camps: <em>Stars</em> to protect, <em>Plowhorses</em> to quietly firm up, <em>Puzzles</em> to reposition, and <em>Dogs</em> to fix or cut.</p>
-        <p>The quadrant tells you not just what to price, but where to spend your attention. Hover any point.</p>
+        <p>Popularity against profit sorts the menu: <em>Stars</em> to protect, <em>Plowhorses</em> to firm up, <em>Puzzles</em> to reposition, <em>Dogs</em> to fix or cut.</p>
+        <p>Hover any point.</p>
       </div>
       <div class="mb-vis reveal d1">
         <div class="chart-card" id="chart-quadrant">
@@ -724,8 +751,8 @@ input[type=range]::-moz-range-thumb{width:17px;height:17px;border-radius:50%;bac
       <div class="mb-text reveal">
         <div class="mb-tag"><span class="n">vii.</span> Sensitivity analysis</div>
         <h3>Which assumption actually <span class="em">moves the answer?</span></h3>
-        <p>Before we hand over a number, we shake it: price sensitivity, the share of app orders that are new customers, costs and commissions — so you know which figures are load-bearing and which are noise.</p>
-        <p>Then we measure the biggest one. A two-week switchback test on GoFood (one price this week, the other the next — reversible in seconds) replaces the assumption with what your customers actually did.</p>
+        <p>We shake every key input — price sensitivity, new-customer share, costs, commissions — to see which ones move the answer.</p>
+        <p>Then we measure the biggest: two prices alternating on GoFood every three days for six to twelve weeks, reversible in seconds.</p>
       </div>
       <div class="mb-vis reveal d1">
         <div class="chart-card" id="chart-tornado">
@@ -740,8 +767,7 @@ input[type=range]::-moz-range-thumb{width:17px;height:17px;border-radius:50%;bac
       <div class="mb-text reveal">
         <div class="mb-tag"><span class="n">viii.</span> Competitor positioning</div>
         <h3>Optimal, but never <span class="em">out of step.</span></h3>
-        <p>The math is calibrated against the street. We plot where your current and recommended prices sit among the cafés around you — unlimited comparison points, not a fixed three — so a move is profit-optimal <em>and</em> defensible to a regular.</p>
-        <p>The goal is the sweet spot: the most your menu can earn without ever looking expensive.</p>
+        <p>Your current and recommended prices, plotted against the cafés around you — so every move is profit-optimal <em>and</em> defensible to a regular.</p>
       </div>
       <div class="mb-vis reveal d1">
         <div class="chart-card" id="chart-competitor">
@@ -760,7 +786,7 @@ input[type=range]::-moz-range-thumb{width:17px;height:17px;border-radius:50%;bac
     <div class="sec-head">
       <div class="eyebrow reveal">03 — Worked example</div>
       <h2 class="reveal d1">One item, start to <span class="em">finish.</span></h2>
-      <p class="lede reveal d2">An illustrative Latte, computed by hand. Watch a single price travel through the passes.</p>
+      <p class="lede reveal d2">An illustrative latte, worked by hand through the passes.</p>
     </div>
     <div class="latte-grid">
       <div class="latte-steps reveal">
@@ -778,14 +804,14 @@ input[type=range]::-moz-range-thumb{width:17px;height:17px;border-radius:50%;bac
           <span class="arr">→</span>
           <span class="to">€4.00</span>
         </div>
-        <p class="dim" style="font-size:.9rem">A twenty-cent move, fully defensible — and that's before a single other item is touched.</p>
+        <p class="dim" style="font-size:.9rem">A twenty-cent move: defensible, and worth little — this latte is already near its best price.</p>
         <div class="result-stats">
-          <div class="rstat"><div class="num">+€<span data-count="63" data-dec="0">0</span>/mo</div><div class="lbl">added margin · this item</div></div>
-          <div class="rstat"><div class="num">+<span data-count="5.3" data-dec="1">0</span>%</div><div class="lbl">price · −7% volume</div></div>
+          <div class="rstat"><div class="num">+€<span data-count="2" data-dec="0">0</span>/mo</div><div class="lbl">added margin · after the cups it loses</div></div>
+          <div class="rstat"><div class="num">+<span data-count="5.3" data-dec="1">0</span>%</div><div class="lbl">price</div></div>
           <div class="rstat"><div class="num"><span data-count="67" data-dec="0">0</span>%</div><div class="lbl">gross margin at P*</div></div>
-          <div class="rstat"><div class="num">€<span data-count="756" data-dec="0">0</span>/yr</div><div class="lbl">annualised · one line</div></div>
+          <div class="rstat"><div class="num">−<span data-count="7" data-dec="0">0</span>%</div><div class="lbl">cups sold at the new price</div></div>
         </div>
-        <p class="result-note">The audit does this for every item at once, on the counter and on every delivery app — and a price test confirms it before you commit.</p>
+        <p class="result-note">Well-priced items gain little. The money sits in items far from their best price — often on the delivery apps. The audit finds them all; a price test confirms a move before you commit.</p>
       </div>
     </div>
   </div>
@@ -797,7 +823,7 @@ input[type=range]::-moz-range-thumb{width:17px;height:17px;border-radius:50%;bac
     <div class="sec-head center">
       <div class="eyebrow center reveal">04 — The Lab</div>
       <h2 class="reveal d1">Drive the engine <span class="em">yourself.</span></h2>
-      <p class="lede reveal d2" style="margin-left:auto;margin-right:auto;text-align:center">A single-item slice of the maths — the classic Lerner rule. Set an item's economics and watch the recommendation, the profit curve and the margin shift in real time.</p>
+      <p class="lede reveal d2" style="margin-left:auto;margin-right:auto;text-align:center">One item, the classic Lerner rule. Change the inputs and watch the price, profit curve and margin move.</p>
     </div>
 
     <div class="lab-shell reveal d1">
@@ -823,19 +849,19 @@ input[type=range]::-moz-range-thumb{width:17px;height:17px;border-radius:50%;bac
           </div>
           <div class="ctrl">
             <div class="ctrl-head"><label>Current price</label><span class="v" id="vPrice">€3.80</span></div>
-            <input type="range" id="inPrice" min="1" max="12" step="0.05" value="3.80"/>
+            <input type="range" id="inPrice" aria-label="Current price" min="1" max="12" step="0.05" value="3.80"/>
           </div>
           <div class="ctrl">
             <div class="ctrl-head"><label>Unit cost</label><span class="v" id="vCost">€1.40</span></div>
-            <input type="range" id="inCost" min="0.3" max="8" step="0.05" value="1.40"/>
+            <input type="range" id="inCost" aria-label="Unit cost" min="0.3" max="8" step="0.05" value="1.40"/>
           </div>
           <div class="ctrl">
             <div class="ctrl-head"><label>Elasticity · |ε|</label><span class="v" id="vEps">1.50</span></div>
-            <input type="range" id="inEps" min="1.1" max="4" step="0.05" value="1.5"/>
+            <input type="range" id="inEps" aria-label="Elasticity" min="1.1" max="4" step="0.05" value="1.5"/>
           </div>
           <div class="ctrl">
             <div class="ctrl-head"><label>Monthly volume</label><span class="v" id="vVol">315</span></div>
-            <input type="range" id="inVol" min="20" max="2000" step="5" value="315"/>
+            <input type="range" id="inVol" aria-label="Monthly volume" min="20" max="2000" step="5" value="315"/>
           </div>
           <div class="ctrl">
             <div class="ctrl-head"><label>Confidence</label></div>
@@ -867,18 +893,18 @@ input[type=range]::-moz-range-thumb{width:17px;height:17px;border-radius:50%;bac
             <span class="pct" id="outPct">+5.3%</span>
           </div>
           <div class="lab-metrics">
-            <div class="metric"><div class="num pos" id="mGross">+€63/mo</div><div class="lbl">margin uplift</div></div>
+            <div class="metric"><div class="num pos" id="mGross">–</div><div class="lbl">margin change · after lost cups</div></div>
             <div class="metric"><div class="num" id="mOpt">€4.20</div><div class="lbl">unconstrained P*</div></div>
             <div class="metric"><div class="num" id="mLerner">65%</div><div class="lbl">Lerner @ rec</div></div>
             <div class="metric"><div class="num" id="mVol">−7%</div><div class="lbl">volume response</div></div>
-            <div class="metric"><div class="num" id="mAnnual">€756/yr</div><div class="lbl">annualised</div></div>
+            <div class="metric"><div class="num" id="mAnnual">–</div><div class="lbl">annualised</div></div>
             <div class="metric"><div class="num" id="mCap">inside</div><div class="lbl">role guardrail</div></div>
           </div>
           <div class="lab-curve">
             <div class="cc-head"><span class="cc-title">Profit curve · live</span><span class="cc-meta" id="curveMeta">current · rec · optimum</span></div>
             <div id="labCurveHost"></div>
           </div>
-          <p class="lab-foot">↳ Headline uplift holds volume; the curve and "volume response" show the elasticity-adjusted reality. The full engine prices every item together, checks your delivery margins and stress-tests price sensitivity — that's the audit.</p>
+          <p class="lab-foot">↳ The uplift already counts the cups a higher price loses, at the sensitivity you set. The full audit prices every item together.</p>
         </div>
       </div>
     </div>
@@ -893,33 +919,33 @@ input[type=range]::-moz-range-thumb{width:17px;height:17px;border-radius:50%;bac
         <div class="eyebrow reveal">05 — Honest by design</div>
         <h2 class="reveal d1" style="font-size:clamp(2.1rem,5vw,3.6rem);margin-top:20px;line-height:1.02;font-weight:350">Three things a model <span class="em">can't</span> see.</h2>
       </div>
-      <p class="lede reveal d2">We're upfront about the edges of the math. These aren't oversights — they're deliberately left out, because each one needs a human who knows <em>your</em> café. That's the conversation.</p>
+      <p class="lede reveal d2">Each of these needs someone who knows <em>your</em> café. That's the conversation.</p>
     </div>
     <div class="limit-cards">
       <div class="limit-card reveal">
         <div class="ln">L·01</div>
         <svg class="icon" viewBox="0 0 48 48" fill="none" stroke="#d09a47" stroke-width="1.4"><path d="M8 36 L20 24 L28 30 L40 14"/><circle cx="20" cy="24" r="2.5" fill="#d09a47"/><circle cx="28" cy="30" r="2.5" fill="#d09a47"/><path d="M14 18 L22 18 M14 18 L14 26" stroke-dasharray="3 3"/></svg>
         <h4>How strongly your guests react to price</h4>
-        <p>The model knows your sales, costs and platform fees. What one menu can't reveal is how hard your guests push back on a price rise — that comes from research until we test it.</p>
-        <div class="why"><b>So we talk:</b> which item to test first, and what result would change the plan.</div>
+        <p>The model knows your sales, costs and fees — not how hard your guests push back on a price rise. Research fills in until we test it.</p>
+        <div class="why"><b>So we talk:</b> which item to test first.</div>
       </div>
       <div class="limit-card reveal d1">
         <div class="ln">L·02</div>
         <svg class="icon" viewBox="0 0 48 48" fill="none" stroke="#d09a47" stroke-width="1.4"><circle cx="16" cy="16" r="7"/><circle cx="32" cy="32" r="7"/><path d="M21 21 L27 27" stroke-dasharray="3 3"/><path d="M30 14 L34 14 M32 12 L32 16"/></svg>
         <h4>The basket &amp; attach rate</h4>
-        <p>A coffee often pulls a pastry with it. Firm up the coffee and you might quietly suppress the attached sale. The per-item optimum can't see the whole receipt.</p>
-        <div class="why"><b>So we talk:</b> your attach patterns, and where a held price protects a bigger basket.</div>
+        <p>A coffee often brings a pastry. Push the coffee and you may lose the pastry.</p>
+        <div class="why"><b>So we talk:</b> where holding a price protects the basket.</div>
       </div>
       <div class="limit-card reveal d2">
         <div class="ln">L·03</div>
         <svg class="icon" viewBox="0 0 48 48" fill="none" stroke="#d09a47" stroke-width="1.4"><circle cx="24" cy="24" r="15"/><path d="M24 24 L24 14 M24 24 L31 28"/><path d="M9 24 L13 24 M35 24 L39 24" stroke-dasharray="2 3"/></svg>
         <h4>Day-part &amp; weekday mix</h4>
-        <p>Morning rush and a quiet Tuesday afternoon behave nothing alike. The model averages a month into one figure — it doesn't split the clock or the calendar.</p>
-        <div class="why"><b>So we talk:</b> when your real margin lives, and whether timing changes the call.</div>
+        <p>A morning rush and a quiet Tuesday behave differently. The model averages the month.</p>
+        <div class="why"><b>So we talk:</b> when your margin is really made.</div>
       </div>
     </div>
     <div class="limit-banner reveal">
-      <p>These three gaps are precisely why the audit isn't a PDF you read alone.</p>
+      <p>That's why the audit comes with a conversation, not just a PDF.</p>
       <a href="#work" class="btn btn-primary">See the engagements <span class="arrow">→</span></a>
     </div>
   </div>
@@ -931,7 +957,7 @@ input[type=range]::-moz-range-thumb{width:17px;height:17px;border-radius:50%;bac
     <div class="sec-head center">
       <div class="eyebrow center reveal">06 — Engagements</div>
       <h2 class="reveal d1">Three ways to <span class="em">work together.</span></h2>
-      <p class="lede reveal d2" style="margin-left:auto;margin-right:auto;text-align:center">Start with a single conversation, run a full implementation, or keep the menu tuned as costs move. No retainers you can't leave.</p>
+      <p class="lede reveal d2" style="margin-left:auto;margin-right:auto;text-align:center">Start small, go all in, or keep the menu tuned. No lock-in.</p>
     </div>
     <div class="tiers">
       <div class="tier reveal">
@@ -944,32 +970,32 @@ input[type=range]::-moz-range-thumb{width:17px;height:17px;border-radius:50%;bac
           <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 8.5 L6.5 12 L13 4"/></svg>New app price list · PDF, phone page &amp; workbook</li>
           <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 8.5 L6.5 12 L13 4"/></svg>60-minute walkthrough, Bahasa or English</li>
         </ul>
-        <a href="#contact" class="btn btn-ghost">Book the audit</a>
+        <a href="https://pay.margindatalab.com/?paket=audit" class="btn btn-ghost">Book the audit</a>
       </div>
       <div class="tier feature reveal d1">
         <div class="badge">Most chosen</div>
         <div class="tname">Tier II</div>
         <div class="tsub">Implementation Sprint</div>
-        <div class="price"><span class="cur">Rp 7,5jt</span><span class="per">/ 3 minggu</span></div>
+        <div class="price"><span class="cur">Rp 7,5jt</span><span class="per">/ 3 weeks</span></div>
         <ul>
           <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 8.5 L6.5 12 L13 4"/></svg>Everything in the Audit, plus the full menu</li>
           <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 8.5 L6.5 12 L13 4"/></svg>We roll out the top 3 changes with you</li>
-          <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 8.5 L6.5 12 L13 4"/></svg>A two-week price test, read with you</li>
+          <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 8.5 L6.5 12 L13 4"/></svg>A price test on your busiest app item, read with you</li>
           <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 8.5 L6.5 12 L13 4"/></svg>Prices re-run on what your guests actually did</li>
         </ul>
-        <a href="#contact" class="btn btn-primary">Start a sprint <span class="arrow">→</span></a>
+        <a href="https://pay.margindatalab.com/?paket=sprint" class="btn btn-primary">Start a sprint <span class="arrow">→</span></a>
       </div>
       <div class="tier reveal d2">
         <div class="tname">Tier III</div>
         <div class="tsub">Ongoing Pricing Partner</div>
-        <div class="price"><span class="cur">Rp 2,5jt</span><span class="per">/ bulan</span></div>
+        <div class="price"><span class="cur">Rp 2,5jt</span><span class="per">/ month</span></div>
         <ul>
           <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 8.5 L6.5 12 L13 4"/></svg>Quarterly full re-audit of the menu</li>
           <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 8.5 L6.5 12 L13 4"/></svg>Monthly check-in on the numbers</li>
           <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 8.5 L6.5 12 L13 4"/></svg>Repricing as costs &amp; menu shift</li>
           <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 8.5 L6.5 12 L13 4"/></svg>Priority line for quick questions</li>
         </ul>
-        <a href="#contact" class="btn btn-ghost">Become a partner</a>
+        <a href="https://pay.margindatalab.com/?paket=partner" class="btn btn-ghost">Become a partner</a>
       </div>
     </div>
     <p class="work-note reveal">Serving independent cafés in Jakarta · Amsterdam · Almere · and remotely worldwide</p>
@@ -984,7 +1010,7 @@ input[type=range]::-moz-range-thumb{width:17px;height:17px;border-radius:50%;bac
     <div class="sec-head">
       <div class="eyebrow reveal">07 — How it runs</div>
       <h2 class="reveal d1">Seven steps, <span class="em">one screen</span> turned around.</h2>
-      <p class="lede reveal d2">From your menu to a decision you act on. The whole flow is built so the moment we turn the laptop toward you, the answer is already obvious.</p>
+      <p class="lede reveal d2">From your menu to one clear decision.</p>
     </div>
     <div class="steps">
       <div class="step reveal"><span class="dotline"></span><h5>Client</h5><p>Your café, your market, your currency, your goals.</p></div>
@@ -1015,8 +1041,8 @@ input[type=range]::-moz-range-thumb{width:17px;height:17px;border-radius:50%;bac
       <div class="about-text reveal d1">
         <div class="eyebrow">08 — Who's behind it</div>
         <h2>A model built the <span class="em">hard way,</span> so the advice is easy.</h2>
-        <p>MarginLab grew out of a stubborn spreadsheet — version eleven of a pricing model rebuilt until it was right. A calibrated nested-logit demand model, a delivery audit that reconciles against your own settlement statement, price tests for what a model can't know, role caps, the lot — checked by hundreds of automated tests before it touches a real menu.</p>
-        <p>The discipline is quantitative; the delivery is human. Independent café owners don't need a dashboard to babysit — they need one clear, defensible move, explained in plain language, on a call. That's the whole company.</p>
+        <p>MarginLab grew out of a stubborn spreadsheet, rebuilt eleven times until it was right — and checked by hundreds of automated tests before it touches a real menu.</p>
+        <p>The maths is quantitative; the delivery is human: one clear move, in plain language, on a call.</p>
         <div class="about-sign">
           <span class="name">Felix Sean</span>
           <span class="role">Founder · MarginLab</span>
@@ -1041,10 +1067,10 @@ input[type=range]::-moz-range-thumb{width:17px;height:17px;border-radius:50%;bac
     <div class="contact-inner">
       <div class="eyebrow center reveal" style="justify-content:center">09 — Let's find it</div>
       <h2 class="reveal d1">The margin's already<br>on your <span class="em">menu.</span></h2>
-      <p class="lede reveal d2">Start free: a one-page analysis from your public GoFood and GrabFood prices. The full audit — every item, every platform, a new app price list and a 60-minute walkthrough — is Rp 1,8jt.</p>
+      <p class="lede reveal d2">Start free with a one-page analysis of your public GoFood and GrabFood prices. The full audit is Rp 1,8jt.</p>
       <div class="contact-cta reveal d3">
-        <a href="mailto:felix@margindatalab.com?subject=MarginLab%20%E2%80%94%20Analisis%20gratis&body=Halo%20Felix%2C%0A%0ASaya%20ingin%20analisis%201%20halaman%20gratis%20untuk%20kafe%20saya.%0A%0ANama%20kafe%3A%0ALink%20GoFood%20/%20GrabFood%3A%0A%0ATerima%20kasih%21" class="btn btn-primary">Get the free analysis <span class="arrow">→</span></a>
-        <a href="#lab" class="btn btn-ghost">Play with the optimizer first</a>
+        <a href="https://contact.margindatalab.com/" class="btn btn-primary">Get the free analysis <span class="arrow">→</span></a>
+        <a href="https://pay.margindatalab.com/" class="btn btn-ghost">Order the full audit</a>
       </div>
       <div class="email-pill reveal d4" id="emailPill" title="Click to copy">
         <span id="emailText">felix@margindatalab.com</span>
@@ -1079,8 +1105,9 @@ input[type=range]::-moz-range-thumb{width:17px;height:17px;border-radius:50%;bac
           <h6>Explore</h6>
           <a href="#method">The Method</a>
           <a href="#lab">The Lab</a>
-          <a href="sample-audit-en.html">Sample audit (EN)</a>
-          <a href="contoh-audit-id.html">Contoh audit (ID)</a>
+          <a href="/sample-audit-en">Sample audit (EN)</a>
+          <a href="/contoh-audit-id">Contoh audit (ID)</a>
+          <a href="/privasi">Privacy</a>
           <a href="#latte">Worked Example</a>
           <a href="#process">Process</a>
         </div>
@@ -1089,7 +1116,8 @@ input[type=range]::-moz-range-thumb{width:17px;height:17px;border-radius:50%;bac
           <a href="#work">Delivery Margin Audit</a>
           <a href="#work">Implementation Sprint</a>
           <a href="#work">Pricing Partner</a>
-          <a href="#contact">Book a call</a>
+          <a href="https://contact.margindatalab.com/">Free analysis</a>
+          <a href="https://pay.margindatalab.com/">Order an audit</a>
         </div>
         <div class="fcol">
           <h6>Contact</h6>
@@ -1101,7 +1129,7 @@ input[type=range]::-moz-range-thumb{width:17px;height:17px;border-radius:50%;bac
     </div>
     <div class="footer-bottom">
       <span>© 2026 MarginLab · Felix Sean</span>
-      <span>Engine checked by 681 automated tests · built with intent</span>
+      <span>Engine checked by 650+ automated tests · built with intent</span>
     </div>
   </div>
 </footer>
@@ -1134,12 +1162,14 @@ input[type=range]::-moz-range-thumb{width:17px;height:17px;border-radius:50%;bac
   window.addEventListener('scroll',onScroll,{passive:true}); onScroll();
 
   const toggle=$('#menuToggle');
-  toggle?.addEventListener('click',()=>document.body.classList.toggle('menu-open'));
-  $$('#navLinks a').forEach(a=>a.addEventListener('click',()=>document.body.classList.remove('menu-open')));
+  const setMenu=open=>{ document.body.classList.toggle('menu-open',open); toggle?.setAttribute('aria-expanded',String(open)); };
+  toggle?.addEventListener('click',()=>setMenu(!document.body.classList.contains('menu-open')));
+  $$('#navLinks a').forEach(a=>a.addEventListener('click',()=>setMenu(false)));
+  document.addEventListener('keydown',e=>{ if(e.key==='Escape') setMenu(false); });
 
   // scrollspy
   const navlinks=$$('.navlink');
-  const secMap=navlinks.map(a=>({a,sec:$(a.getAttribute('href'))})).filter(o=>o.sec);
+  const secMap=navlinks.filter(a=>a.getAttribute('href').startsWith('#')).map(a=>({a,sec:$(a.getAttribute('href'))})).filter(o=>o.sec);
   const spy=new IntersectionObserver((es)=>{
     es.forEach(e=>{ if(e.isIntersecting){ const id='#'+e.target.id;
       navlinks.forEach(a=>a.classList.toggle('active',a.getAttribute('href')===id)); } });
@@ -1166,15 +1196,20 @@ input[type=range]::-moz-range-thumb{width:17px;height:17px;border-radius:50%;bac
   $$('.reveal:not(.in)').forEach(el=>revObs.observe(el));
 
   /* ---------- COUNT-UP ---------- */
+  // decimals written per language: 29.6 in English, 29,6 in Bahasa
+  const numFmt=(v,dec)=>{ const s=v.toFixed(dec); return window.MLLang&&window.MLLang.get()==='id'?s.replace('.',','):s; };
   function countUp(el){
     const target=parseFloat(el.dataset.count), dec=parseInt(el.dataset.dec||'0',10);
-    if(RM){ el.textContent=target.toFixed(dec); return; }
+    el.dataset.counted='1';
+    if(RM){ el.textContent=numFmt(target,dec); return; }
     const dur=1500, t0=performance.now();
     const ease=t=>1-Math.pow(1-t,3);
     function tick(now){ const p=clamp((now-t0)/dur,0,1); const v=target*ease(p);
-      el.textContent=v.toFixed(dec); if(p<1) requestAnimationFrame(tick); else el.textContent=target.toFixed(dec); }
+      el.textContent=numFmt(v,dec); if(p<1) requestAnimationFrame(tick); else el.textContent=numFmt(target,dec); }
     requestAnimationFrame(tick);
   }
+  document.addEventListener('ml:lang',()=>$$('[data-count][data-counted]').forEach(el=>{
+    el.textContent=numFmt(parseFloat(el.dataset.count),parseInt(el.dataset.dec||'0',10)); }));
   const cObs=new IntersectionObserver((es)=>{
     es.forEach(e=>{ if(e.isIntersecting){ countUp(e.target); cObs.unobserve(e.target);} });
   },{threshold:.5});
@@ -1393,9 +1428,10 @@ input[type=range]::-moz-range-thumb{width:17px;height:17px;border-radius:50%;bac
       inner+=`<circle class="pt qp" data-n="${it[0]}" data-pop="${it[1]}" data-mar="${it[2]}" data-q="${it[3]}" cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" r="6.5" fill="${qc[it[3]]}" fill-opacity=".9" stroke="${COL.surf}" stroke-width="1.5" style="transition-delay:${0.3+i*0.05}s;cursor:pointer"/>`; });
     mount('chart-quadrant',`0 0 ${W} ${H}`,inner,(card,host)=>{
       const tip=$('#qtip'); const QN={star:'Star',puzzle:'Puzzle',plow:'Plowhorse',dog:'Dog'};
+      const T=s=>window.MLLang?window.MLLang.t(s):s;
       $$('.qp',host).forEach(p=>{
         p.addEventListener('pointerenter',(e)=>{
-          tip.innerHTML=`<b>${p.dataset.n}</b> · ${QN[p.dataset.q]}<br>pop ${p.dataset.pop} · margin ${p.dataset.mar}%`;
+          tip.innerHTML=`<b>${p.dataset.n}</b> · ${T(QN[p.dataset.q])}<br>${T('pop')} ${p.dataset.pop} · ${T('margin')} ${p.dataset.mar}%`;
           tip.classList.add('show');
           p.setAttribute('r','9');
         });
@@ -1477,8 +1513,10 @@ input[type=range]::-moz-range-thumb{width:17px;height:17px;border-radius:50%;bac
       mGross:$('#mGross'),mOpt:$('#mOpt'),mLerner:$('#mLerner'),mVol:$('#mVol'),mAnnual:$('#mAnnual'),mCap:$('#mCap'),
       curveHost:$('#labCurveHost'),curveMeta:$('#curveMeta') };
 
-    const money=v=> cur==='EUR' ? '€'+v.toFixed(2) : 'Rp'+Math.round(v).toLocaleString('en-US');
+    const isID=()=>window.MLLang&&window.MLLang.get()==='id';
+    const money=v=> cur==='EUR' ? '€'+v.toFixed(2) : 'Rp'+Math.round(v).toLocaleString('id-ID');
     const moneyK=v=>{ if(cur==='EUR') return '€'+(Math.abs(v)>=1000?(v/1000).toFixed(1)+'k':Math.round(v));
+      if(isID()) return 'Rp'+(Math.abs(v)>=1e6?(v/1e6).toFixed(2).replace('.',',')+'jt':Math.abs(v)>=1000?Math.round(v/1000)+'rb':Math.round(v));
       return 'Rp'+(Math.abs(v)>=1e6?(v/1e6).toFixed(2)+'M':Math.abs(v)>=1000?Math.round(v/1000)+'k':Math.round(v)); };
 
     function charmEUR(x,lo,hi){ let v=Math.round(x/0.05)*0.05; if(hi!=null&&v>hi)v=Math.floor(hi/0.05+1e-9)*0.05; if(lo!=null&&v<lo)v=Math.ceil(lo/0.05-1e-9)*0.05; return Math.round(v*100)/100; }
@@ -1502,20 +1540,24 @@ input[type=range]::-moz-range-thumb{width:17px;height:17px;border-radius:50%;bac
       const net=(rec-c)*q1-(P0-c)*vol;
       const lerner=(rec-c)/rec;
       const volResp=q1/vol-1;
-      return {Pstar,rec,recPct,gross,net,lerner,volResp,annual:gross*12,capped,vol,P0,c,eps};
+      // the headline is the volume-adjusted change: a rise loses some cups, and those
+      // lost cups are what an owner would actually see at the till
+      return {Pstar,rec,recPct,gross,net,lerner,volResp,annual:net*12,capped,vol,P0,c,eps};
     }
 
+    const T=s=>window.MLLang?window.MLLang.t(s):s;
+    document.addEventListener('ml:lang',()=>render());
     function render(){
       const r=optimize(state);
       els.outFrom.textContent=money(state.price);
       els.outTo.textContent=money(r.rec);
       els.outPct.textContent=(r.recPct>=0?'+':'')+(r.recPct*100).toFixed(1)+'%';
-      els.mGross.textContent=(r.gross>=0?'+':'')+moneyK(r.gross)+'/mo';
-      els.mGross.classList.toggle('pos',r.gross>=0);
+      els.mGross.textContent=(r.net>=0?'+':'')+moneyK(r.net)+T('/mo');
+      els.mGross.classList.toggle('pos',r.net>=0);
       els.mOpt.textContent=money(r.Pstar);
       els.mLerner.textContent=Math.round(r.lerner*100)+'%';
       els.mVol.textContent=(r.volResp>=0?'+':'')+(r.volResp*100).toFixed(0)+'%';
-      els.mAnnual.textContent=(r.annual>=0?'+':'')+moneyK(r.annual)+'/yr';
+      els.mAnnual.textContent=(r.annual>=0?'+':'')+moneyK(r.annual)+T('/yr');
       els.mCap.textContent=r.capped?'capped':'inside';
       els.mCap.style.color=r.capped?COL.terra:COL.sage;
       // curve
@@ -1532,7 +1574,7 @@ input[type=range]::-moz-range-thumb{width:17px;height:17px;border-radius:50%;bac
       els.vPrice.textContent=money(state.price);
       els.vCost.textContent=money(state.cost);
       els.vEps.textContent=state.eps.toFixed(2);
-      els.vVol.textContent=Math.round(state.vol).toLocaleString('en-US');
+      els.vVol.textContent=Math.round(state.vol).toLocaleString(isID()?'id-ID':'en-US');
     }
     function applyRanges(){
       const R=RANGE[cur];
@@ -1593,6 +1635,17 @@ document.addEventListener('click',function(e){
   try{history.replaceState(null,'','#'+id);}catch(_){}
 });
 </script>
-<style>section,header{scroll-margin-top:72px}</style>
+<style>section,header{scroll-margin-top:72px}
+@media(max-width:360px){.email-pill{padding-left:16px;font-size:.8rem;gap:8px}.lab-metrics .num{font-size:1.15rem;overflow-wrap:anywhere}}
+.wa-float{position:fixed;right:18px;bottom:18px;z-index:80;width:56px;height:56px;border-radius:50%;background:#25d366;
+  display:grid;place-items:center;box-shadow:0 10px 30px -8px rgba(0,0,0,.6);transition:transform .25s}
+.wa-float:hover{transform:scale(1.06)}
+[hidden]{display:none!important}
+</style>
+<a class="wa-float wa" hidden aria-label="Chat on WhatsApp" data-text="Hi Felix, I have a question about MarginLab.">
+  <svg width="28" height="28" viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm5.3 14.1c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .1-3.3-.8-2.8-1.1-4.6-4-4.7-4.2-.1-.2-1.1-1.5-1.1-2.8s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.4 0 .5l-.3.5-.4.4c-.1.1-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.3 2.4 1.5.3.1.5.1.6-.1l.9-1c.2-.3.4-.2.6-.1l1.9.9c.3.1.5.2.5.3.1.2.1.7-.1 1.3Z"/></svg>
+</a>
+<script src="/form.js"></script>
+<script src="/id.js"></script><script src="/lang.js"></script>
 </body>
 </html>

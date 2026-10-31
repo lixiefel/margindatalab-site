@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Thank you — MarginLab</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/form.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Ccircle cx=%2716%27 cy=%2716%27 r=%2714%27 fill=%27%230c0a09%27 stroke=%27%23d09a47%27 stroke-width=%272%27/%3E%3Ccircle cx=%2716%27 cy=%2716%27 r=%274%27 fill=%27%23d09a47%27/%3E%3C/svg%3E">
+<meta property="og:site_name" content="MarginLab">
+<meta property="og:image" content="https://margindatalab.com/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="apple-touch-icon" href="/icon-180.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta property="og:title" content="Thank you — MarginLab">
+<meta property="og:url" content="https://margindatalab.com/terima-kasih">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#0c0a09">
+<script>(function(){var l;try{l=localStorage.getItem("ml_lang")}catch(e){}if(!l){l=(navigator.languages||[navigator.language||""]).some(function(x){return/^(id|in)\b/i.test(x)})?"id":"en"}if(l==="id"){var d=document.documentElement;d.classList.add("ml-pending");setTimeout(function(){d.classList.remove("ml-pending")},1500)}})()</script><style>.ml-pending body{opacity:0}</style>
+</head>
+<body>
+<header class="top">
+  <a class="brand" href="https://margindatalab.com/">Margin<b>Lab</b></a>
+  <div class="top-r">
+    <div class="lang-sw" data-no-t><button data-set-lang="en">EN</button><button data-set-lang="id">ID</button></div>
+    <a class="back" href="https://margindatalab.com/">← margindatalab.com</a>
+  </div>
+</header>
+<main>
+  <section id="ok">
+    <div class="eyebrow">Sent</div>
+    <h1>Thank you — <em>we've got it.</em></h1>
+    <p class="lede" id="msg-contact">Felix will get back to you on WhatsApp, usually within one working day.</p>
+    <p class="lede" id="msg-order" hidden>Felix will send the invoice by WhatsApp and email, usually within one working day. Work starts once it's paid.</p>
+    <div class="alt">
+      <a class="btn btn-ghost" href="https://margindatalab.com/sample-audit-en" data-href-id="https://margindatalab.com/contoh-audit-id">See a sample audit</a>
+      <a class="btn btn-ghost" href="https://margindatalab.com/#lab">Try the optimizer</a>
+    </div>
+  </section>
+  <section id="fail" hidden>
+    <div class="eyebrow" style="color:var(--bad)">Not sent</div>
+    <h1>Sorry — your message <em>wasn't sent.</em></h1>
+    <p class="note err" id="why-send">Something went wrong on our side. Please reach us directly — we're glad to help.</p>
+    <p class="note err" id="why-wa" hidden>The WhatsApp number looks incomplete. Please go back and check it.</p>
+    <p class="note err" id="why-email" hidden>The email address doesn't look right. Please go back and check it.</p>
+    <p class="note err" id="why-field" hidden>A field was missing or invalid. Please go back and check.</p>
+    <div class="alt">
+      <a class="btn btn-wa wa" hidden data-text="Hi Felix, the form on the website didn't send. I wanted to:">WhatsApp</a>
+      <a class="btn btn-ghost" href="mailto:felix@margindatalab.com">felix@margindatalab.com</a>
+      <a class="btn btn-ghost" href="javascript:history.back()">← Try again</a>
+    </div>
+  </section>
+</main>
+<footer>MarginLab · Jakarta · Almere · <a href="https://margindatalab.com/">margindatalab.com</a></footer>
+<script>
+(function () {
+  var q = new URLSearchParams(location.search), e = q.get("e");
+  var show = function (id, on) { document.getElementById(id).hidden = !on; };
+  if (q.get("t") === "order") { show("msg-contact", false); show("msg-order", true); }
+  if (e) {
+    show("ok", false); show("fail", true);
+    if (e !== "send") {
+      show("why-send", false);
+      show(e === "wa" ? "why-wa" : e === "email" ? "why-email" : "why-field", true);
+    }
+  }
+})();
+</script>
+<script src="/form.js"></script>
+<script src="/id.js"></script><script src="/lang.js"></script>
+</body>
+</html>

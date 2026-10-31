@@ -2,4 +2,5 @@
 .wrangler
 .gitignore
 wrangler.jsonc
+worker.js
 node_modules

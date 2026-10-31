@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Order — MarginLab</title>
+<meta name="description" content="Pick a MarginLab package and send your order. We send an invoice; pay by bank transfer or QRIS.">
+<link rel="canonical" href="https://pay.margindatalab.com/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/form.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Ccircle cx=%2716%27 cy=%2716%27 r=%2714%27 fill=%27%230c0a09%27 stroke=%27%23d09a47%27 stroke-width=%272%27/%3E%3Ccircle cx=%2716%27 cy=%2716%27 r=%274%27 fill=%27%23d09a47%27/%3E%3C/svg%3E">
+<meta property="og:site_name" content="MarginLab">
+<meta property="og:image" content="https://margindatalab.com/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="apple-touch-icon" href="/icon-180.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta property="og:title" content="Order — MarginLab">
+<meta property="og:description" content="Pick a MarginLab package and send your order. We send an invoice; pay by bank transfer or QRIS.">
+<meta property="og:url" content="https://pay.margindatalab.com/">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#0c0a09">
+<script>(function(){var l;try{l=localStorage.getItem("ml_lang")}catch(e){}if(!l){l=(navigator.languages||[navigator.language||""]).some(function(x){return/^(id|in)\b/i.test(x)})?"id":"en"}if(l==="id"){var d=document.documentElement;d.classList.add("ml-pending");setTimeout(function(){d.classList.remove("ml-pending")},1500)}})()</script><style>.ml-pending body{opacity:0}</style>
+</head>
+<body>
+<header class="top">
+  <a class="brand" href="https://margindatalab.com/">Margin<b>Lab</b></a>
+  <div class="top-r">
+    <div class="lang-sw" data-no-t><button data-set-lang="en">EN</button><button data-set-lang="id">ID</button></div>
+    <a class="back" href="https://margindatalab.com/#work">← Packages</a>
+  </div>
+</header>
+<main>
+  <div class="eyebrow">Order</div>
+  <h1>Start with your <em>audit.</em></h1>
+  <p class="lede">Pick a package and send the order; we send you an invoice. Nothing is charged on this page.</p>
+  <ol class="steps">
+    <li>Send the order below</li>
+    <li>We send an invoice by WhatsApp &amp; email — pay by bank transfer or QRIS</li>
+    <li>Once paid, we ask for your menu data and start</li>
+  </ol>
+  <form data-lead method="post" action="/api/lead">
+    <input type="hidden" name="type" value="order">
+    <input type="hidden" name="t" value="">
+    <div class="hp" aria-hidden="true" data-no-t><label>Website <input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
+    <div class="label">Package</div>
+    <div class="pkgs">
+      <label class="pkg"><input type="radio" name="paket" value="audit" required checked>
+        <span class="pkg-t"><span class="row"><span class="nm">Delivery Margin Audit</span><span class="pr">Rp 1,8jt</span></span>
+        <span class="ds">One-off · every item on GoFood, GrabFood &amp; ShopeeFood, a new app price list, 60-minute walkthrough</span></span></label>
+      <label class="pkg"><input type="radio" name="paket" value="sprint">
+        <span class="pkg-t"><span class="row"><span class="nm">Implementation Sprint</span><span class="pr">Rp 7,5jt / 3 weeks</span></span>
+        <span class="ds">The audit plus the full menu, the top 3 changes rolled out together, one price test</span></span></label>
+      <label class="pkg"><input type="radio" name="paket" value="partner">
+        <span class="pkg-t"><span class="row"><span class="nm">Ongoing Pricing Partner</span><span class="pr">Rp 2,5jt / month</span></span>
+        <span class="ds">Quarterly re-audit, monthly check-in, repricing as costs move</span></span></label>
+    </div>
+    <div class="field">
+      <label for="cafe">Café name</label>
+      <input type="text" id="cafe" name="cafe" required maxlength="300" autocomplete="organization">
+    </div>
+    <div class="field">
+      <label for="name">Your name</label>
+      <input type="text" id="name" name="name" required maxlength="300" autocomplete="name">
+    </div>
+    <div class="field">
+      <label for="wa">WhatsApp number</label>
+      <input type="tel" id="wa" name="wa" required maxlength="40" autocomplete="tel" placeholder="08…" inputmode="tel">
+    </div>
+    <div class="field">
+      <label for="email">Email <span class="opt">(for the invoice)</span></label>
+      <input type="email" id="email" name="email" required maxlength="300" autocomplete="email">
+    </div>
+    <div class="field">
+      <label for="invoice">Name on the invoice <span class="opt">(optional, e.g. PT / CV)</span></label>
+      <input type="text" id="invoice" name="invoice" maxlength="300">
+    </div>
+    <div class="field">
+      <label for="note">Notes <span class="opt">(optional)</span></label>
+      <textarea id="note" name="note" maxlength="2000" placeholder="E.g. your GoFood/GrabFood link, number of outlets, questions"></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Send order <span aria-hidden="true">→</span></button>
+    <p class="fine">No payment is taken at this step. <a href="/privasi">Privacy</a></p>
+  </form>
+  <div class="alt">
+    <span>Questions first?</span>
+    <a class="btn btn-wa wa" hidden data-text="Hi Felix, I have a question about the MarginLab packages.">WhatsApp</a>
+    <a class="btn btn-ghost" href="https://contact.margindatalab.com/">Contact us</a>
+  </div>
+</main>
+<footer>MarginLab · Jakarta · Almere · <a href="mailto:felix@margindatalab.com">felix@margindatalab.com</a></footer>
+<script src="/form.js"></script>
+<script src="/id.js"></script><script src="/lang.js"></script>
+</body>
+</html>
