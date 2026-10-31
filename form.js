@@ -1,4 +1,4 @@
-// Shared by the contact page, the order page and /terima-kasih. tools/build_site.py fills in WA.
+// Shared by the contact page and /terima-kasih. tools/build_site.py fills in WA.
 (function () {
   var WA = "";
   var T = function (s) { return window.MLLang ? window.MLLang.t(s) : s; };

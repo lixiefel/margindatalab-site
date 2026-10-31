@@ -1,8 +1,9 @@
 // margindatalab.com and its subdomains, served by one Cloudflare Worker:
 //   margindatalab.com          the main site
-//   contact.margindatalab.com  the contact form (questions, free analysis, leave your details)
-//   pay.margindatalab.com      pick a package and order (we send an invoice)
-// It also does the short links and security headers, and turns both forms into an email
+//   contact.margindatalab.com  the contact form (questions, leave your details)
+//   pay.margindatalab.com      sends visitors to the contact form (the order page and the
+//                              package prices were archived on 2026-10-31)
+// It also does the short links and security headers, and turns the form into an email
 // to Felix. The recipient is the secret LEAD_TO, set in the Cloudflare dashboard (never
 // in this repo); it must be a verified Email Routing destination.
 import { EmailMessage } from "cloudflare:email";
@@ -10,25 +11,20 @@ import { EmailMessage } from "cloudflare:email";
 const MAIN = "margindatalab.com";
 const SITES = { // subdomain -> the page it shows at "/"
   ["contact." + MAIN]: "/kontak",
-  ["pay." + MAIN]: "/bayar",
+};
+const MOVED = { // subdomain -> where it now sends every visitor
+  ["pay." + MAIN]: `https://contact.${MAIN}/`,
 };
 // Paths a subdomain serves itself; anything else there goes to the main site.
 const SHARED = /^\/(api\/lead|terima-kasih|privasi|form\.css|form\.js|lang\.js|id\.js|og\.png|icon-\d+\.png|site\.webmanifest)$/;
-const REDIRECTS = {"/marginlab.html": "/", "/home": "/", "/lab": "/#lab", "/optimizer": "/#lab", "/try": "/#lab", "/method": "/#method", "/example": "/#latte", "/pricing": "/#work", "/prices": "/#work", "/harga": "/#work", "/engagements": "/#work", "/services": "/#work", "/process": "/#process", "/contact": "https://contact.margindatalab.com/", "/kontak": "https://contact.margindatalab.com/", "/gratis": "https://contact.margindatalab.com/", "/free": "https://contact.margindatalab.com/", "/analisis": "https://contact.margindatalab.com/", "/pay": "https://pay.margindatalab.com/", "/bayar": "https://pay.margindatalab.com/", "/order": "https://pay.margindatalab.com/", "/pesan": "https://pay.margindatalab.com/", "/book": "https://pay.margindatalab.com/", "/audit": "https://pay.margindatalab.com/?paket=audit", "/sprint": "https://pay.margindatalab.com/?paket=sprint", "/partner": "https://pay.margindatalab.com/?paket=partner", "/thanks": "/terima-kasih", "/sample": "/sample-audit-en", "/sample-audit": "/sample-audit-en", "/contoh": "/contoh-audit-id", "/contoh-audit": "/contoh-audit-id", "/privacy": "/privasi"}; // filled in by tools/build_site.py
+const REDIRECTS = {"/marginlab.html": "/", "/home": "/", "/lab": "/#lab", "/optimizer": "/#lab", "/try": "/#lab", "/method": "/#method", "/example": "/#latte", "/process": "/#process", "/contact": "https://contact.margindatalab.com/", "/kontak": "https://contact.margindatalab.com/", "/gratis": "https://contact.margindatalab.com/", "/free": "https://contact.margindatalab.com/", "/analisis": "https://contact.margindatalab.com/", "/pricing": "https://contact.margindatalab.com/", "/prices": "https://contact.margindatalab.com/", "/harga": "https://contact.margindatalab.com/", "/engagements": "https://contact.margindatalab.com/", "/services": "https://contact.margindatalab.com/", "/pay": "https://contact.margindatalab.com/", "/bayar": "https://contact.margindatalab.com/", "/order": "https://contact.margindatalab.com/", "/pesan": "https://contact.margindatalab.com/", "/book": "https://contact.margindatalab.com/", "/audit": "https://contact.margindatalab.com/", "/sprint": "https://contact.margindatalab.com/", "/partner": "https://contact.margindatalab.com/", "/thanks": "/terima-kasih", "/sample": "/sample-audit-en", "/sample-audit": "/sample-audit-en", "/contoh": "/contoh-audit-id", "/contoh-audit": "/contoh-audit-id", "/privacy": "/privasi"}; // filled in by tools/build_site.py
 const HEADERS = {"X-Content-Type-Options": "nosniff", "X-Frame-Options": "DENY", "Referrer-Policy": "strict-origin-when-cross-origin", "Permissions-Policy": "camera=(), microphone=(), geolocation=()", "Strict-Transport-Security": "max-age=31536000"}; // filled in by tools/build_site.py
 
 const FROM = "site@margindatalab.com";
-const PACKAGES = {
-  audit: "Delivery Margin Audit — Rp 1,8jt",
-  sprint: "Implementation Sprint — Rp 7,5jt / 3 minggu",
-  partner: "Ongoing Pricing Partner — Rp 2,5jt / bulan",
-};
-const TOPICS = { gratis: "Analisis gratis", tanya: "Pertanyaan", lain: "Lainnya" };
+const TOPICS = { tanya: "Pertanyaan", lain: "Lainnya" };
 const FIELDS = { // [form name, label in the email, required]
-  contact: [["topik", "Topik", 1], ["cafe", "Kafe", 1], ["link", "Link GoFood/GrabFood", 0],
+  contact: [["topik", "Topik", 1], ["cafe", "Kafe", 1], ["link", "Link kafe", 0],
             ["name", "Nama", 1], ["wa", "WhatsApp", 1], ["email", "Email", 0], ["note", "Pesan", 0]],
-  order: [["paket", "Paket", 1], ["cafe", "Kafe", 1], ["name", "Nama", 1], ["wa", "WhatsApp", 1],
-          ["email", "Email", 1], ["invoice", "Nama di invoice", 0], ["note", "Catatan", 0]],
 };
 
 // Form data -> {type, subject, body, replyTo} | {error: field} | {spam: true}.
@@ -45,13 +41,10 @@ export function readLead(form, now = Date.now()) {
   }
   if ((v.wa.match(/\d/g) || []).length < 8) return { error: "wa" };
   if (v.email && !/^[^\s@<>,;"]+@[^\s@<>,;"]+\.[^\s@<>,;"]+$/.test(v.email)) return { error: "email" };
-  if (type === "order" && !Object.hasOwn(PACKAGES, v.paket)) return { error: "paket" };
-  if (type === "contact" && !Object.hasOwn(TOPICS, v.topik)) return { error: "topik" };
+  if (!Object.hasOwn(TOPICS, v.topik)) return { error: "topik" };
   const cafe = v.cafe.replace(/\s+/g, " ").slice(0, 60);
-  const subject = type === "order"
-    ? `Pesanan ${PACKAGES[v.paket].split(" —")[0]} — ${cafe}`
-    : `${TOPICS[v.topik]} — ${cafe}`;
-  const shown = (k) => (k === "paket" ? PACKAGES[v.paket] : k === "topik" ? TOPICS[v.topik] : v[k]);
+  const subject = `${TOPICS[v.topik]} — ${cafe}`;
+  const shown = (k) => (k === "topik" ? TOPICS[v.topik] : v[k]);
   const lines = FIELDS[type].map(([k, label]) => `${label}: ${shown(k) || "-"}`);
   lines.push("", `Chat: https://wa.me/${v.wa.replace(/\D/g, "").replace(/^0/, "62")}`);
   return { type, subject, body: lines.join("\n"), replyTo: v.email };
@@ -106,6 +99,7 @@ async function lead(request, env, url) {
 export function route(url) {
   const host = url.hostname, path = url.pathname;
   if (host === "www." + MAIN) return { redirect: `https://${MAIN}${path}${url.search}`, status: 301 };
+  if (MOVED[host]) return { redirect: MOVED[host], status: 302 };
   const page = SITES[host];
   if (page) {
     if (path === "/") return { asset: page };

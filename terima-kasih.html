@@ -36,7 +36,6 @@
     <div class="eyebrow">Sent</div>
     <h1>Thank you — <em>we've got it.</em></h1>
     <p class="lede" id="msg-contact">Felix will get back to you on WhatsApp, usually within one working day.</p>
-    <p class="lede" id="msg-order" hidden>Felix will send the invoice by WhatsApp and email, usually within one working day. Work starts once it's paid.</p>
     <div class="alt">
       <a class="btn btn-ghost" href="https://margindatalab.com/sample-audit-en" data-href-id="https://margindatalab.com/contoh-audit-id">See a sample audit</a>
       <a class="btn btn-ghost" href="https://margindatalab.com/#lab">Try the optimizer</a>
@@ -61,7 +60,6 @@
 (function () {
   var q = new URLSearchParams(location.search), e = q.get("e");
   var show = function (id, on) { document.getElementById(id).hidden = !on; };
-  if (q.get("t") === "order") { show("msg-contact", false); show("msg-order", true); }
   if (e) {
     show("ok", false); show("fail", true);
     if (e !== "send") {

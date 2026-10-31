@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Contact — MarginLab</title>
-<meta name="description" content="Contact MarginLab: ask for the free analysis, ask a question, or leave your details.">
+<meta name="description" content="Contact MarginLab: ask a question, or leave your details.">
 <link rel="canonical" href="https://contact.margindatalab.com/">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -19,7 +19,7 @@
 <link rel="apple-touch-icon" href="/icon-180.png">
 <link rel="manifest" href="/site.webmanifest">
 <meta property="og:title" content="Contact — MarginLab">
-<meta property="og:description" content="Contact MarginLab: ask for the free analysis, ask a question, or leave your details.">
+<meta property="og:description" content="Contact MarginLab: ask a question, or leave your details.">
 <meta property="og:url" content="https://contact.margindatalab.com/">
 <meta property="og:type" content="website">
 <meta name="theme-color" content="#0c0a09">
@@ -36,16 +36,14 @@
 <main>
   <div class="eyebrow">Contact</div>
   <h1>Let's <em>talk.</em></h1>
-  <p class="lede">Ask for the free analysis, ask a question, or just leave your details. Felix replies on WhatsApp, usually within one working day.</p>
+  <p class="lede">Ask a question, or just leave your details. Felix replies on WhatsApp, usually within one working day.</p>
   <form data-lead method="post" action="/api/lead">
     <input type="hidden" name="type" value="contact">
     <input type="hidden" name="t" value="">
     <div class="hp" aria-hidden="true" data-no-t><label>Website <input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
     <div class="label">About</div>
     <div class="pkgs">
-      <label class="pkg"><input type="radio" name="topik" value="gratis" required checked>
-        <span class="pkg-t"><span class="nm">Free analysis</span><span class="ds">A one-page analysis of your app prices</span></span></label>
-      <label class="pkg"><input type="radio" name="topik" value="tanya">
+      <label class="pkg"><input type="radio" name="topik" value="tanya" required checked>
         <span class="pkg-t"><span class="nm">A question</span></span></label>
       <label class="pkg"><input type="radio" name="topik" value="lain">
         <span class="pkg-t"><span class="nm">Something else</span><span class="ds">Or just leave your contact</span></span></label>
@@ -55,8 +53,8 @@
       <input type="text" id="cafe" name="cafe" required maxlength="300" autocomplete="organization">
     </div>
     <div class="field">
-      <label for="link">GoFood / GrabFood link <span class="opt">(needed for the free analysis)</span></label>
-      <input type="text" id="link" name="link" maxlength="300" placeholder="https://gofood.co.id/…">
+      <label for="link">Link to your café <span class="opt">(optional)</span></label>
+      <input type="text" id="link" name="link" maxlength="300" placeholder="https://…">
     </div>
     <div class="field">
       <label for="name">Your name</label>
@@ -82,7 +80,6 @@
     <a class="btn btn-wa wa" hidden data-text="Hi Felix, I'd like to ask about MarginLab.">WhatsApp</a>
     <a class="btn btn-ghost" href="mailto:felix@margindatalab.com">felix@margindatalab.com</a>
   </div>
-  <p class="fine" style="margin-top:28px">Ready to order? <a href="https://pay.margindatalab.com/">pay.margindatalab.com →</a></p>
 </main>
 <footer>MarginLab · Jakarta · Almere · <a href="https://margindatalab.com/">margindatalab.com</a></footer>
 <script src="/form.js"></script>
