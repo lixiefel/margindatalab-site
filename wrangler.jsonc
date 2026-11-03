@@ -9,5 +9,6 @@
     "run_worker_first": true
   },
   "send_email": [{ "name": "MAIL" }],
+  "kv_namespaces": [{ "binding": "QUIZ", "id": "ed4e6fa2a0d34f66af7e5fc3c53f015c" }],
   "observability": { "enabled": true }
 }
