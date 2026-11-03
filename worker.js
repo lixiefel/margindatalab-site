@@ -5,7 +5,8 @@
 //                              tool.enc in the browser; see tools/build_tool.py)
 //   pay.margindatalab.com      sends visitors to the contact form (the order page and the
 //                              package prices were archived on 2026-10-31)
-// It also does the short links and security headers, and turns the form into an email
+// It also keeps the practice quiz's progress (/api/quiz/<code>, see quiz() below),
+// does the short links and security headers, and turns the form into an email
 // to Felix. The recipient is the secret LEAD_TO, set in the Cloudflare dashboard (never
 // in this repo); it must be a verified Email Routing destination.
 import { EmailMessage } from "cloudflare:email";
@@ -75,6 +76,43 @@ export function mime(lead, to, id, date = new Date()) {
   ].join("\r\n");
 }
 
+// Progress on the practice quiz (intlecon-quiz.html), kept in KV (binding QUIZ) under a
+// code the visitor picks, so the same code on another device loads the same answers.
+// No login: whoever knows the code can read or change that progress.
+const QUIZ_CODE = /^[a-z0-9-]{4,40}$/;
+
+// Request body -> {q12: "B", q40: "-", ...} ("-" = answer shown without answering) | null.
+export function readQuiz(text) {
+  let v;
+  try {
+    v = JSON.parse(text);
+  } catch {
+    return null;
+  }
+  if (!v || typeof v !== "object" || Array.isArray(v)) return null;
+  const out = {};
+  for (const [k, a] of Object.entries(v)) {
+    if (!/^q[1-9]\d{0,2}$/.test(k) || !/^[A-D-]$/.test(a)) return null;
+    out[k] = a;
+  }
+  return out;
+}
+
+async function quiz(request, env, code) {
+  const json = (body, status = 200) => new Response(JSON.stringify(body), {
+    status, headers: { "Content-Type": "application/json", "Cache-Control": "no-store" } });
+  if (!QUIZ_CODE.test(code)) return json({ error: "code" }, 400);
+  if (!env.QUIZ) return json({ error: "off" }, 503); // KV not bound yet (wrangler.jsonc)
+  const key = "quiz:" + code;
+  if (request.method === "GET") return json(JSON.parse((await env.QUIZ.get(key)) || "{}"));
+  if (request.method !== "PUT") return json({ error: "method" }, 405);
+  const text = await request.text();
+  const v = text.length <= 8000 && readQuiz(text);
+  if (!v) return json({ error: "body" }, 400);
+  await env.QUIZ.put(key, JSON.stringify(v));
+  return json({ ok: true });
+}
+
 async function lead(request, env, url) {
   if (request.method !== "POST") return Response.redirect(`https://contact.${MAIN}/`, 303);
   const back = (q) => Response.redirect(new URL(`/terima-kasih?${q}`, url), 303);
@@ -111,6 +149,7 @@ export function route(url) {
     return { redirect: `https://${MAIN}${path}${url.search}`, status: 302 };
   }
   if (path === "/api/lead") return { lead: true };
+  if (path.startsWith("/api/quiz/")) return { quiz: path.slice("/api/quiz/".length) };
   const to = REDIRECTS[path.replace(/\/$/, "") || "/"];
   if (to) {
     const dest = new URL(to, url);
@@ -126,6 +165,7 @@ export default {
     const r = route(url);
     if (r.redirect) return Response.redirect(r.redirect, r.status);
     if (r.lead) return lead(request, env, url);
+    if (r.quiz !== undefined) return quiz(request, env, r.quiz);
     const req = r.asset ? new Request(new URL(r.asset, url), request) : request;
     const res = await env.ASSETS.fetch(req);
     const out = new Response(res.body, res);
