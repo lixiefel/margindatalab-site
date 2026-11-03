@@ -822,7 +822,7 @@ body.menu-open{overflow:hidden}
     <div class="sec-head center">
       <div class="eyebrow center reveal">04 — The Lab</div>
       <h2 class="reveal d1">Drive the engine <span class="em">yourself.</span></h2>
-      <p class="lede reveal d2" style="margin-left:auto;margin-right:auto;text-align:center">One item, the classic Lerner rule. Change the inputs and watch the price, profit curve and margin move.</p>
+      <p class="lede reveal d2" style="margin-left:auto;margin-right:auto;text-align:center">One item on the v12 engine: demand that gets more price-sensitive as the price climbs, a move held inside the guardrails, and the same answer at half and double the sensitivity.</p>
     </div>
 
     <div class="lab-shell reveal d1">
@@ -855,7 +855,7 @@ body.menu-open{overflow:hidden}
             <input type="range" id="inCost" aria-label="Unit cost" min="0.3" max="8" step="0.05" value="1.40"/>
           </div>
           <div class="ctrl">
-            <div class="ctrl-head"><label>Elasticity · |ε|</label><span class="v" id="vEps">1.50</span></div>
+            <div class="ctrl-head"><label>Elasticity at today's price · |ε|</label><span class="v" id="vEps">1.50</span></div>
             <input type="range" id="inEps" aria-label="Elasticity" min="1.1" max="4" step="0.05" value="1.5"/>
           </div>
           <div class="ctrl">
@@ -863,12 +863,13 @@ body.menu-open{overflow:hidden}
             <input type="range" id="inVol" aria-label="Monthly volume" min="20" max="2000" step="5" value="315"/>
           </div>
           <div class="ctrl">
-            <div class="ctrl-head"><label>Confidence</label></div>
+            <div class="ctrl-head"><label>Sensitivity check</label></div>
             <div class="conf-seg" id="confSeg">
-              <button data-c="1" class="on">High<small>×1.0</small></button>
-              <button data-c="0.5">Med<small>×0.5</small></button>
-              <button data-c="0.25">Low<small>×0.25</small></button>
+              <button data-c="0.5">Half<small>×0.5</small></button>
+              <button data-c="1" class="on">As set<small>×1</small></button>
+              <button data-c="2">Double<small>×2</small></button>
             </div>
+            <div class="sens-line" id="sensLine" style="font-family:var(--mono);font-size:.66rem;color:var(--muted);margin-top:8px">–</div>
           </div>
           <div class="ctrl">
             <div class="ctrl-head"><label>Menu role</label></div>
@@ -1227,7 +1228,7 @@ body.menu-open{overflow:hidden}
     const x0=pl,x1=W-pr,y0=H-pb,y1=pt;
     const pmin=c*1.04, pmax=Math.max(Pstar,P0,rec)*1.42;
     const Q=p=>Math.pow(p,-eps);
-    const prof=p=>(p-c)*Q(p);
+    const prof=params.prof||(p=>(p-c)*Q(p));
     const N=90; let maxP=0;
     for(let i=0;i<=N;i++){ const p=pmin+(pmax-pmin)*i/N; maxP=Math.max(maxP,prof(p)); }
     const X=p=>x0+(p-pmin)/(pmax-pmin)*(x1-x0);
@@ -1435,10 +1436,10 @@ body.menu-open{overflow:hidden}
       IDR:{price:[8000,80000,500],cost:[2000,50000,500],eps:[1.1,4,0.05],vol:[50,5000,10]}
     };
     const PRESETS={
-      EUR:{ latte:{price:3.80,cost:1.40,eps:1.5,vol:315,conf:0.5,role:'core'},
+      EUR:{ latte:{price:3.80,cost:1.40,eps:1.5,vol:315,conf:1,role:'core'},
             coldbrew:{price:4.20,cost:1.20,eps:1.3,vol:180,conf:1,role:'profit'},
             croissant:{price:3.20,cost:0.95,eps:1.4,vol:240,conf:1,role:'complement'} },
-      IDR:{ latte:{price:18000,cost:7500,eps:1.4,vol:900,conf:0.5,role:'core'},
+      IDR:{ latte:{price:18000,cost:7500,eps:1.4,vol:900,conf:1,role:'core'},
             coldbrew:{price:25000,cost:9000,eps:1.3,vol:320,conf:1,role:'profit'},
             croissant:{price:22000,cost:8000,eps:1.4,vol:400,conf:1,role:'complement'} }
     };
@@ -1449,7 +1450,7 @@ body.menu-open{overflow:hidden}
       vPrice:$('#vPrice'),vCost:$('#vCost'),vEps:$('#vEps'),vVol:$('#vVol'),
       outFrom:$('#outFrom'),outTo:$('#outTo'),outPct:$('#outPct'),
       mGross:$('#mGross'),mOpt:$('#mOpt'),mLerner:$('#mLerner'),mVol:$('#mVol'),mAnnual:$('#mAnnual'),mCap:$('#mCap'),
-      curveHost:$('#labCurveHost'),curveMeta:$('#curveMeta') };
+      curveHost:$('#labCurveHost'),curveMeta:$('#curveMeta'),sensLine:$('#sensLine') };
 
     const isID=()=>window.MLLang&&window.MLLang.get()==='id';
     const money=v=> cur==='EUR' ? '€'+v.toFixed(2) : 'Rp'+Math.round(v).toLocaleString('id-ID');
@@ -1461,26 +1462,46 @@ body.menu-open{overflow:hidden}
     function charmIDR(x,lo,hi){ let v=Math.round(x/500)*500; if(hi!=null&&v>hi)v=Math.floor(hi/500+1e-9)*500; if(lo!=null&&v<lo)v=Math.ceil(lo/500-1e-9)*500; return v; }
     const charm=(x,lo,hi)=> cur==='EUR'?charmEUR(x,lo,hi):charmIDR(x,lo,hi);
 
-    function optimize(s){
-      const eps=s.eps, c=s.cost, P0=s.price, conf=s.conf, cap=ROLECAPS[s.role], vol=s.vol;
-      const Pstar = c*eps/(eps-1);
-      const full = Pstar - P0;
-      let cand = P0 + full*conf;
-      const rawPct=(cand-P0)/P0;
-      const cl=clamp(rawPct,cap.min,cap.max);
-      const capped = Math.abs(cl-rawPct)>1e-9;
-      cand = P0*(1+cl);
-      const lo=P0*(1+cap.min), hi=P0*(1+cap.max);
-      let rec = charm(cand,lo,hi);
+    // v12 demand: one item against the outside option (logit). Sensitivity is set by
+    // the elasticity at today's price and rises with the price, as in the engine.
+    // The inside share today is the engine's assumed 0.5 (outside_share_assumed).
+    const S0=0.5;
+    function model(s,mult){
+      const P0=s.price, c=s.cost, vol=s.vol;
+      const a=mult*s.eps/(P0*(1-S0));
+      const share=p=>1/(1+Math.exp(a*(p-P0)));
+      const q=p=>vol*share(p)/S0;
+      const prof=p=>(p-c)*q(p);
+      return {P0,c,vol,a,share,q,prof};
+    }
+    function gridStep(p){ return cur==='EUR'?0.05:(p<15000?500:p<150000?1000:5000); }
+    function optimize(s,mult){
+      mult=mult==null?s.conf:mult;
+      const m=model(s,mult), P0=m.P0, c=m.c, cap=ROLECAPS[s.role];
+      // unconstrained optimum: (p-c)*a*(1-share(p)) = 1, increasing in p
+      let lo0=c, hi0=c+60/m.a;
+      for(let i=0;i<80;i++){ const mid=(lo0+hi0)/2; if((mid-c)*m.a*(1-m.share(mid))<1) lo0=mid; else hi0=mid; }
+      const Pstar=(lo0+hi0)/2;
+      // guardrails (core/constraints.py): cost floor at a 15% margin, the +/-15% acceptance
+      // band, the role cap, the +/-30% global band
+      let lo=Math.max(c*1.15,P0*0.85,P0*(1+cap.min),P0*0.70);
+      let hi=Math.min(P0*1.15,P0*(1+cap.max),P0*1.30);
+      if(lo>hi) hi=lo;
+      const capped=Pstar<lo-1e-9||Pstar>hi+1e-9;
+      // menu-board grid inside the bounds, today's price always a candidate: a change
+      // that earns less than today is never recommended (the engine prunes it)
+      const st=gridStep(P0); let rec=P0, best=m.prof(P0);
+      for(let g=Math.ceil(lo/st-1e-9)*st; g<=hi+1e-9; g+=st){
+        const v=Math.round(g/st)*st; if(m.prof(v)>best+1e-9){ best=m.prof(v); rec=v; } }
+      if(cur==='EUR') rec=Math.round(rec*100)/100;
       const recPct=(rec-P0)/P0;
-      const q1=vol*Math.pow(rec/P0,-eps);
-      const gross=(rec-P0)*vol;
-      const net=(rec-c)*q1-(P0-c)*vol;
+      const q1=m.q(rec);
+      const net=m.prof(rec)-m.prof(P0);
       const lerner=(rec-c)/rec;
-      const volResp=q1/vol-1;
+      const volResp=q1/m.vol-1;
       // the headline is the volume-adjusted change: a rise loses some cups, and those
       // lost cups are what an owner would actually see at the till
-      return {Pstar,rec,recPct,gross,net,lerner,volResp,annual:net*12,capped,vol,P0,c,eps};
+      return {Pstar,rec,recPct,net,lerner,volResp,annual:net*12,capped,prof:m.prof,P0,c};
     }
 
     const T=s=>window.MLLang?window.MLLang.t(s):s;
@@ -1496,10 +1517,11 @@ body.menu-open{overflow:hidden}
       els.mLerner.textContent=Math.round(r.lerner*100)+'%';
       els.mVol.textContent=(r.volResp>=0?'+':'')+(r.volResp*100).toFixed(0)+'%';
       els.mAnnual.textContent=(r.annual>=0?'+':'')+moneyK(r.annual)+T('/yr');
-      els.mCap.textContent=r.capped?'capped':'inside';
+      els.mCap.textContent=T(r.capped?'capped':'inside');
+      els.sensLine.textContent=[0.5,1,2].map(k=>'×'+k+' → '+money(optimize(state,k).rec)).join('   ');
       els.mCap.style.color=r.capped?COL.terra:COL.sage;
       // curve
-      els.curveHost.innerHTML=profitCurve({P0:state.price,c:state.cost,eps:state.eps,rec:r.rec,Pstar:r.Pstar,cur});
+      els.curveHost.innerHTML=profitCurve({P0:state.price,c:state.cost,eps:state.eps,rec:r.rec,Pstar:r.Pstar,cur,prof:r.prof});
       const host=els.curveHost;
       setDraw(host);
       requestAnimationFrame(()=>{

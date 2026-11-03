@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Menu audit tool — MarginLab</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/form.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Ccircle cx=%2716%27 cy=%2716%27 r=%2714%27 fill=%27%230c0a09%27 stroke=%27%23d09a47%27 stroke-width=%272%27/%3E%3Ccircle cx=%2716%27 cy=%2716%27 r=%274%27 fill=%27%23d09a47%27/%3E%3C/svg%3E">
+<meta property="og:site_name" content="MarginLab">
+<meta property="og:image" content="https://margindatalab.com/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="apple-touch-icon" href="/icon-180.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta property="og:title" content="Menu audit tool — MarginLab">
+<meta property="og:url" content="https://margindatalab.com/tool">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#0c0a09">
+<script>(function(){var l;try{l=localStorage.getItem("ml_lang")}catch(e){}if(!l){l=(navigator.languages||[navigator.language||""]).some(function(x){return/^(id|in)\b/i.test(x)})?"id":"en"}if(l==="id"){var d=document.documentElement;d.classList.add("ml-pending");setTimeout(function(){d.classList.remove("ml-pending")},1500)}})()</script><style>.ml-pending body{opacity:0}</style>
+</head>
+<body>
+<header class="top">
+  <a class="brand" href="https://margindatalab.com/">Margin<b>Lab</b></a>
+  <div class="top-r">
+    <div class="lang-sw" data-no-t><button data-set-lang="en">EN</button><button data-set-lang="id">ID</button></div>
+  </div>
+</header>
+<main>
+  <section>
+    <div class="eyebrow">Private</div>
+    <h1>Menu audit <em>tool.</em></h1>
+    <p class="lede">Enter the password to open it.</p>
+    <!-- The tool is stored encrypted (tools/build_tool.py); it is decrypted here, in the browser. -->
+    <form id="unlock" class="form" autocomplete="off">
+      <label for="pw">Password</label>
+      <input id="pw" type="password" required autofocus>
+      <label style="display:flex;gap:8px;align-items:center;margin-top:12px"><input id="keep" type="checkbox" style="width:auto"> <span>Remember on this device</span></label>
+      <p class="note err" id="bad" hidden>Wrong password.</p>
+      <p class="note err" id="old" hidden>This browser is too old to open the tool.</p>
+      <button class="btn btn-primary" type="submit" style="margin-top:16px">Open</button>
+    </form>
+  </section>
+</main>
+<script>
+(function () {
+  var KEY = "ml_tool_key";
+  var b64 = function (s) { return Uint8Array.from(atob(s), function (c) { return c.charCodeAt(0); }); };
+  var store = {
+    get: function () { try { return localStorage.getItem(KEY); } catch (e) { return null; } },
+    set: function (v) { try { localStorage.setItem(KEY, v); } catch (e) {} },
+    del: function () { try { localStorage.removeItem(KEY); } catch (e) {} }
+  };
+  var blob = fetch("/tool.enc", { cache: "no-cache" }).then(function (r) { return r.json(); });
+
+  function open(raw) { // raw AES key bytes -> the tool, or a rejection
+    return blob.then(function (d) {
+      return crypto.subtle.importKey("raw", raw, "AES-GCM", false, ["decrypt"]).then(function (k) {
+        return crypto.subtle.decrypt({ name: "AES-GCM", iv: b64(d.iv) }, k, b64(d.ct));
+      });
+    }).then(function (plain) {
+      var html = new TextDecoder().decode(plain);
+      document.open(); document.write(html); document.close();
+    });
+  }
+  function derive(pw) {
+    return blob.then(function (d) {
+      return crypto.subtle.importKey("raw", new TextEncoder().encode(pw), "PBKDF2", false, ["deriveBits"])
+        .then(function (base) {
+          return crypto.subtle.deriveBits({ name: "PBKDF2", hash: "SHA-256", salt: b64(d.salt), iterations: d.iter }, base, 256);
+        });
+    });
+  }
+
+  if (!window.crypto || !crypto.subtle) { document.getElementById("old").hidden = false; return; }
+  var saved = store.get();
+  if (saved) open(b64(saved)).catch(store.del);
+
+  document.getElementById("unlock").addEventListener("submit", function (e) {
+    e.preventDefault();
+    var btn = e.target.querySelector("button"), bad = document.getElementById("bad");
+    var keep = document.getElementById("keep").checked; // read now: open() replaces the page
+    bad.hidden = true; btn.disabled = true;
+    derive(document.getElementById("pw").value).then(function (bits) {
+      var raw = new Uint8Array(bits);
+      if (keep) store.set(btoa(String.fromCharCode.apply(null, raw)));
+      return open(raw).catch(function (err) { store.del(); throw err; });
+    }).catch(function () { bad.hidden = false; btn.disabled = false; });
+  });
+})();
+</script>
+<script src="/id.js"></script><script src="/lang.js"></script>
+</body>
+</html>

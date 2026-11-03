@@ -1,6 +1,8 @@
 // margindatalab.com and its subdomains, served by one Cloudflare Worker:
 //   margindatalab.com          the main site
 //   contact.margindatalab.com  the contact form (questions, leave your details)
+//   tool.margindatalab.com     the menu audit tool, behind a password (tool.html decrypts
+//                              tool.enc in the browser; see tools/build_tool.py)
 //   pay.margindatalab.com      sends visitors to the contact form (the order page and the
 //                              package prices were archived on 2026-10-31)
 // It also does the short links and security headers, and turns the form into an email
@@ -11,12 +13,13 @@ import { EmailMessage } from "cloudflare:email";
 const MAIN = "margindatalab.com";
 const SITES = { // subdomain -> the page it shows at "/"
   ["contact." + MAIN]: "/kontak",
+  ["tool." + MAIN]: "/tool",
 };
 const MOVED = { // subdomain -> where it now sends every visitor
   ["pay." + MAIN]: `https://contact.${MAIN}/`,
 };
 // Paths a subdomain serves itself; anything else there goes to the main site.
-const SHARED = /^\/(api\/lead|terima-kasih|privasi|form\.css|form\.js|lang\.js|id\.js|og\.png|icon-\d+\.png|site\.webmanifest)$/;
+const SHARED = /^\/(api\/lead|terima-kasih|privasi|form\.css|form\.js|lang\.js|id\.js|og\.png|icon-\d+\.png|site\.webmanifest|tool\.enc)$/;
 const REDIRECTS = {"/marginlab.html": "/", "/home": "/", "/lab": "/#lab", "/optimizer": "/#lab", "/try": "/#lab", "/method": "/#method", "/example": "/#latte", "/process": "/#process", "/contact": "https://contact.margindatalab.com/", "/kontak": "https://contact.margindatalab.com/", "/gratis": "https://contact.margindatalab.com/", "/free": "https://contact.margindatalab.com/", "/analisis": "https://contact.margindatalab.com/", "/pricing": "https://contact.margindatalab.com/", "/prices": "https://contact.margindatalab.com/", "/harga": "https://contact.margindatalab.com/", "/engagements": "https://contact.margindatalab.com/", "/services": "https://contact.margindatalab.com/", "/pay": "https://contact.margindatalab.com/", "/bayar": "https://contact.margindatalab.com/", "/order": "https://contact.margindatalab.com/", "/pesan": "https://contact.margindatalab.com/", "/book": "https://contact.margindatalab.com/", "/audit": "https://contact.margindatalab.com/", "/sprint": "https://contact.margindatalab.com/", "/partner": "https://contact.margindatalab.com/", "/thanks": "/terima-kasih", "/sample": "/sample-audit-en", "/sample-audit": "/sample-audit-en", "/contoh": "/contoh-audit-id", "/contoh-audit": "/contoh-audit-id", "/privacy": "/privasi"}; // filled in by tools/build_site.py
 const HEADERS = {"X-Content-Type-Options": "nosniff", "X-Frame-Options": "DENY", "Referrer-Policy": "strict-origin-when-cross-origin", "Permissions-Policy": "camera=(), microphone=(), geolocation=()", "Strict-Transport-Security": "max-age=31536000"}; // filled in by tools/build_site.py
 
