@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+<meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)" />
+<title>The software — MarginLab</title>
+<meta name="description" content="The MarginLab menu audit, run on a made-up café: the menu, the walk-in margins and what each delivery app leaves you." />
+<link rel="canonical" href="https://margindatalab.com/software">
+<meta property="og:url" content="https://margindatalab.com/software">
+<meta property="og:title" content="The software — MarginLab">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="/site.css" />
+<style>
+/* ---- software page ---- */
+.sw-hero{padding:clamp(64px,10vw,120px) 0 clamp(36px,5vw,56px);text-align:center}
+.sw-hero h1{max-width:860px;margin:0 auto}
+.sw-hero .lede{max-width:640px;margin:24px auto 0}
+
+/* segmented control */
+.seg{display:flex;justify-content:center;margin:0 auto 26px}
+.seg-in{display:inline-flex;background:var(--alt);border-radius:100px;padding:3px;gap:2px;max-width:100%;overflow-x:auto}
+.seg button{font:500 .92rem/1 var(--sans);letter-spacing:-.01em;color:var(--muted);background:none;border:0;border-radius:100px;
+  padding:10px 18px;cursor:pointer;white-space:nowrap;transition:background .25s,color .25s,box-shadow .25s}
+.seg button:hover{color:var(--text)}
+.seg button[aria-selected=true]{background:var(--card);color:var(--text);box-shadow:0 1px 4px rgba(0,0,0,.14)}
+
+/* the window */
+.stage{max-width:1080px;margin:0 auto;padding:0 22px}
+.window{background:var(--card);border-radius:16px;box-shadow:var(--shadow);border:1px solid var(--line-soft);overflow:hidden}
+.w-bar{display:grid;grid-template-columns:70px 1fr 70px;align-items:center;height:42px;padding:0 14px;background:var(--card-alt);
+  border-bottom:1px solid var(--line-soft)}
+.dots{display:flex;gap:7px}
+.dots i{width:11px;height:11px;border-radius:50%;background:#ff5f57}
+.dots i:nth-child(2){background:#febc2e}.dots i:nth-child(3){background:#28c840}
+.url{justify-self:center;font-size:.76rem;color:var(--muted);background:var(--alt);border-radius:7px;padding:5px 14px;
+  display:inline-flex;align-items:center;gap:6px;max-width:100%;overflow:hidden;white-space:nowrap}
+.url svg{width:10px;height:10px;flex:none}
+.w-body{padding:clamp(16px,3vw,30px)}
+.app-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:18px}
+.app-title{font:600 1.15rem/1.2 var(--display);letter-spacing:-.02em}
+.app-sub{font-size:.8rem;color:var(--muted)}
+.panel{display:none;animation:fadeUp .45s var(--ease-out)}
+.panel.on{display:block}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+.fields{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:20px}
+.field{background:var(--alt);border-radius:10px;padding:10px 12px}
+.field .k{font-size:.72rem;color:var(--muted)}
+.field .v{font-weight:600;font-size:.95rem;margin-top:2px}
+
+.tbl-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid var(--line-soft);border-radius:12px}
+table{width:100%;border-collapse:collapse;font-size:.86rem;font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+th{font-weight:500;color:var(--muted);text-align:right;padding:10px 14px;background:var(--card-alt);border-bottom:1px solid var(--line-soft);white-space:nowrap}
+td{padding:11px 14px;text-align:right;border-bottom:1px solid var(--line-soft);white-space:nowrap}
+th:first-child,td:first-child{text-align:left}
+tr:last-child td{border-bottom:0}
+td.dim{color:var(--faint)}
+tbody tr{transition:background .15s}
+.pick tbody tr{cursor:pointer}
+.pick tbody tr:hover{background:var(--alt)}
+.pick tbody tr.sel{background:color-mix(in srgb,var(--accent) 9%,transparent)}
+.pill{display:inline-block;font-size:.74rem;font-weight:600;padding:3px 9px;border-radius:100px}
+.pill.ok{color:var(--good);background:color-mix(in srgb,var(--good) 13%,transparent)}
+.pill.warn{color:var(--warn);background:color-mix(in srgb,var(--warn) 13%,transparent)}
+
+.summary{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:16px}
+.sum{background:var(--alt);border-radius:12px;padding:12px 16px;font-size:.9rem;color:var(--text-2);flex:1 1 260px}
+.sum b{color:var(--text)}
+.why-box{margin-top:14px;background:var(--alt);border-radius:12px;padding:14px 16px;font-size:.9rem;color:var(--text-2);display:flex;gap:12px}
+.why-box .k{font-weight:600;color:var(--text);flex:none}
+.run-row{display:flex;justify-content:flex-end;gap:10px;margin-top:16px}
+.fake-btn{font:500 .86rem/1 var(--sans);border-radius:8px;padding:9px 14px;border:0;cursor:pointer;background:var(--accent);color:#fff}
+.fake-btn:hover{background:var(--accent-hover)}
+.apps{display:inline-flex;background:var(--alt);border-radius:9px;padding:2px;margin-bottom:14px}
+.apps button{font:500 .8rem/1 var(--sans);color:var(--muted);background:none;border:0;border-radius:7px;padding:7px 12px;cursor:pointer}
+.apps button[aria-pressed=true]{background:var(--card);color:var(--text);box-shadow:0 1px 3px rgba(0,0,0,.12)}
+.caption{max-width:640px;margin:22px auto 0;text-align:center;color:var(--muted);font-size:1rem;min-height:3em}
+.fine{text-align:center;color:var(--faint);font-size:.8rem;margin-top:8px}
+
+/* tiles */
+.tiles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.tile{background:var(--card);border-radius:var(--r-lg);padding:30px 28px;display:flex;flex-direction:column;gap:10px}
+.tile .ico{width:44px;height:44px;border-radius:12px;background:var(--alt);display:grid;place-items:center;color:var(--accent);margin-bottom:6px}
+.tile .ico svg{width:22px;height:22px}
+.tile p{color:var(--muted);font-size:1rem}
+.tile .link-more{margin-top:auto;padding-top:8px;font-size:1rem}
+
+/* private band */
+.dark{background:#000;color:#f5f5f7}
+.dark h2{color:#f5f5f7}
+.dark .em{color:#86868b}
+.dark .lede{color:#a1a1a6}
+.privacy{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-top:clamp(40px,6vw,64px)}
+.pv{background:#1c1c1e;border-radius:var(--r-lg);padding:28px 26px}
+.pv h4{color:#f5f5f7}
+.pv p{color:#a1a1a6;margin-top:6px;font-size:1rem}
+.pv .ico{color:#2997ff;width:30px;height:30px;margin-bottom:16px}
+
+/* honest list */
+.honest{max-width:760px;margin:0 auto;display:grid;gap:12px}
+.hn{display:grid;grid-template-columns:28px 1fr;gap:14px;background:var(--alt);border-radius:var(--r);padding:20px 22px}
+.hn .ck{width:24px;height:24px;border-radius:50%;background:var(--card);color:var(--muted);display:grid;place-items:center;font-size:.8rem;font-weight:600}
+.hn p{color:var(--muted);margin-top:2px;font-size:1rem}
+
+.final{text-align:center}
+.final .lede{max-width:620px;margin:18px auto 0}
+.final .hero-cta{margin-top:30px}
+
+@media(max-width:900px){.tiles,.privacy{grid-template-columns:1fr}.fields{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:560px){
+  .w-bar{grid-template-columns:50px 1fr 10px}.why-box{flex-direction:column;gap:4px}
+  .seg{padding:0 16px}
+  .seg-in{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));width:100%;border-radius:14px;overflow:visible}
+  .seg button{white-space:normal;line-height:1.2;padding:9px 6px;font-size:.8rem;border-radius:11px}
+}
+</style>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%277%27 fill=%27%231d1d1f%27/%3E%3Ccircle cx=%2716%27 cy=%2716%27 r=%279%27 fill=%27none%27 stroke=%27%23fff%27 stroke-width=%272.4%27/%3E%3Ccircle cx=%2716%27 cy=%277%27 r=%272.6%27 fill=%27%23fff%27/%3E%3C/svg%3E">
+<meta property="og:site_name" content="MarginLab">
+<meta property="og:image" content="https://margindatalab.com/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="apple-touch-icon" href="/icon-180.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta property="og:description" content="The MarginLab menu audit, run on a made-up café: the menu, the walk-in margins and what each delivery app leaves you.">
+<script>(function(){var l;try{l=localStorage.getItem("ml_lang")}catch(e){}if(!l){l=(navigator.languages||[navigator.language||""]).some(function(x){return/^(id|in)\b/i.test(x)})?"id":"en"}if(l==="id"){var d=document.documentElement;d.classList.add("ml-pending");setTimeout(function(){d.classList.remove("ml-pending")},1500)}})()</script><style>.ml-pending body{opacity:0}</style>
+</head>
+<body>
+<a class="skip" href="#top">Skip to content</a>
+
+<nav class="nav" id="nav">
+  <a href="/" class="brand" aria-label="MarginLab home">
+    <svg class="brand-mark" viewBox="0 0 60 60" fill="none" aria-hidden="true"><circle cx="30" cy="30" r="25" stroke="currentColor" stroke-width="4"/><circle cx="30" cy="30" r="12" stroke="currentColor" stroke-width="4" opacity=".45"/><circle cx="30" cy="5" r="5" fill="currentColor"/></svg>
+    <span class="brand-name">Margin<b>Lab</b></span>
+  </a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="/#method" class="navlink">Method</a></li>
+    <li><a href="/sample-audit-en" data-href-id="/contoh-audit-id" class="navlink">Sample audit</a></li>
+    <li><a href="/#process" class="navlink">Process</a></li>
+    <li><a href="/software" class="navlink active" aria-current="page">Software</a></li>
+    <li class="lang-li"><div class="lang-sw" data-no-t><button data-set-lang="en">EN</button><button data-set-lang="id">ID</button></div></li>
+    <li><a href="https://contact.margindatalab.com/" class="nav-cta"><span>Get in touch</span></a></li>
+  </ul>
+  <button class="menu-toggle" id="menuToggle" aria-label="Menu" aria-expanded="false" aria-controls="navLinks"><span></span><span></span><span></span></button>
+</nav>
+
+<header class="sw-hero" id="top">
+  <div class="wrap">
+    <div class="eyebrow reveal in">The software</div>
+    <h1 class="reveal in d1">Yes, you can see it.<span class="small">Here it is, running on a made-up café.</span></h1>
+    <p class="lede reveal in d2">This is what the MarginLab menu audit shows, with example numbers. It is the same arithmetic we run on your menu, in Bahasa or English.</p>
+  </div>
+</header>
+
+<!-- THE SCREENS -->
+<section class="screens" id="screens" style="padding-bottom:clamp(72px,10vw,120px)">
+  <div class="seg reveal in d2">
+    <div class="seg-in" role="tablist" aria-label="Screens">
+      <button role="tab" id="t-menu" aria-controls="p-menu" aria-selected="true" data-tab="menu">1. Your menu</button>
+      <button role="tab" id="t-walkin" aria-controls="p-walkin" aria-selected="false" data-tab="walkin">2. Walk-in audit</button>
+      <button role="tab" id="t-apps" aria-controls="p-apps" aria-selected="false" data-tab="apps">3. Delivery apps</button>
+    </div>
+  </div>
+
+  <div class="stage reveal in d3">
+    <div class="window">
+      <div class="w-bar">
+        <div class="dots" aria-hidden="true"><i></i><i></i><i></i></div>
+        <div class="url"><svg viewBox="0 0 10 12" fill="currentColor" aria-hidden="true"><path d="M2 5V3.5a3 3 0 0 1 6 0V5h.5A1.5 1.5 0 0 1 10 6.5v4A1.5 1.5 0 0 1 8.5 12h-7A1.5 1.5 0 0 1 0 10.5v-4A1.5 1.5 0 0 1 1.5 5H2Zm1.3 0h3.4V3.5a1.7 1.7 0 0 0-3.4 0V5Z"/></svg><span>tool.margindatalab.com</span></div>
+        <div></div>
+      </div>
+      <div class="w-body">
+        <div class="app-head">
+          <div class="app-title">MarginLab · Menu audit</div>
+          <div class="app-sub">Runs in this page; nothing is sent anywhere.</div>
+        </div>
+
+        <!-- 1. menu -->
+        <div class="panel on" id="p-menu" role="tabpanel" aria-labelledby="t-menu">
+          <div class="fields">
+            <div class="field"><div class="k">Cafe name</div><div class="v">Kopi Contoh</div></div>
+            <div class="field"><div class="k">Target margin</div><div class="v">65%</div></div>
+            <div class="field"><div class="k">Thin below</div><div class="v">15%</div></div>
+            <div class="field"><div class="k">Paid by QRIS</div><div class="v">100%</div></div>
+          </div>
+          <div class="tbl-wrap">
+            <table>
+              <thead><tr><th>Item</th><th>Price (Rp)</th><th>HPP (Rp)</th><th>Units / month</th><th>GoFood</th><th>GrabFood</th><th>ShopeeFood</th></tr></thead>
+              <tbody>
+                <tr><td>Es Teh Manis</td><td>5.000</td><td>1.200</td><td>420</td><td>6.500</td><td>6.500</td><td>6.000</td></tr>
+                <tr><td>Kopi Hitam</td><td>8.000</td><td>2.200</td><td>310</td><td>10.000</td><td>10.000</td><td>10.000</td></tr>
+                <tr><td>Kopi Susu Gula Aren</td><td>15.000</td><td>5.200</td><td>880</td><td>18.000</td><td>19.000</td><td>18.000</td></tr>
+                <tr><td>Es Kopi Susu</td><td>22.000</td><td>6.500</td><td>1.240</td><td>27.000</td><td>28.000</td><td>26.000</td></tr>
+                <tr><td>Croissant</td><td>18.000</td><td>40%</td><td>150</td><td class="dim">–</td><td class="dim">–</td><td class="dim">–</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="run-row"><button class="fake-btn" type="button" data-go="walkin">Run audit</button></div>
+        </div>
+
+        <!-- 2. walk-in -->
+        <div class="panel" id="p-walkin" role="tabpanel" aria-labelledby="t-walkin">
+          <div class="summary">
+            <div class="sum">Of 5 items with an HPP: <b>0</b> lose money, <b>0</b> thin, <b>1</b> below target, <b>4</b> on target.</div>
+            <div class="sum">Contribution per month: <b>Rp 32.858.000</b></div>
+          </div>
+          <div class="tbl-wrap">
+            <table class="pick" id="walkTbl">
+              <thead><tr><th>Item</th><th>Price</th><th>HPP</th><th>Contribution</th><th>Margin</th><th>Status</th><th>Per month</th></tr></thead>
+              <tbody>
+                <tr class="sel" data-why="w-croissant"><td>Croissant</td><td>18.000</td><td>7.200</td><td>10.800</td><td>60%</td><td><span class="pill warn">below target</span></td><td>1.620.000</td></tr>
+                <tr data-why="w-eks"><td>Es Kopi Susu</td><td>22.000</td><td>6.500</td><td>15.500</td><td>70%</td><td><span class="pill ok">on target</span></td><td>19.220.000</td></tr>
+                <tr data-why="w-etm"><td>Es Teh Manis</td><td>5.000</td><td>1.200</td><td>3.800</td><td>76%</td><td><span class="pill ok">on target</span></td><td>1.596.000</td></tr>
+                <tr data-why="w-kh"><td>Kopi Hitam</td><td>8.000</td><td>2.200</td><td>5.800</td><td>73%</td><td><span class="pill ok">on target</span></td><td>1.798.000</td></tr>
+                <tr data-why="w-ksga"><td>Kopi Susu Gula Aren</td><td>15.000</td><td>5.200</td><td>9.800</td><td>65%</td><td><span class="pill ok">on target</span></td><td>8.624.000</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="why-box" aria-live="polite">
+            <span class="k">Why</span>
+            <span id="w-croissant" class="why">Margin 60%, under the 65% target. Cost-plus floor for your target margin: Rp 21.000. That is not a price to print: whether your customers would pay it is not known. First check its cost and portion.</span>
+            <span id="w-eks" class="why" hidden>Margin 70%, at or above the 65% target.</span>
+            <span id="w-etm" class="why" hidden>Margin 76%, at or above the 65% target.</span>
+            <span id="w-kh" class="why" hidden>Margin 73%, at or above the 65% target.</span>
+            <span id="w-ksga" class="why" hidden>Margin 65%, at or above the 65% target.</span>
+          </div>
+        </div>
+
+        <!-- 3. delivery apps -->
+        <div class="panel" id="p-apps" role="tabpanel" aria-labelledby="t-apps">
+          <div class="apps" data-no-t>
+            <button type="button" aria-pressed="true" data-app="go">GoFood</button>
+            <button type="button" aria-pressed="false" data-app="grab">GrabFood</button>
+            <button type="button" aria-pressed="false" data-app="shopee">ShopeeFood</button>
+          </div>
+          <div class="summary">
+            <div class="sum">Of 4 listed prices: <b>0</b> lose money on every order, <b>0</b> more are short.</div>
+          </div>
+          <div class="tbl-wrap">
+            <table id="appTbl">
+              <thead><tr><th>Item</th><th>Price</th><th>App price</th><th>You keep</th><th>Taken</th><th>Loses below</th><th>Status</th></tr></thead>
+              <tbody>
+                <tr data-app="go"><td>Es Kopi Susu</td><td>22.000</td><td>27.000</td><td>19.896</td><td>26%</td><td>10.000</td><td><span class="pill ok">ok</span></td></tr>
+                <tr data-app="go"><td>Es Teh Manis</td><td>5.000</td><td>6.500</td><td>3.947</td><td>39%</td><td>3.000</td><td><span class="pill ok">ok</span></td></tr>
+                <tr data-app="go"><td>Kopi Hitam</td><td>8.000</td><td>10.000</td><td>6.670</td><td>33%</td><td>4.500</td><td><span class="pill ok">ok</span></td></tr>
+                <tr data-app="go"><td>Kopi Susu Gula Aren</td><td>15.000</td><td>18.000</td><td>12.894</td><td>28%</td><td>8.500</td><td><span class="pill ok">ok</span></td></tr>
+                <tr data-app="grab" hidden><td>Es Kopi Susu</td><td>22.000</td><td>28.000</td><td>19.453</td><td>31%</td><td>9.500</td><td><span class="pill ok">ok</span></td></tr>
+                <tr data-app="grab" hidden><td>Es Teh Manis</td><td>5.000</td><td>6.500</td><td>4.516</td><td>31%</td><td>2.000</td><td><span class="pill ok">ok</span></td></tr>
+                <tr data-app="grab" hidden><td>Kopi Hitam</td><td>8.000</td><td>10.000</td><td>6.948</td><td>31%</td><td>3.500</td><td><span class="pill ok">ok</span></td></tr>
+                <tr data-app="grab" hidden><td>Kopi Susu Gula Aren</td><td>15.000</td><td>19.000</td><td>13.200</td><td>31%</td><td>7.500</td><td><span class="pill ok">ok</span></td></tr>
+                <tr data-app="shopee" hidden><td>Es Kopi Susu</td><td>22.000</td><td>26.000</td><td>20.228</td><td>22%</td><td>8.500</td><td><span class="pill ok">ok</span></td></tr>
+                <tr data-app="shopee" hidden><td>Es Teh Manis</td><td>5.000</td><td>6.000</td><td>4.668</td><td>22%</td><td>2.000</td><td><span class="pill ok">ok</span></td></tr>
+                <tr data-app="shopee" hidden><td>Kopi Hitam</td><td>8.000</td><td>10.000</td><td>7.780</td><td>22%</td><td>3.000</td><td><span class="pill ok">ok</span></td></tr>
+                <tr data-app="shopee" hidden><td>Kopi Susu Gula Aren</td><td>15.000</td><td>18.000</td><td>14.004</td><td>22%</td><td>7.000</td><td><span class="pill ok">ok</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="why-box"><span class="k">Note</span><span>GoFood 20% + Rp 1.000 per order (published). GrabFood 27.5% and ShopeeFood 20% are estimates: neither publishes its Indonesian rate. PPN 11% on the platform fee. One item per order (the safest case).</span></div>
+        </div>
+      </div>
+    </div>
+
+    <p class="caption" id="cap-menu">Type or paste your menu: price, HPP, units sold and app prices. "23k", "23.000" and "Rp 23.000" all work.</p>
+    <p class="caption" id="cap-walkin" hidden>Every item gets a margin, a status and a reason in plain words. Tap a row to read it.</p>
+    <p class="caption" id="cap-apps" hidden>What each app really leaves you per order, and the app price under which an order loses money.</p>
+    <p class="fine">Made-up café and numbers. Arithmetic, not a forecast: at a higher price some customers may buy less.</p>
+  </div>
+</section>
+
+<!-- WHAT YOU GET -->
+<section class="alt sec-pad" id="get">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow reveal">What you receive</div>
+      <h2 class="reveal d1">One clear result, <span class="em">in your language.</span></h2>
+    </div>
+    <div class="tiles">
+      <div class="tile reveal">
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><rect x="6" y="2.5" width="12" height="19" rx="2.5"/><path d="M10.5 18.5h3"/></svg></div>
+        <h4>A page for your phone</h4>
+        <p>Item by item, in Bahasa or English. Open it anywhere, show it to your team.</p>
+        <a class="link-more" href="/sample-audit-en" data-href-id="/contoh-audit-id">See a sample audit</a>
+      </div>
+      <div class="tile reveal d1">
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2.5H6.5a2 2 0 0 0-2 2v15a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2V8Z"/><path d="M14 2.5V8h5.5M8.5 13h7M8.5 17h5"/></svg></div>
+        <h4>PDF and workbook</h4>
+        <p>To print, to share and to keep. The workbook holds every number behind the page.</p>
+      </div>
+      <div class="tile reveal d2">
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9.5"/><path d="M12 11v6M12 7.5v.01"/></svg></div>
+        <h4>Every number explained</h4>
+        <p>Each row says why, and every assumption is written down, so you can argue with it.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRIVATE -->
+<section class="dark sec-pad" id="private">
+  <div class="wrap">
+    <div class="sec-head" style="margin-bottom:0">
+      <h2 class="reveal">Your numbers <span class="em">stay yours.</span></h2>
+      <p class="lede reveal d1">No account to make and nothing to install.</p>
+    </div>
+    <div class="privacy">
+      <div class="pv reveal">
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="4" width="19" height="14" rx="2"/><path d="M8 21h8M12 18v3"/></svg>
+        <h4>The audit runs in the browser</h4>
+        <p>The menu audit works inside the page. Nothing you type is sent anywhere.</p>
+      </div>
+      <div class="pv reveal d1">
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h10"/></svg>
+        <h4>Your till export, on one computer</h4>
+        <p>The pricing engine reads an export from Moka, Majoo, Pawoon, Olsera or a spreadsheet, on Felix's computer. Nothing leaves it.</p>
+      </div>
+      <div class="pv reveal d2">
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+        <h4>You decide</h4>
+        <p>Nothing changes on your menu without your approval.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HONEST -->
+<section class="sec-pad" id="honest">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow reveal">Honest by design</div>
+      <h2 class="reveal d1">Arithmetic, <span class="em">not a forecast.</span></h2>
+    </div>
+    <div class="honest">
+      <div class="hn reveal"><span class="ck">1</span><div><h4>A floor is not a price to print</h4><p>A cost-plus floor ignores what your customers will pay and what other sellers charge.</p></div></div>
+      <div class="hn reveal d1"><span class="ck">2</span><div><h4>Guests show their reaction later</h4><p>How your guests react to a new price only shows after the change, and at small volumes that takes a long time to see.</p></div></div>
+      <div class="hn reveal d2"><span class="ck">3</span><div><h4>App rates are labelled</h4><p>Published rates are used where they exist. Where an app does not publish its rate, the screen says it is an estimate.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="alt sec-pad final" id="contact">
+  <div class="wrap">
+    <h2 class="reveal">See it run on <span class="em">your own menu.</span></h2>
+    <p class="lede reveal d1">On a call, Felix runs it live on your menu, screen shared, in Bahasa or English.</p>
+    <div class="hero-cta reveal d2">
+      <a href="https://contact.margindatalab.com/" class="btn btn-primary">Get in touch</a>
+      <a href="/sample-audit-en" data-href-id="/contoh-audit-id" class="btn btn-ghost">See a sample audit</a>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <div class="brand">
+          <svg class="brand-mark" viewBox="0 0 60 60" fill="none" aria-hidden="true"><circle cx="30" cy="30" r="25" stroke="currentColor" stroke-width="4"/><circle cx="30" cy="30" r="12" stroke="currentColor" stroke-width="4" opacity=".45"/><circle cx="30" cy="5" r="5" fill="currentColor"/></svg>
+          <span class="brand-name">Margin<b>Lab</b></span>
+        </div>
+        <p class="footer-tag">Pricing help for independent cafés.</p>
+      </div>
+      <div class="footer-cols">
+        <div class="fcol">
+          <h6>Explore</h6>
+          <a href="/#method">The Method</a>
+          <a href="/sample-audit-en">Sample audit (EN)</a>
+          <a href="/contoh-audit-id">Contoh audit (ID)</a>
+          <a href="/software">Software</a>
+          <a href="/privasi">Privacy</a>
+        </div>
+        <div class="fcol">
+          <h6>Contact</h6>
+          <a href="mailto:felix@margindatalab.com">felix@margindatalab.com</a>
+          <a href="https://contact.margindatalab.com/">Contact form</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 MarginLab · Felix Sean</span>
+      <span>Built with intent</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+  var $=function(s,r){return (r||document).querySelector(s)}, $$=function(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))};
+  // nav
+  var nav=$('#nav'); function onScroll(){nav.classList.toggle('scrolled',window.scrollY>10)}
+  window.addEventListener('scroll',onScroll,{passive:true}); onScroll();
+  var toggle=$('#menuToggle');
+  function setMenu(o){document.body.classList.toggle('menu-open',o);toggle.setAttribute('aria-expanded',String(o))}
+  toggle.addEventListener('click',function(){setMenu(!document.body.classList.contains('menu-open'))});
+  $$('#navLinks a').forEach(function(a){a.addEventListener('click',function(){setMenu(false)})});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape')setMenu(false)});
+
+  // screens
+  var tabs=$$('[role=tab]');
+  function show(name,focus){
+    tabs.forEach(function(t){var on=t.dataset.tab===name;t.setAttribute('aria-selected',String(on));t.tabIndex=on?0:-1;if(on&&focus)t.focus()});
+    ['menu','walkin','apps'].forEach(function(n){
+      $('#p-'+n).classList.toggle('on',n===name);
+      $('#cap-'+n).hidden=n!==name;
+    });
+  }
+  tabs.forEach(function(t,i){
+    t.addEventListener('click',function(){show(t.dataset.tab)});
+    t.addEventListener('keydown',function(e){
+      var d=e.key==='ArrowRight'?1:e.key==='ArrowLeft'?-1:0; if(!d)return;
+      e.preventDefault(); show(tabs[(i+d+tabs.length)%tabs.length].dataset.tab,true);
+    });
+  });
+  $$('[data-go]').forEach(function(b){b.addEventListener('click',function(){show(b.dataset.go)})});
+
+  // walk-in: a row shows its reason
+  $$('#walkTbl tbody tr').forEach(function(tr){
+    tr.tabIndex=0;
+    function pick(){
+      $$('#walkTbl tbody tr').forEach(function(r){r.classList.toggle('sel',r===tr)});
+      $$('.why').forEach(function(w){w.hidden=w.id!==tr.dataset.why});
+    }
+    tr.addEventListener('click',pick);
+    tr.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();pick()}});
+  });
+
+  // delivery: one app at a time
+  $$('.apps button').forEach(function(b){
+    b.addEventListener('click',function(){
+      $$('.apps button').forEach(function(x){x.setAttribute('aria-pressed',String(x===b))});
+      $$('#appTbl tbody tr').forEach(function(r){r.hidden=r.dataset.app!==b.dataset.app});
+    });
+  });
+
+  // reveal
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},
+      {rootMargin:'0px 0px -8% 0px',threshold:.12});
+    $$('.reveal:not(.in)').forEach(function(el){io.observe(el)});
+  } else { $$('.reveal').forEach(function(el){el.classList.add('in')}); }
+})();
+</script>
+<script src="/form.js"></script>
+<script src="/id.js"></script><script src="/lang.js"></script>
+</body>
+</html>
