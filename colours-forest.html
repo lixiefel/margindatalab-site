@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta name="robots" content="noindex">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="theme-color" content="#0a0f0c" />
+<title>MarginLab — Pricing intelligence for independent cafés</title>
+<meta name="description" content="Pricing help for independent cafés: delivery-app margin audits, full-cost checks and small price steps the owner approves, measured where sales allow." />
+<meta property="og:url" content="https://margindatalab.com/">
+<meta property="og:title" content="MarginLab — Pricing intelligence for independent cafés">
+<meta property="og:type" content="website">
+<script>try{if(sessionStorage.getItem("ml_seen"))document.documentElement.classList.add("seen");sessionStorage.setItem("ml_seen","1")}catch(e){}</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"ProfessionalService","name":"MarginLab",
+ "url":"https://margindatalab.com/","email":"felix@margindatalab.com",
+ "description":"Pricing intelligence for independent cafés.",
+ "areaServed":["Jakarta","Indonesia","Netherlands"],"founder":{"@type":"Person","name":"Felix Sean"},
+ "knowsLanguage":["id","en"]}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="/colours-forest.css" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Ccircle cx=%2716%27 cy=%2716%27 r=%2714%27 fill=%27%230a0f0c%27 stroke=%27%23c8a35a%27 stroke-width=%272%27/%3E%3Ccircle cx=%2716%27 cy=%2716%27 r=%274%27 fill=%27%23c8a35a%27/%3E%3C/svg%3E">
+<meta property="og:site_name" content="MarginLab">
+<meta property="og:image" content="https://margindatalab.com/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="apple-touch-icon" href="/icon-180.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta property="og:description" content="Pricing help for independent cafés: delivery-app margin audits, full-cost checks and small price steps the owner approves, measured where sales allow.">
+<script>(function(){var l;try{l=localStorage.getItem("ml_lang")}catch(e){}if(!l){l=(navigator.languages||[navigator.language||""]).some(function(x){return/^(id|in)\b/i.test(x)})?"id":"en"}if(l==="id"){var d=document.documentElement;d.classList.add("ml-pending");setTimeout(function(){d.classList.remove("ml-pending")},1500)}})()</script><style>.ml-pending body{opacity:0}</style>
+</head>
+<body>
+<div class="scroll-prog" id="scrollProg"></div>
+<div class="grain"></div>
+
+<!-- PRELOADER -->
+<a class="skip" href="#top">Skip to content</a>
+<div class="preloader" id="preloader">
+  <svg class="pre-mark" viewBox="0 0 60 60" fill="none">
+    <circle cx="30" cy="30" r="26" stroke="#1e2a22" stroke-width="2"/>
+    <circle cx="30" cy="30" r="26" stroke="#c8a35a" stroke-width="2" stroke-dasharray="40 200" stroke-linecap="round"/>
+    <circle cx="30" cy="30" r="14" stroke="#1e2a22" stroke-width="2"/>
+    <circle cx="30" cy="4" r="3" fill="#e0bf7a"/>
+  </svg>
+  <div class="pre-text"><span>Calibrating&nbsp;·&nbsp;MarginLab</span></div>
+</div>
+
+<!-- NAV -->
+<nav class="nav" id="nav">
+  <a href="#top" class="brand" aria-label="MarginLab home">
+    <svg class="brand-mark" viewBox="0 0 60 60" fill="none">
+      <circle cx="30" cy="30" r="26" stroke="#c8a35a" stroke-width="2.2"/>
+      <circle cx="30" cy="30" r="15" stroke="#66725f" stroke-width="1.4"/>
+      <circle cx="30" cy="4" r="3.2" fill="#e0bf7a"/>
+      <circle cx="49" cy="42" r="2.2" fill="#c8a35a"/>
+    </svg>
+    <span class="brand-name">Margin<b>Lab</b></span>
+  </a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#method" class="navlink">Method</a></li>
+    <li><a href="/sample-audit-en" data-href-id="/contoh-audit-id" class="navlink">Sample audit</a></li>
+    <li><a href="#process" class="navlink">Process</a></li>
+    <li><a href="/colours-forest-software" class="navlink">Software</a></li>
+    <li class="lang-li"><div class="lang-sw" data-no-t><button data-set-lang="en">EN</button><button data-set-lang="id">ID</button></div></li>
+    <li><a href="https://contact.margindatalab.com/" class="nav-cta"><span>Get in touch</span></a></li>
+  </ul>
+  <button class="menu-toggle" id="menuToggle" aria-label="Menu" aria-expanded="false" aria-controls="navLinks"><span></span><span></span><span></span></button>
+</nav>
+
+<!-- HERO -->
+<header class="hero" id="top">
+  <div class="spotlight" id="spotlight"></div>
+  <div class="hero-orbits" id="heroOrbits">
+    <svg viewBox="-300 -300 600 600">
+      <circle class="orbit-ring" r="285" style="animation:spin 90s linear infinite"/>
+      <circle class="orbit-ring" r="215" stroke="rgba(200,163,90,.22)" style="animation:spinR 70s linear infinite"/>
+      <circle class="orbit-ring" r="150" style="animation:spin 55s linear infinite"/>
+      <circle class="orbit-ring" r="92" stroke="rgba(95,154,134,.2)"/>
+      <g style="animation:spin 90s linear infinite"><circle class="orbit-dot" cx="0" cy="-285" r="5"/></g>
+      <g style="animation:spinR 70s linear infinite"><circle class="orbit-dot" cx="0" cy="-215" r="3.4" fill="#5f9a86"/></g>
+      <g style="animation:spin 55s linear infinite"><circle class="orbit-dot" cx="0" cy="-150" r="4" fill="#e0bf7a"/></g>
+      <g style="animation:spinR 38s linear infinite"><circle class="orbit-dot" cx="0" cy="-92" r="3" fill="#c0704a"/></g>
+      <circle r="3" fill="#c8a35a"/>
+    </svg>
+  </div>
+  <div class="wrap hero-inner">
+    <div class="eyebrow reveal in">Pricing intelligence · independent cafés</div>
+    <h1 class="reveal in d1">Many cafés leave<br>money on the table.<span class="small">We show you where it's hiding — and what to do Monday.</span></h1>
+    <p class="lede hero-sub reveal in d2">MarginLab helps independent cafés price their menus. It checks what each delivery order really leaves you, finds items that earn less than their full cost, and plans small price changes that you approve, one at a time.</p>
+    <div class="hero-cta reveal in d3">
+      <a href="/sample-audit-en" data-href-id="/contoh-audit-id" class="btn btn-primary">See a sample audit <span class="arrow">→</span></a>
+      <a href="#method" class="btn btn-ghost">See the method</a>
+    </div>
+    <div class="hero-stats reveal in d4">
+      <div class="hstat"><div class="num"><span data-count="29.6" data-dec="1">0</span><span class="u">%</span></div><div class="lbl">GoFood's cut on a Rp 15.000 item (published 20% + Rp 1.000, with VAT)</div></div>
+      <div class="hstat"><div class="num"><span data-count="200" data-dec="0">0</span><span class="u">+ items</span></div><div class="lbl">an audit can cover, Bahasa &amp; English</div></div>
+    </div>
+  </div>
+  <div class="scroll-cue"><span class="line"></span>Scroll</div>
+</header>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-track">
+    <span>Delivery margin audit</span><span>Settlement reconciliation</span><span>Full-cost check</span><span>Switchback price tests</span><span>Psychology thresholds</span><span>Charm endings</span><span>Small steps you approve</span><span>Competitor positioning</span>
+    <span>Delivery margin audit</span><span>Settlement reconciliation</span><span>Full-cost check</span><span>Switchback price tests</span><span>Psychology thresholds</span><span>Charm endings</span><span>Small steps you approve</span><span>Competitor positioning</span>
+  </div>
+</div>
+
+<!-- ETHOS -->
+<section class="ethos sec-pad" id="ethos">
+  <div class="wrap">
+    <div class="eyebrow reveal">01 — The premise</div>
+    <p class="ethos-quote reveal d1">Most cafés set prices by <span class="em">feel,</span> copy the shop next door, and never revisit it. Where margin is missing, it is often <span class="em">already on the menu.</span></p>
+    <div class="ethos-grid">
+      <div class="lede reveal d1">A few cents in the wrong place adds up over thousands of cups. The fix isn't raising everything — it's knowing which item can take a lift and which must stay cheap.</div>
+      <div class="ethos-points">
+        <div class="epoint reveal"><h4>Priced by intuition</h4><p>Gut feel, and a glance at the café next door.</p></div>
+        <div class="epoint reveal d1"><h4>Frozen for years</h4><p>Costs rise; prices don't. Margin leaks quietly.</p></div>
+        <div class="epoint reveal d2"><h4>Left on the table</h4><p>Prices that no longer cover rising costs. We look for them.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="rule"/>
+
+<!-- METHOD (words only; engine demo, worked example and live optimizer removed 2026-11-18, FINDINGS A1) -->
+<section class="latte sec-pad" id="method">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow reveal">02 — The method</div>
+      <h2 class="reveal d1">Evidence first, <span class="em">small steps,</span> then measure.</h2>
+      <p class="lede reveal d2">How we work, in words. This is an illustration of the method, not a result for any café.</p>
+    </div>
+    <div class="latte-grid">
+      <div class="latte-steps reveal">
+        <div class="lstep"><div class="ln">i</div><div><h4>Your full costs</h4><p>Recipe cost, packaging, waste and app fees, item by item. An item that earns less than its full cost is flagged first.</p></div></div>
+        <div class="lstep"><div class="ln">ii</div><div><h4>What each delivery order leaves you</h4><p>The app's cut, checked against your own settlement statement where you have one.</p></div></div>
+        <div class="lstep"><div class="ln">iii</div><div><h4>The market around you</h4><p>Regular prices at comparable cafés nearby, as a reference point. Promo prices are left out.</p></div></div>
+        <div class="lstep"><div class="ln">iv</div><div><h4>A model to choose what to test</h4><p>A demand model, starting from published research, points to the items worth testing. On its own it does not set your prices.</p></div></div>
+        <div class="lstep"><div class="ln">v</div><div><h4>Small steps you approve</h4><p>An app price below its floor (what an order needs to cover its costs) is raised to that floor. Other changes are small steps from today's price. Nothing changes without your approval.</p></div></div>
+        <div class="lstep"><div class="ln">vi</div><div><h4>Measure where sales allow</h4><p>If you sell enough, a price test checks a move before you keep it. If you don't, we say so plainly.</p></div></div>
+      </div>
+      <div class="result-card reveal d1">
+        <div class="ribbon">◦ Illustration only</div>
+        <p class="result-note" style="margin-top:0;padding-top:0;border-top:0">We don't promise a profit increase. How your guests react to a new price only shows after the change, and at small volumes that takes a long time to see. We tell you how sure we are, item by item.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LIMITATIONS -->
+<section class="limits sec-pad" id="limits">
+  <div class="wrap">
+    <div class="limits-head">
+      <div>
+        <div class="eyebrow reveal">03 — Honest by design</div>
+        <h2 class="reveal d1" style="font-size:clamp(2.1rem,5vw,3.6rem);margin-top:20px;line-height:1.02;font-weight:350">Three things a model <span class="em">can't</span> see.</h2>
+      </div>
+      <p class="lede reveal d2">Each of these needs someone who knows <em>your</em> café. That's the conversation.</p>
+    </div>
+    <div class="limit-cards">
+      <div class="limit-card reveal">
+        <div class="ln">L·01</div>
+        <svg class="icon" viewBox="0 0 48 48" fill="none" stroke="#c8a35a" stroke-width="1.4"><path d="M8 36 L20 24 L28 30 L40 14"/><circle cx="20" cy="24" r="2.5" fill="#c8a35a"/><circle cx="28" cy="30" r="2.5" fill="#c8a35a"/><path d="M14 18 L22 18 M14 18 L14 26" stroke-dasharray="3 3"/></svg>
+        <h4>How strongly your guests react to price</h4>
+        <p>The model knows your sales, costs and fees — not how hard your guests push back on a price rise. Research fills in until we test it.</p>
+        <div class="why"><b>So we talk:</b> which item to test first.</div>
+      </div>
+      <div class="limit-card reveal d1">
+        <div class="ln">L·02</div>
+        <svg class="icon" viewBox="0 0 48 48" fill="none" stroke="#c8a35a" stroke-width="1.4"><circle cx="16" cy="16" r="7"/><circle cx="32" cy="32" r="7"/><path d="M21 21 L27 27" stroke-dasharray="3 3"/><path d="M30 14 L34 14 M32 12 L32 16"/></svg>
+        <h4>The basket &amp; attach rate</h4>
+        <p>A coffee often brings a pastry. Push the coffee and you may lose the pastry.</p>
+        <div class="why"><b>So we talk:</b> where holding a price protects the basket.</div>
+      </div>
+      <div class="limit-card reveal d2">
+        <div class="ln">L·03</div>
+        <svg class="icon" viewBox="0 0 48 48" fill="none" stroke="#c8a35a" stroke-width="1.4"><circle cx="24" cy="24" r="15"/><path d="M24 24 L24 14 M24 24 L31 28"/><path d="M9 24 L13 24 M35 24 L39 24" stroke-dasharray="2 3"/></svg>
+        <h4>Day-part &amp; weekday mix</h4>
+        <p>A morning rush and a quiet Tuesday behave differently. The model averages the month.</p>
+        <div class="why"><b>So we talk:</b> when your margin is really made.</div>
+      </div>
+    </div>
+    <div class="limit-banner reveal">
+      <p>That's why the audit comes with a conversation, not just a PDF.</p>
+      <a href="https://contact.margindatalab.com/" class="btn btn-primary">Get in touch <span class="arrow">→</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="process sec-pad" id="process">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow reveal">04 — How it runs</div>
+      <h2 class="reveal d1">Seven steps, <span class="em">one screen</span> turned around.</h2>
+      <p class="lede reveal d2">From your menu to one clear decision.</p>
+    </div>
+    <div class="steps">
+      <div class="step reveal"><span class="dotline"></span><h5>Client</h5><p>Your café, your market, your currency, your goals.</p></div>
+      <div class="step reveal"><span class="dotline"></span><h5>Menu &amp; Cost</h5><p>Items, prices and unit costs go in.</p></div>
+      <div class="step reveal"><span class="dotline"></span><h5>Analysis</h5><p>Delivery margins, full costs and market prices.</p></div>
+      <div class="step reveal"><span class="dotline"></span><h5>Opportunities</h5><p>Where money may be slipping away, ranked.</p></div>
+      <div class="step reveal"><span class="dotline"></span><h5>Proposals</h5><p>A small step or a test plan, with the reason for each item.</p></div>
+      <div class="step reveal"><span class="dotline"></span><h5>Your call</h5><p>You approve every change before it happens.</p></div>
+      <div class="step reveal"><span class="dotline"></span><h5>Final Review</h5><p>PDF, phone page and workbook — Bahasa &amp; English.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about sec-pad" id="about">
+  <div class="wrap">
+    <div class="about-grid">
+      <div class="about-portrait reveal">
+        <svg viewBox="0 0 200 200" fill="none">
+          <circle cx="100" cy="100" r="80" stroke="#c8a35a" stroke-width="1.5" opacity=".5"/>
+          <circle cx="100" cy="100" r="55" stroke="#66725f" stroke-width="1" opacity=".6"/>
+          <path d="M40 140 Q100 80 160 140" stroke="#e0bf7a" stroke-width="2" fill="none"/>
+          <circle cx="70" cy="118" r="3" fill="#c8a35a"/><circle cx="100" cy="98" r="4" fill="#e0bf7a"/><circle cx="130" cy="118" r="3" fill="#c0704a"/>
+          <path d="M100 20 L100 36 M100 164 L100 180 M20 100 L36 100 M164 100 L180 100" stroke="#66725f" stroke-width="1"/>
+        </svg>
+        <span class="tag">Built in the Netherlands · for Jakarta &amp; the EU</span>
+      </div>
+      <div class="about-text reveal d1">
+        <div class="eyebrow">05 — Who's behind it</div>
+        <h2>A model built the <span class="em">hard way,</span> so the advice is easy.</h2>
+        <p>MarginLab grew out of a stubborn spreadsheet, rebuilt many times. Its automated tests check the arithmetic, not how your guests behave: only real sales after a change can show that.</p>
+        <p>The maths is quantitative; the delivery is human: one clear move, in plain language, on a call.</p>
+        <div class="about-sign">
+          <span class="name">Felix Sean</span>
+          <span class="role">Founder · MarginLab</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact sec-pad" id="contact">
+  <div class="contact-orbits">
+    <svg viewBox="-300 -300 600 600">
+      <circle class="orbit-ring" r="280" style="animation:spin 120s linear infinite"/>
+      <circle class="orbit-ring" r="200" stroke="rgba(200,163,90,.2)" style="animation:spinR 90s linear infinite"/>
+      <circle class="orbit-ring" r="120"/>
+      <g style="animation:spin 120s linear infinite"><circle class="orbit-dot" cx="0" cy="-280" r="4"/></g>
+      <g style="animation:spinR 90s linear infinite"><circle class="orbit-dot" cx="0" cy="-200" r="3" fill="#5f9a86"/></g>
+    </svg>
+  </div>
+  <div class="wrap">
+    <div class="contact-inner">
+      <div class="eyebrow center reveal" style="justify-content:center">06 — Let's find it</div>
+      <h2 class="reveal d1">Let's look at<br>your <span class="em">menu.</span></h2>
+      <p class="lede reveal d2">Tell us about your café. Felix replies within one working day.</p>
+      <div class="contact-cta reveal d3">
+        <a href="https://contact.margindatalab.com/" class="btn btn-primary">Get in touch <span class="arrow">→</span></a>
+      </div>
+      <div class="email-pill reveal d4" id="emailPill" title="Click to copy">
+        <span id="emailText">felix@margindatalab.com</span>
+        <span class="copy" id="emailCopy">Copy</span>
+      </div>
+      <div class="contact-meta reveal d4">
+        <span class="cmeta">Reply in <b>1 working day</b></span>
+        <span class="cmeta">Remote <b>worldwide</b></span>
+        <span class="cmeta">Bahasa &amp; <b>English</b></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <div class="brand" style="margin-bottom:0">
+          <svg class="brand-mark" viewBox="0 0 60 60" fill="none" style="width:26px;height:26px">
+            <circle cx="30" cy="30" r="26" stroke="#c8a35a" stroke-width="2.2"/>
+            <circle cx="30" cy="30" r="15" stroke="#66725f" stroke-width="1.4"/>
+            <circle cx="30" cy="4" r="3.2" fill="#e0bf7a"/>
+          </svg>
+          <span class="brand-name">Margin<b>Lab</b></span>
+        </div>
+        <p class="footer-tag">Pricing help for independent cafés.</p>
+      </div>
+      <div class="footer-cols">
+        <div class="fcol">
+          <h6>Explore</h6>
+          <a href="#method">The Method</a>
+          <a href="/sample-audit-en">Sample audit (EN)</a>
+          <a href="/contoh-audit-id">Contoh audit (ID)</a>
+          <a href="/privasi">Privacy</a>
+          <a href="#process">Process</a>
+          <a href="/colours-forest-software">Software</a>
+        </div>
+        <div class="fcol">
+          <h6>Contact</h6>
+          <a href="mailto:felix@margindatalab.com">felix@margindatalab.com</a>
+          <a href="https://contact.margindatalab.com/">Contact form</a>
+          <a href="#contact">Jakarta · ID</a>
+          <a href="#contact">Almere · NL</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 MarginLab · Felix Sean</span>
+      <span>Built with intent</span>
+    </div>
+  </div>
+</footer>
+
+<div class="q-tip" id="qtip"></div>
+
+<style>
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes spinR{to{transform:rotate(-360deg)}}
+</style>
+
+<script>
+(function(){
+  "use strict";
+  const RM = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const $ = (s,r=document)=>r.querySelector(s);
+  const $$ = (s,r=document)=>Array.from(r.querySelectorAll(s));
+  const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+  const COL={ochre:'#c8a35a',ochreB:'#e0bf7a',ochreD:'#9c7c3a',cream:'#eef0e6',creamD:'#d0d6c6',
+    muted:'#9ba595',muted2:'#66725f',line:'rgba(238,240,230,.10)',line2:'rgba(238,240,230,.18)',
+    terra:'#c0704a',sage:'#9db58a',teal:'#5f9a86',surf:'#121a15'};
+
+  /* ---------- PRELOADER ---------- */
+  window.addEventListener('load',()=>{ setTimeout(()=>$('#preloader')?.classList.add('done'),350); });
+  document.addEventListener('DOMContentLoaded',()=>{ setTimeout(()=>$('#preloader')?.classList.add('done'),1400); });
+
+  /* ---------- NAV ---------- */
+  const nav=$('#nav');
+  const onScroll=()=>{ if(window.scrollY>40) nav.classList.add('scrolled'); else nav.classList.remove('scrolled'); };
+  window.addEventListener('scroll',onScroll,{passive:true}); onScroll();
+
+  const toggle=$('#menuToggle');
+  const setMenu=open=>{ document.body.classList.toggle('menu-open',open); toggle?.setAttribute('aria-expanded',String(open)); };
+  toggle?.addEventListener('click',()=>setMenu(!document.body.classList.contains('menu-open')));
+  $$('#navLinks a').forEach(a=>a.addEventListener('click',()=>setMenu(false)));
+  document.addEventListener('keydown',e=>{ if(e.key==='Escape') setMenu(false); });
+
+  // scrollspy
+  const navlinks=$$('.navlink');
+  const secMap=navlinks.filter(a=>a.getAttribute('href').startsWith('#')).map(a=>({a,sec:$(a.getAttribute('href'))})).filter(o=>o.sec);
+  const spy=new IntersectionObserver((es)=>{
+    es.forEach(e=>{ if(e.isIntersecting){ const id='#'+e.target.id;
+      navlinks.forEach(a=>a.classList.toggle('active',a.getAttribute('href')===id)); } });
+  },{rootMargin:'-45% 0px -50% 0px'});
+  secMap.forEach(o=>spy.observe(o.sec));
+
+  /* ---------- HERO spotlight + parallax ---------- */
+  const spotlight=$('#spotlight'), heroOrbits=$('#heroOrbits'), hero=$('.hero');
+  if(!RM && hero){
+    hero.addEventListener('pointermove',(e)=>{
+      const r=hero.getBoundingClientRect();
+      spotlight.style.setProperty('--mx',((e.clientX-r.left)/r.width*100)+'%');
+      spotlight.style.setProperty('--my',((e.clientY-r.top)/r.height*100)+'%');
+    });
+    window.addEventListener('scroll',()=>{ const y=window.scrollY;
+      if(y<window.innerHeight) heroOrbits.style.transform=`translateY(calc(-50% + ${y*0.18}px))`;
+    },{passive:true});
+  }
+
+  /* ---------- REVEAL ---------- */
+  const revObs=new IntersectionObserver((es)=>{
+    es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); revObs.unobserve(e.target);} });
+  },{rootMargin:'0px 0px -8% 0px',threshold:.12});
+  $$('.reveal:not(.in)').forEach(el=>revObs.observe(el));
+
+  /* ---------- COUNT-UP ---------- */
+  // decimals written per language: 29.6 in English, 29,6 in Bahasa
+  const numFmt=(v,dec)=>{ const s=v.toFixed(dec); return window.MLLang&&window.MLLang.get()==='id'?s.replace('.',','):s; };
+  function countUp(el){
+    const target=parseFloat(el.dataset.count), dec=parseInt(el.dataset.dec||'0',10);
+    el.dataset.counted='1';
+    if(RM){ el.textContent=numFmt(target,dec); return; }
+    const dur=1500, t0=performance.now();
+    const ease=t=>1-Math.pow(1-t,3);
+    function tick(now){ const p=clamp((now-t0)/dur,0,1); const v=target*ease(p);
+      el.textContent=numFmt(v,dec); if(p<1) requestAnimationFrame(tick); else el.textContent=numFmt(target,dec); }
+    requestAnimationFrame(tick);
+  }
+  document.addEventListener('ml:lang',()=>$$('[data-count][data-counted]').forEach(el=>{
+    el.textContent=numFmt(parseFloat(el.dataset.count),parseInt(el.dataset.dec||'0',10)); }));
+  const cObs=new IntersectionObserver((es)=>{
+    es.forEach(e=>{ if(e.isIntersecting){ countUp(e.target); cObs.unobserve(e.target);} });
+  },{threshold:.5});
+  $$('[data-count]').forEach(el=>cObs.observe(el));
+
+  /* ---------- EMAIL COPY ---------- */
+  const pill=$('#emailPill');
+  pill?.addEventListener('click',()=>{
+    const txt=$('#emailText').textContent.trim();
+    navigator.clipboard?.writeText(txt).then(()=>{
+      pill.classList.add('copied'); $('#emailCopy').textContent='Copied ✓';
+      setTimeout(()=>{ pill.classList.remove('copied'); $('#emailCopy').textContent='Copy'; },2000);
+    }).catch(()=>{});
+  });
+
+})();
+</script>
+<script>
+/* ===== ADDED: scroll-progress bar + card cursor-spotlight (additive, self-contained) ===== */
+(function(){
+  var RM=window.matchMedia&&window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+  var prog=document.getElementById('scrollProg');
+  function onScroll(){ if(!prog)return; var sc=window.scrollY||document.documentElement.scrollTop||0;
+    var h=document.documentElement.scrollHeight-window.innerHeight; prog.style.width=(h>0?Math.min(100,sc/h*100):0)+'%'; }
+  window.addEventListener('scroll',onScroll,{passive:true}); onScroll();
+  if(!RM){
+    Array.prototype.forEach.call(document.querySelectorAll('.tier,.limit-card'),function(c){
+      c.addEventListener('pointermove',function(e){ var r=c.getBoundingClientRect();
+        c.style.setProperty('--mx',(e.clientX-r.left)+'px'); c.style.setProperty('--my',(e.clientY-r.top)+'px'); });
+    });
+  }
+})();
+</script>
+<script>
+document.addEventListener('click',function(e){
+  var a=e.target.closest&&e.target.closest('a[href^="#"]'); if(!a) return;
+  var id=a.getAttribute('href').slice(1); var t=id?document.getElementById(id):null; if(!t) return;
+  e.preventDefault(); t.scrollIntoView({behavior:'smooth',block:'start'});
+  try{history.replaceState(null,'','#'+id);}catch(_){}
+});
+</script>
+<style>section,header{scroll-margin-top:72px}
+@media(max-width:360px){.email-pill{padding-left:16px;font-size:.8rem;gap:8px}}
+.wa-float{position:fixed;right:18px;bottom:18px;z-index:80;width:56px;height:56px;border-radius:50%;background:#25d366;
+  display:grid;place-items:center;box-shadow:0 10px 30px -8px rgba(0,0,0,.6);transition:transform .25s}
+.wa-float:hover{transform:scale(1.06)}
+[hidden]{display:none!important}
+</style>
+<a class="wa-float wa" hidden aria-label="Chat on WhatsApp" data-text="Hi Felix, I have a question about MarginLab.">
+  <svg width="28" height="28" viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm5.3 14.1c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .1-3.3-.8-2.8-1.1-4.6-4-4.7-4.2-.1-.2-1.1-1.5-1.1-2.8s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.4 0 .5l-.3.5-.4.4c-.1.1-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.3 2.4 1.5.3.1.5.1.6-.1l.9-1c.2-.3.4-.2.6-.1l1.9.9c.3.1.5.2.5.3.1.2.1.7-.1 1.3Z"/></svg>
+</a>
+<script src="/form.js"></script>
+<script src="/id.js"></script><script src="/lang.js"></script>
+<div class="ml-cw" data-no-t><style>
+.ml-cw{position:fixed;left:50%;bottom:16px;transform:translateX(-50%);z-index:9998;display:flex;flex-wrap:wrap;gap:6px;
+align-items:center;justify-content:center;max-width:calc(100vw - 24px);padding:8px;border-radius:22px;
+background:rgba(20,20,20,.86);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,.14);
+font:500 12px/1 system-ui,-apple-system,sans-serif;box-shadow:0 12px 40px -10px rgba(0,0,0,.6)}
+.ml-cw a{display:inline-flex;align-items:center;gap:6px;color:#ddd;text-decoration:none;padding:6px 10px 6px 6px;border-radius:100px;
+border:1px solid transparent}
+.ml-cw a:hover{color:#fff;background:rgba(255,255,255,.08)}
+.ml-cw a[aria-current]{border-color:#fff;color:#fff}
+.ml-cw .sw{display:inline-flex;gap:2px;padding:3px;border-radius:100px}
+.ml-cw .sw i{width:9px;height:9px;border-radius:50%}
+.ml-cw .pg{padding:6px 10px}
+.ml-cw .sep{width:1px;height:18px;background:rgba(255,255,255,.2);margin:0 2px}
+@media(max-width:700px){.ml-cw .nm{display:none}.ml-cw a{padding:5px}}
+</style><a href="/colours-ochre" data-keep><span class="sw" style="background:#0c0a09"><i style="background:#d09a47"></i><i style="background:#f4eee3"></i></span><span class="nm">Original · Ochre</span></a><a href="/colours-midnight" data-keep><span class="sw" style="background:#0a0c12"><i style="background:#d4b26a"></i><i style="background:#eef0f5"></i></span><span class="nm">Midnight · Gold</span></a><a href="/colours-forest" data-keep aria-current=page><span class="sw" style="background:#0a0f0c"><i style="background:#c8a35a"></i><i style="background:#eef0e6"></i></span><span class="nm">Forest · Brass</span></a><a href="/colours-espresso" data-keep><span class="sw" style="background:#120c0a"><i style="background:#d9734a"></i><i style="background:#f6ede4"></i></span><span class="nm">Espresso · Terracotta</span></a><a href="/colours-sage" data-keep><span class="sw" style="background:#0e0f0f"><i style="background:#8fbf9f"></i><i style="background:#eef1ee"></i></span><span class="nm">Charcoal · Sage</span></a><a href="/colours-cobalt" data-keep><span class="sw" style="background:#08090d"><i style="background:#6b8cff"></i><i style="background:#f1f2f7"></i></span><span class="nm">Ink · Cobalt</span></a><a href="/colours-paper" data-keep><span class="sw" style="background:#f7f2ea"><i style="background:#a8721f"></i><i style="background:#1f1a14"></i></span><span class="nm">Paper · Ochre (light)</span></a><span class="sep"></span><a class="pg" href="/colours-forest" aria-current=page>Home</a><a class="pg" href="/colours-forest-software">Software</a></div>
+<script>(function(){try{var k="ml_cw_y",y=sessionStorage.getItem(k);if(y!==null){sessionStorage.removeItem(k);
+addEventListener("load",function(){scrollTo(0,+y)})}document.querySelectorAll(".ml-cw a[data-keep]").forEach(function(a){
+a.addEventListener("click",function(){sessionStorage.setItem(k,String(scrollY))})})}catch(e){}})()</script>
+</body>
+</html>
