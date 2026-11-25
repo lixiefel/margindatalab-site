@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<meta name="theme-color" content="#0c0a09" />
+<meta name="theme-color" content="#0e0f0f" media="(prefers-color-scheme: dark)"><meta name="theme-color" content="#f3f5f2" media="(prefers-color-scheme: light)">
 <title>The software — MarginLab</title>
 <meta name="description" content="The MarginLab menu audit, run on a made-up café: the menu, the walk-in margins and what each delivery app leaves you." />
 <link rel="canonical" href="https://margindatalab.com/software">
@@ -32,12 +32,12 @@ h2 .em{font-style:italic;color:var(--ochre)}
 .seg button{font:500 .74rem/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);background:none;border:0;
   border-radius:100px;padding:11px 18px;cursor:pointer;white-space:nowrap;transition:background .3s,color .3s}
 .seg button:hover{color:var(--cream)}
-.seg button[aria-selected=true]{background:var(--ochre);color:#1a1206}
+.seg button[aria-selected=true]{background:var(--ochre);color:var(--ml-on-accent)}
 
 /* the window */
 .stage{max-width:1120px;margin:0 auto;padding:0 var(--gutter)}
 .window{background:linear-gradient(165deg,var(--surface),var(--bg-2));border:1px solid var(--line-2);border-radius:18px;overflow:hidden;
-  box-shadow:0 40px 90px -40px rgba(0,0,0,.9),0 0 0 1px rgba(208,154,71,.06)}
+  box-shadow:0 40px 90px -40px rgba(0,0,0,.9),0 0 0 1px rgba(var(--ml-accent-rgb),.06)}
 .w-bar{display:grid;grid-template-columns:70px 1fr 70px;align-items:center;height:44px;padding:0 16px;border-bottom:1px solid var(--line);background:var(--bg-2)}
 .dots{display:flex;gap:7px}
 .dots i{width:10px;height:10px;border-radius:50%;background:var(--muted-3)}
@@ -69,8 +69,8 @@ tr:last-child td{border-bottom:0}
 td.dim{color:var(--muted-3)}
 tbody tr{transition:background .2s}
 .pick tbody tr{cursor:pointer}
-.pick tbody tr:hover{background:rgba(244,238,227,.04)}
-.pick tbody tr.sel{background:rgba(208,154,71,.10);box-shadow:inset 2px 0 0 var(--ochre)}
+.pick tbody tr:hover{background:rgba(var(--ml-ink-rgb),.04)}
+.pick tbody tr.sel{background:rgba(var(--ml-accent-rgb),.10);box-shadow:inset 2px 0 0 var(--ochre)}
 .pill{display:inline-block;font:500 .62rem var(--mono);letter-spacing:.12em;text-transform:uppercase;padding:4px 9px;border-radius:100px;border:1px solid}
 .pill.ok{color:var(--sage);border-color:currentColor}
 .pill.warn{color:var(--terra);border-color:currentColor}
@@ -81,7 +81,7 @@ tbody tr{transition:background .2s}
 .why-box{margin-top:14px;border-left:2px solid var(--ochre);padding:6px 0 6px 16px;font-size:.92rem;color:var(--cream-dim);display:flex;gap:14px;line-height:1.55}
 .why-box .k{font:500 .66rem/1.9 var(--mono);letter-spacing:.18em;text-transform:uppercase;color:var(--ochre);flex:none}
 .run-row{display:flex;justify-content:flex-end;margin-top:18px}
-.fake-btn{font:600 .84rem var(--sans);border-radius:100px;padding:11px 22px;border:0;cursor:pointer;background:var(--ochre);color:#1a1206;transition:background .3s,transform .3s}
+.fake-btn{font:600 .84rem var(--sans);border-radius:100px;padding:11px 22px;border:0;cursor:pointer;background:var(--ochre);color:var(--ml-on-accent);transition:background .3s,transform .3s}
 .fake-btn:hover{background:var(--ochre-bright);transform:translateY(-1px)}
 .apps{display:inline-flex;border:1px solid var(--line-2);border-radius:100px;padding:3px;margin-bottom:16px}
 .apps button{font:500 .66rem/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);background:none;border:0;border-radius:100px;padding:8px 13px;cursor:pointer}
@@ -127,7 +127,7 @@ tbody tr{transition:background .2s}
   .hero-cta .btn{width:100%;justify-content:center}
 }
 </style>
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Ccircle cx=%2716%27 cy=%2716%27 r=%2714%27 fill=%27%230c0a09%27 stroke=%27%23d09a47%27 stroke-width=%272%27/%3E%3Ccircle cx=%2716%27 cy=%2716%27 r=%274%27 fill=%27%23d09a47%27/%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Ccircle cx=%2716%27 cy=%2716%27 r=%2714%27 fill=%27%230e0f0f%27 stroke=%27%238fbf9f%27 stroke-width=%272%27/%3E%3Ccircle cx=%2716%27 cy=%2716%27 r=%274%27 fill=%27%238fbf9f%27/%3E%3C/svg%3E">
 <meta property="og:site_name" content="MarginLab">
 <meta property="og:image" content="https://margindatalab.com/og.png">
 <meta property="og:image:width" content="1200">
@@ -137,6 +137,7 @@ tbody tr{transition:background .2s}
 <link rel="manifest" href="/site.webmanifest">
 <meta property="og:description" content="The MarginLab menu audit, run on a made-up café: the menu, the walk-in margins and what each delivery app leaves you.">
 <script>(function(){var l;try{l=localStorage.getItem("ml_lang")}catch(e){}if(!l){l=(navigator.languages||[navigator.language||""]).some(function(x){return/^(id|in)\b/i.test(x)})?"id":"en"}if(l==="id"){var d=document.documentElement;d.classList.add("ml-pending");setTimeout(function(){d.classList.remove("ml-pending")},1500)}})()</script><style>.ml-pending body{opacity:0}</style>
+<style>:root{--ml-bg:#0e0f0f;--ml-bg-rgb:14,15,15;--ml-bg2:#111312;--ml-bg2-rgb:17,19,18;--ml-surface:#171a19;--ml-surface-rgb:23,26,25;--ml-surface2:#1d2120;--ml-surface2-rgb:29,33,32;--ml-surface3:#252a28;--ml-surface3-rgb:37,42,40;--ml-on-accent:#0b1a10;--ml-on-accent-rgb:11,26,16;--ml-ink:#eef1ee;--ml-ink-rgb:238,241,238;--ml-ink-dim:#cfd6d1;--ml-ink-dim-rgb:207,214,209;--ml-muted:#9aa39e;--ml-muted-rgb:154,163,158;--ml-muted2:#838c87;--ml-muted2-rgb:131,140,135;--ml-muted3:#414845;--ml-muted3-rgb:65,72,69;--ml-mid:#67706b;--ml-mid-rgb:103,112,107;--ml-accent:#8fbf9f;--ml-accent-rgb:143,191,159;--ml-accent-bright:#aed6bb;--ml-accent-bright-rgb:174,214,187;--ml-accent-deep:#5f9474;--ml-accent-deep-rgb:95,148,116;--ml-terra:#d08a5b;--ml-terra-rgb:208,138,91;--ml-sage:#c9b87a;--ml-sage-rgb:201,184,122;--ml-teal:#6fa3b8;--ml-teal-rgb:111,163,184;color-scheme:dark}@media (prefers-color-scheme:light){:root:not([data-theme=dark]){--ml-bg:#f3f5f2;--ml-bg-rgb:243,245,242;--ml-bg2:#ecefeb;--ml-bg2-rgb:236,239,235;--ml-surface:#ffffff;--ml-surface-rgb:255,255,255;--ml-surface2:#f8faf7;--ml-surface2-rgb:248,250,247;--ml-surface3:#dde3de;--ml-surface3-rgb:221,227,222;--ml-on-accent:#ffffff;--ml-on-accent-rgb:255,255,255;--ml-ink:#151917;--ml-ink-rgb:21,25,23;--ml-ink-dim:#2e3531;--ml-ink-dim-rgb:46,53,49;--ml-muted:#58615c;--ml-muted-rgb:88,97,92;--ml-muted2:#6f7873;--ml-muted2-rgb:111,120,115;--ml-muted3:#bcc4bf;--ml-muted3-rgb:188,196,191;--ml-mid:#89928c;--ml-mid-rgb:137,146,140;--ml-accent:#3d7553;--ml-accent-rgb:61,117,83;--ml-accent-bright:#4a8a63;--ml-accent-bright-rgb:74,138,99;--ml-accent-deep:#2c5a3f;--ml-accent-deep-rgb:44,90,63;--ml-terra:#a85a33;--ml-terra-rgb:168,90,51;--ml-sage:#8a7632;--ml-sage-rgb:138,118,50;--ml-teal:#3a6f82;--ml-teal-rgb:58,111,130;color-scheme:light}}:root[data-theme=light]{--ml-bg:#f3f5f2;--ml-bg-rgb:243,245,242;--ml-bg2:#ecefeb;--ml-bg2-rgb:236,239,235;--ml-surface:#ffffff;--ml-surface-rgb:255,255,255;--ml-surface2:#f8faf7;--ml-surface2-rgb:248,250,247;--ml-surface3:#dde3de;--ml-surface3-rgb:221,227,222;--ml-on-accent:#ffffff;--ml-on-accent-rgb:255,255,255;--ml-ink:#151917;--ml-ink-rgb:21,25,23;--ml-ink-dim:#2e3531;--ml-ink-dim-rgb:46,53,49;--ml-muted:#58615c;--ml-muted-rgb:88,97,92;--ml-muted2:#6f7873;--ml-muted2-rgb:111,120,115;--ml-muted3:#bcc4bf;--ml-muted3-rgb:188,196,191;--ml-mid:#89928c;--ml-mid-rgb:137,146,140;--ml-accent:#3d7553;--ml-accent-rgb:61,117,83;--ml-accent-bright:#4a8a63;--ml-accent-bright-rgb:74,138,99;--ml-accent-deep:#2c5a3f;--ml-accent-deep-rgb:44,90,63;--ml-terra:#a85a33;--ml-terra-rgb:168,90,51;--ml-sage:#8a7632;--ml-sage-rgb:138,118,50;--ml-teal:#3a6f82;--ml-teal-rgb:58,111,130;color-scheme:light}.theme-btn{display:inline-grid;place-items:center;width:30px;height:30px;padding:0;border-radius:50%;border:1px solid rgba(var(--ml-ink-rgb),.18);background:none;color:var(--ml-muted);cursor:pointer;transition:color .3s,border-color .3s;vertical-align:middle;flex:none}.theme-btn:hover{color:var(--ml-accent);border-color:var(--ml-accent)}.theme-btn svg{width:15px;height:15px}.lang-li{display:flex;align-items:center;gap:10px}</style><script>(function(){var d=document.documentElement;try{var t=localStorage.getItem("ml_theme");if(t==="light"||t==="dark")d.setAttribute("data-theme",t)}catch(e){}document.addEventListener("click",function(e){var b=e.target.closest&&e.target.closest("[data-theme-toggle]");if(!b)return;var c=d.getAttribute("data-theme")||(matchMedia("(prefers-color-scheme: light)").matches?"light":"dark"),n=c==="light"?"dark":"light";d.setAttribute("data-theme",n);try{localStorage.setItem("ml_theme",n)}catch(_){}})})()</script>
 </head>
 <body>
 <div class="grain"></div>
@@ -145,10 +146,10 @@ tbody tr{transition:background .2s}
 <nav class="nav" id="nav">
   <a href="/" class="brand" aria-label="MarginLab home">
     <svg class="brand-mark" viewBox="0 0 60 60" fill="none">
-      <circle cx="30" cy="30" r="26" stroke="#d09a47" stroke-width="2.2"/>
-      <circle cx="30" cy="30" r="15" stroke="#766d5e" stroke-width="1.4"/>
-      <circle cx="30" cy="4" r="3.2" fill="#e7b75f"/>
-      <circle cx="49" cy="42" r="2.2" fill="#d09a47"/>
+      <circle cx="30" cy="30" r="26" stroke-width="2.2" style="stroke:var(--ml-accent)"/>
+      <circle cx="30" cy="30" r="15" stroke-width="1.4" style="stroke:var(--ml-mid)"/>
+      <circle cx="30" cy="4" r="3.2" style="fill:var(--ml-accent-bright)"/>
+      <circle cx="49" cy="42" r="2.2" style="fill:var(--ml-accent)"/>
     </svg>
     <span class="brand-name">Margin<b>Lab</b></span>
   </a>
@@ -157,7 +158,7 @@ tbody tr{transition:background .2s}
     <li><a href="/sample-audit-en" data-href-id="/contoh-audit-id" class="navlink">Sample audit</a></li>
     <li><a href="/#process" class="navlink">Process</a></li>
     <li><a href="/software" class="navlink active" aria-current="page">Software</a></li>
-    <li class="lang-li"><div class="lang-sw" data-no-t><button data-set-lang="en">EN</button><button data-set-lang="id">ID</button></div></li>
+    <li class="lang-li"><div class="lang-sw" data-no-t><button data-set-lang="en">EN</button><button data-set-lang="id">ID</button></div><button class="theme-btn" type="button" data-theme-toggle aria-label="Light or dark mode"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor"/></svg></button></li>
     <li><a href="https://contact.margindatalab.com/" class="nav-cta"><span>Get in touch</span></a></li>
   </ul>
   <button class="menu-toggle" id="menuToggle" aria-label="Menu" aria-expanded="false" aria-controls="navLinks"><span></span><span></span><span></span></button>
@@ -374,9 +375,9 @@ tbody tr{transition:background .2s}
       <div>
         <div class="brand">
           <svg class="brand-mark" viewBox="0 0 60 60" fill="none" style="width:26px;height:26px">
-            <circle cx="30" cy="30" r="26" stroke="#d09a47" stroke-width="2.2"/>
-            <circle cx="30" cy="30" r="15" stroke="#766d5e" stroke-width="1.4"/>
-            <circle cx="30" cy="4" r="3.2" fill="#e7b75f"/>
+            <circle cx="30" cy="30" r="26" stroke-width="2.2" style="stroke:var(--ml-accent)"/>
+            <circle cx="30" cy="30" r="15" stroke-width="1.4" style="stroke:var(--ml-mid)"/>
+            <circle cx="30" cy="4" r="3.2" style="fill:var(--ml-accent-bright)"/>
           </svg>
           <span class="brand-name">Margin<b>Lab</b></span>
         </div>

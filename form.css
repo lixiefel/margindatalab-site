@@ -1,13 +1,13 @@
 /* Shared look for /gratis, /bayar and /terima-kasih -- same palette as the home page. */
 :root{
-  --bg:#0c0a09;--surface:#15110c;--surface-2:#1b1610;--line:rgba(244,238,227,.1);--line-2:rgba(244,238,227,.18);
-  --cream:#f4eee3;--cream-dim:#dacfbd;--muted:#a39988;--ochre:#d09a47;--ochre-bright:#e7b75f;--bad:#e0806a;
+  --bg:var(--ml-bg);--surface:var(--ml-surface);--surface-2:var(--ml-surface2);--line:rgba(var(--ml-ink-rgb),.1);--line-2:rgba(var(--ml-ink-rgb),.18);
+  --cream:var(--ml-ink);--cream-dim:var(--ml-ink-dim);--muted:var(--ml-muted);--ochre:var(--ml-accent);--ochre-bright:var(--ml-accent-bright);--bad:#e0806a;
   --serif:"Fraunces",Georgia,serif;--sans:"Inter",system-ui,sans-serif;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{-webkit-text-size-adjust:100%}
 body{background:var(--bg);color:var(--cream);font:16px/1.6 var(--sans);min-height:100vh;
-  background-image:radial-gradient(ellipse 80% 50% at 50% -10%,rgba(208,154,71,.12),transparent 70%)}
+  background-image:radial-gradient(ellipse 80% 50% at 50% -10%,rgba(var(--ml-accent-rgb),.12),transparent 70%)}
 a{color:var(--ochre)}
 .top{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:18px clamp(16px,4vw,40px);
   border-bottom:1px solid var(--line)}
