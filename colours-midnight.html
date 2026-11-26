@@ -89,7 +89,7 @@
   </div>
   <div class="wrap hero-inner">
     <div class="eyebrow reveal in">Pricing intelligence · independent cafés</div>
-    <h1 class="reveal in d1">Many cafés leave<br>money on the table.<span class="small">We show you where it's hiding — and what to do Monday.</span></h1>
+    <h1 class="reveal in d1">Many cafés leave<br>money on the table.<span class="small">We show you where it's hiding.</span></h1>
     <p class="lede hero-sub reveal in d2">MarginLab helps independent cafés price their menus. It checks what each delivery order really leaves you, finds items that earn less than their full cost, and plans small price changes that you approve, one at a time.</p>
     <div class="hero-cta reveal in d3">
       <a href="/sample-audit-en" data-href-id="/contoh-audit-id" class="btn btn-primary">See a sample audit <span class="arrow">→</span></a>
@@ -111,11 +111,37 @@
   </div>
 </div>
 
+<!-- START HERE: the way through the site -->
+<section class="guide" id="start" aria-labelledby="startTitle">
+  <div class="wrap">
+    <div class="guide-head">
+      <div class="eyebrow reveal" id="startTitle">Start here</div>
+      <p class="guide-lede reveal d1">New here? Follow these four stops.</p>
+    </div>
+    <div class="guide-path">
+      <a class="g-card reveal" href="#method" data-tilt><span class="g-n">01</span><h4>The method</h4><p>How we work, in six steps.</p><span class="g-go" aria-hidden="true">→</span></a>
+      <a class="g-card reveal d1" href="/sample-audit-en" data-href-id="/contoh-audit-id" data-tilt><span class="g-n">02</span><h4>Sample audit</h4><p>What you receive, item by item.</p><span class="g-go" aria-hidden="true">→</span></a>
+      <a class="g-card reveal d2" href="/colours-midnight-software" data-tilt><span class="g-n">03</span><h4>Software</h4><p>The screens, on a made-up café.</p><span class="g-go" aria-hidden="true">→</span></a>
+      <a class="g-card g-last reveal d3" href="https://contact.margindatalab.com/" data-tilt><span class="g-n">04</span><h4>Get in touch</h4><p>Felix replies within one working day.</p><span class="g-go" aria-hidden="true">→</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION RAIL: where you are on the page (wide screens) -->
+<nav class="rail" id="rail" aria-label="Sections">
+  <a href="#ethos"><span>01 — The premise</span></a>
+  <a href="#method"><span>02 — The method</span></a>
+  <a href="#limits"><span>03 — Honest by design</span></a>
+  <a href="#process"><span>04 — How it runs</span></a>
+  <a href="#about"><span>05 — Who's behind it</span></a>
+  <a href="#contact"><span>06 — Let's find it</span></a>
+</nav>
+
 <!-- ETHOS -->
 <section class="ethos sec-pad" id="ethos">
   <div class="wrap">
     <div class="eyebrow reveal">01 — The premise</div>
-    <p class="ethos-quote reveal d1">Most cafés set prices by <span class="em">feel,</span> copy the shop next door, and never revisit it. Where margin is missing, it is often <span class="em">already on the menu.</span></p>
+    <p class="ethos-quote reveal d1"><span class="fill" id="ethosFill">Most cafés set prices by <span class="em">feel,</span> copy the shop next door, and never revisit it. Where margin is missing, it is often <span class="em">already on the menu.</span></span></p>
     <div class="ethos-grid">
       <div class="lede reveal d1">A few cents in the wrong place adds up over thousands of cups. The fix isn't raising everything — it's knowing which item can take a lift and which must stay cheap.</div>
       <div class="ethos-points">
@@ -146,9 +172,15 @@
         <div class="lstep"><div class="ln">v</div><div><h4>Small steps you approve</h4><p>An app price below its floor (what an order needs to cover its costs) is raised to that floor. Other changes are small steps from today's price. Nothing changes without your approval.</p></div></div>
         <div class="lstep"><div class="ln">vi</div><div><h4>Measure where sales allow</h4><p>If you sell enough, a price test checks a move before you keep it. If you don't, we say so plainly.</p></div></div>
       </div>
-      <div class="result-card reveal d1">
+      <div class="result-card story reveal d1">
         <div class="ribbon">◦ Illustration only</div>
-        <p class="result-note" style="margin-top:0;padding-top:0;border-top:0">We don't promise a profit increase. How your guests react to a new price only shows after the change, and at small volumes that takes a long time to see. We tell you how sure we are, item by item.</p>
+        <div class="story-now" aria-hidden="true">
+          <svg class="story-ring" viewBox="0 0 120 120"><circle class="track" cx="60" cy="60" r="52"/><circle class="prog" id="storyProg" cx="60" cy="60" r="52"/></svg>
+          <span class="story-num" id="storyNum">i</span>
+        </div>
+        <div class="story-title" id="storyTitle" aria-hidden="true"></div>
+        <div class="story-dots" id="storyDots" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+        <p class="result-note">We don't promise a profit increase. How your guests react to a new price only shows after the change, and at small volumes that takes a long time to see. We tell you how sure we are, item by item.</p>
       </div>
     </div>
   </div>
@@ -416,12 +448,60 @@
   function onScroll(){ if(!prog)return; var sc=window.scrollY||document.documentElement.scrollTop||0;
     var h=document.documentElement.scrollHeight-window.innerHeight; prog.style.width=(h>0?Math.min(100,sc/h*100):0)+'%'; }
   window.addEventListener('scroll',onScroll,{passive:true}); onScroll();
-  if(!RM){
-    Array.prototype.forEach.call(document.querySelectorAll('.tier,.limit-card'),function(c){
-      c.addEventListener('pointermove',function(e){ var r=c.getBoundingClientRect();
-        c.style.setProperty('--mx',(e.clientX-r.left)+'px'); c.style.setProperty('--my',(e.clientY-r.top)+'px'); });
-    });
+})();
+</script>
+<script>
+/* ===== the guided page: section rail, the premise lighting up, the method card, steps ===== */
+(function(){
+  "use strict";
+  var RM=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var $=function(s){return document.querySelector(s)}, $$=function(s){return Array.prototype.slice.call(document.querySelectorAll(s))};
+
+  // lines that draw when they come into view
+  var lineObs=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');lineObs.unobserve(e.target)}})},{threshold:.3});
+  $$('.guide-path').forEach(function(el){lineObs.observe(el)});
+  $$('.step').forEach(function(s,i){s.style.setProperty('--i',i)});
+
+  // section rail: shows past the hero, marks the section on screen
+  var rail=$('#rail'), links=rail?$$('#rail a'):[], hero=$('.hero');
+  var secs=links.map(function(a){return document.getElementById(a.getAttribute('href').slice(1))});
+  // the premise lights up as it is read
+  var fill=$('#ethosFill');
+  // the method: one step at a time
+  var steps=$$('.lstep'), grid=$('.latte-steps'), num=$('#storyNum'), title=$('#storyTitle'), prog=$('#storyProg'), dots=$$('#storyDots i');
+  var ROMAN=['i','ii','iii','iv','v','vi'], C=326.73, cur=-1;
+  if(grid&&title){grid.classList.add('js-story')}
+  function setStep(i,force){
+    if(i===cur&&!force) return; cur=i;
+    steps.forEach(function(s,k){s.classList.toggle('on',k===i)});
+    dots.forEach(function(d,k){d.classList.toggle('on',k<=i)});
+    if(num) num.textContent=ROMAN[i]||'';
+    if(prog) prog.style.strokeDashoffset=String(C*(1-(i+1)/steps.length));
+    if(title){var h=steps[i]&&steps[i].querySelector('h4'), t=h?h.textContent:'';
+      if(RM||force){title.textContent=t;return}
+      title.classList.add('swap'); setTimeout(function(){title.textContent=t;title.classList.remove('swap')},180);}
   }
+  document.addEventListener('ml:lang',function(){if(cur>=0)setStep(cur,true)});
+
+  var ticking=false;
+  function frame(){
+    ticking=false; var vh=window.innerHeight;
+    if(rail&&hero){
+      rail.classList.toggle('show',hero.getBoundingClientRect().bottom<vh*.4);
+      var on=-1; secs.forEach(function(s,k){if(s&&s.getBoundingClientRect().top<vh*.45)on=k});
+      links.forEach(function(a,k){a.classList.toggle('on',k===on)});
+    }
+    if(fill){
+      if(RM){fill.style.setProperty('--fill','100%')}
+      else{var r=fill.getBoundingClientRect(), p=(vh*.82-r.top)/(r.height+vh*.3);
+        fill.style.setProperty('--fill',(Math.max(0,Math.min(1,p))*100).toFixed(1)+'%');}
+    }
+    if(steps.length&&title){
+      var k=0; steps.forEach(function(s,j){if(s.getBoundingClientRect().top<vh*.55)k=j}); setStep(k);
+    }
+  }
+  function onScroll(){if(!ticking){ticking=true;requestAnimationFrame(frame)}}
+  window.addEventListener('scroll',onScroll,{passive:true}); window.addEventListener('resize',onScroll); frame();
 })();
 </script>
 <script>
@@ -443,6 +523,7 @@ document.addEventListener('click',function(e){
   <svg width="28" height="28" viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm5.3 14.1c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .1-3.3-.8-2.8-1.1-4.6-4-4.7-4.2-.1-.2-1.1-1.5-1.1-2.8s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.4 0 .5l-.3.5-.4.4c-.1.1-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.3 2.4 1.5.3.1.5.1.6-.1l.9-1c.2-.3.4-.2.6-.1l1.9.9c.3.1.5.2.5.3.1.2.1.7-.1 1.3Z"/></svg>
 </a>
 <script src="/form.js"></script>
+<script src="/motion.js"></script>
 <script src="/id.js"></script><script src="/lang.js"></script>
 <div class="ml-cw" data-no-t><style>
 .ml-cw{position:fixed;left:50%;bottom:16px;transform:translateX(-50%);z-index:9998;display:flex;flex-wrap:wrap;gap:6px;

@@ -16,7 +16,7 @@
 <link rel="stylesheet" href="/colours-forest.css" />
 <style>
 /* ---- software page: the home page's design (main.css) plus the screen viewer ---- */
-.sw-hero{padding:calc(90px + clamp(56px,9vh,110px)) 0 clamp(36px,5vh,56px);text-align:center;position:relative;z-index:2}
+.sw-hero{padding:calc(80px + clamp(28px,5vh,70px)) 0 clamp(28px,4vh,44px);text-align:center;position:relative;z-index:2}
 .sw-hero .eyebrow{justify-content:center}
 .sw-hero h1{font-size:clamp(2.8rem,7.4vw,6.2rem);line-height:.98;font-weight:340;letter-spacing:-.035em;max-width:900px;margin:22px auto 0}
 .sw-hero h1 .small{display:block;font-size:.4em;letter-spacing:-.01em;color:var(--cream-dim);font-weight:340;margin-top:.6em;font-style:italic}
@@ -26,13 +26,59 @@
 h2 .em{font-style:italic;color:var(--ochre)}
 .screens{position:relative;z-index:2}
 
-/* tabs */
-.seg{display:flex;justify-content:center;margin:0 auto 30px;padding:0 var(--gutter)}
-.seg-in{display:inline-flex;border:1px solid var(--line-2);border-radius:100px;padding:4px;gap:2px;background:var(--surface)}
-.seg button{font:500 .74rem/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);background:none;border:0;
-  border-radius:100px;padding:11px 18px;cursor:pointer;white-space:nowrap;transition:background .3s,color .3s}
-.seg button:hover{color:var(--cream)}
-.seg button[aria-selected=true]{background:var(--ochre);color:#14110a}
+/* the three steps */
+.guide-line{text-align:center;font:500 .72rem var(--mono);letter-spacing:.22em;text-transform:uppercase;color:var(--muted);margin:0 auto 22px;padding:0 var(--gutter)}
+.stepper{position:relative;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));max-width:720px;margin:0 auto 34px;padding:0 var(--gutter)}
+.stepper::before,.stepper::after{content:"";position:absolute;top:21px;left:calc(var(--gutter) + (100% - 2 * var(--gutter)) / 6);height:2px;border-radius:2px}
+.stepper::before{right:calc(var(--gutter) + (100% - 2 * var(--gutter)) / 6);background:var(--line-2)}
+.stepper::after{width:0;background:linear-gradient(90deg,var(--ochre-deep),var(--ochre));transition:width .8s var(--ease-out)}
+.stepper[data-step="1"]::after{width:calc((100% - 2 * var(--gutter)) * .334)}
+.stepper[data-step="2"]::after{width:calc((100% - 2 * var(--gutter)) * .668)}
+.stepper button{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;gap:10px;background:none;border:0;cursor:pointer;
+  color:var(--muted);font:500 .74rem/1.3 var(--mono);letter-spacing:.12em;text-transform:uppercase;padding:0 6px;transition:color .3s}
+.st-n{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;font:500 1rem var(--serif);letter-spacing:0;
+  background:var(--bg);border:1px solid var(--line-2);color:var(--muted);transition:background .45s,color .45s,border-color .45s,transform .45s var(--ease),box-shadow .45s}
+.stepper button:hover{color:var(--cream)}
+.stepper button:hover .st-n{border-color:var(--ochre)}
+.stepper button.done .st-n{border-color:var(--ochre);color:var(--ochre)}
+.stepper button[aria-selected=true]{color:var(--cream)}
+.stepper button[aria-selected=true] .st-n{background:var(--ochre);border-color:var(--ochre);color:#14110a;transform:scale(1.08);box-shadow:0 0 0 6px rgba(200,163,90,.14)}
+.guide-box{max-width:720px;margin:0 auto 18px;text-align:center}
+.guide-box .caption{margin:0 auto;min-height:0;animation:fadeUp .5s var(--ease-out)}
+.sg-k{display:block;font:500 .66rem var(--mono);letter-spacing:.2em;text-transform:uppercase;color:var(--ochre);margin-bottom:6px}
+/* run audit: a bar runs across the window */
+.window{position:relative;isolation:isolate}
+.run-bar{position:absolute;top:0;left:0;height:2px;width:0;z-index:3;background:linear-gradient(90deg,var(--ochre-deep),var(--ochre-bright));box-shadow:0 0 14px rgba(224,191,122,.6)}
+.running .run-bar{animation:runBar .9s var(--ease-out) forwards}
+@keyframes runBar{0%{width:0;opacity:1}85%{width:100%;opacity:1}100%{width:100%;opacity:0}}
+.window::after{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;opacity:0;transition:opacity .5s;
+  background:radial-gradient(420px 320px at var(--mx,50%) var(--my,30%),rgba(224,191,122,.07),transparent 65%)}
+.window:hover::after{opacity:1}
+.fake-btn.busy{pointer-events:none;opacity:.85}
+.fake-btn.busy::after{content:"";display:inline-block;width:12px;height:12px;margin-left:10px;vertical-align:-1px;border-radius:50%;
+  border:2px solid currentColor;border-right-color:transparent;animation:prespin .7s linear infinite}
+.fake-btn.next:not(.busy)::after{content:" →";display:inline-block;transition:transform .35s var(--ease)}
+.fake-btn.next:hover::after{transform:translateX(4px)}
+.ghost-btn{font:600 .84rem var(--sans);border-radius:100px;padding:11px 20px;cursor:pointer;background:none;color:var(--cream-dim);
+  border:1px solid var(--line-2);transition:border-color .3s,color .3s}
+.ghost-btn:hover{border-color:var(--ochre);color:var(--ochre)}
+.ghost-btn.back::before{content:"← "}
+.run-row.two{justify-content:space-between;gap:10px;flex-wrap:wrap}
+a.fake-btn{text-decoration:none;display:inline-block}
+/* rows come in one by one; bars grow */
+@keyframes rowIn{from{opacity:0;transform:translateX(-10px)}to{opacity:1;transform:none}}
+.panel.on tbody tr{animation:rowIn .5s var(--ease-out) both;animation-delay:calc(var(--r,0) * 70ms + 80ms)}
+.mbar{display:block;position:relative;height:3px;margin-top:6px;border-radius:3px;background:var(--surface-3);min-width:60px}
+.mbar i{position:absolute;left:0;top:0;bottom:0;border-radius:3px;background:var(--sage);transform-origin:left;animation:barIn 1s var(--ease-out) both;animation-delay:calc(var(--r,0) * 70ms + 300ms)}
+.pick .mbar::after{content:"";position:absolute;left:65%;top:-3px;bottom:-3px;width:1px;background:var(--cream-dim)}
+.pick tr:has(.warn) .mbar i{background:var(--terra)}
+.mbar.take i{background:var(--terra)}
+@keyframes barIn{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+.pick.hint tbody tr:nth-child(2) td:first-child::after{content:"";display:inline-block;width:7px;height:7px;margin-left:10px;border-radius:50%;
+  background:var(--ochre);vertical-align:1px;animation:hintPulse 1.6s ease-in-out infinite}
+@keyframes hintPulse{0%,100%{box-shadow:0 0 0 0 rgba(200,163,90,.55)}50%{box-shadow:0 0 0 7px rgba(200,163,90,0)}}
+@keyframes prespin{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){.panel.on tbody tr,.mbar i,.running .run-bar{animation:none}}
 
 /* the window */
 .stage{max-width:1120px;margin:0 auto;padding:0 var(--gutter)}
@@ -122,8 +168,8 @@ tbody tr{transition:background .2s}
 @media(max-width:900px){.tiles,.privacy{grid-template-columns:1fr}.fields{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:560px){
   .w-bar{grid-template-columns:44px 1fr 10px}.why-box{flex-direction:column;gap:2px}
-  .seg-in{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));width:100%;border-radius:16px}
-  .seg button{white-space:normal;line-height:1.3;padding:10px 6px;font-size:.62rem;letter-spacing:.08em;border-radius:12px}
+  .stepper button{font-size:.6rem;letter-spacing:.08em}.st-n{width:38px;height:38px}.stepper::before,.stepper::after{top:18px}
+  .run-row.two>*{flex:1 1 auto;text-align:center}
   .hero-cta .btn{width:100%;justify-content:center}
 }
 </style>
@@ -173,16 +219,21 @@ tbody tr{transition:background .2s}
 
 <!-- THE SCREENS -->
 <section class="screens" id="screens" style="padding-bottom:clamp(72px,10vw,120px)">
-  <div class="seg reveal in d2">
-    <div class="seg-in" role="tablist" aria-label="Screens">
-      <button role="tab" id="t-menu" aria-controls="p-menu" aria-selected="true" data-tab="menu">1. Your menu</button>
-      <button role="tab" id="t-walkin" aria-controls="p-walkin" aria-selected="false" data-tab="walkin">2. Walk-in audit</button>
-      <button role="tab" id="t-apps" aria-controls="p-apps" aria-selected="false" data-tab="apps">3. Delivery apps</button>
-    </div>
+  <p class="guide-line reveal in d2">Three screens, in order. Start with your menu.</p>
+  <div class="stepper reveal in d2" role="tablist" aria-label="Screens" data-step="0">
+    <button role="tab" id="t-menu" aria-controls="p-menu" aria-selected="true" data-tab="menu"><span class="st-n" id="n-menu">1</span><span class="st-t">Your menu</span></button>
+    <button role="tab" id="t-walkin" aria-controls="p-walkin" aria-selected="false" data-tab="walkin"><span class="st-n" id="n-walkin">2</span><span class="st-t">Walk-in audit</span></button>
+    <button role="tab" id="t-apps" aria-controls="p-apps" aria-selected="false" data-tab="apps"><span class="st-n" id="n-apps">3</span><span class="st-t">Delivery apps</span></button>
   </div>
 
   <div class="stage reveal in d3">
-    <div class="window">
+    <div class="guide-box" aria-live="polite">
+      <p class="caption" id="cap-menu"><span class="sg-k" id="sg-1">Step 1 of 3</span>Type or paste your menu: price, HPP, units sold and app prices. "23k", "23.000" and "Rp 23.000" all work.</p>
+      <p class="caption" id="cap-walkin" hidden><span class="sg-k" id="sg-2">Step 2 of 3</span>Every item gets a margin, a status and a reason in plain words. Tap a row to read it.</p>
+      <p class="caption" id="cap-apps" hidden><span class="sg-k" id="sg-3">Step 3 of 3</span>What each app really leaves you per order, and the app price under which an order loses money.</p>
+    </div>
+    <div class="window" id="win">
+      <div class="run-bar" aria-hidden="true"></div>
       <div class="w-bar">
         <div class="dots" aria-hidden="true"><i></i><i></i><i></i></div>
         <div class="url"><svg viewBox="0 0 10 12" fill="currentColor" aria-hidden="true"><path d="M2 5V3.5a3 3 0 0 1 6 0V5h.5A1.5 1.5 0 0 1 10 6.5v4A1.5 1.5 0 0 1 8.5 12h-7A1.5 1.5 0 0 1 0 10.5v-4A1.5 1.5 0 0 1 1.5 5H2Zm1.3 0h3.4V3.5a1.7 1.7 0 0 0-3.4 0V5Z"/></svg><span>tool.margindatalab.com</span></div>
@@ -214,7 +265,7 @@ tbody tr{transition:background .2s}
               </tbody>
             </table>
           </div>
-          <div class="run-row"><button class="fake-btn" type="button" data-go="walkin">Run audit</button></div>
+          <div class="run-row"><button class="fake-btn next" type="button" id="runBtn">Run audit</button></div>
         </div>
 
         <!-- 2. walk-in -->
@@ -227,11 +278,11 @@ tbody tr{transition:background .2s}
             <table class="pick" id="walkTbl">
               <thead><tr><th>Item</th><th>Price</th><th>HPP</th><th>Contribution</th><th>Margin</th><th>Status</th><th>Per month</th></tr></thead>
               <tbody>
-                <tr class="sel" data-why="w-croissant"><td>Croissant</td><td>18.000</td><td>7.200</td><td>10.800</td><td>60%</td><td><span class="pill warn">below target</span></td><td>1.620.000</td></tr>
-                <tr data-why="w-eks"><td>Es Kopi Susu</td><td>22.000</td><td>6.500</td><td>15.500</td><td>70%</td><td><span class="pill ok">on target</span></td><td>19.220.000</td></tr>
-                <tr data-why="w-etm"><td>Es Teh Manis</td><td>5.000</td><td>1.200</td><td>3.800</td><td>76%</td><td><span class="pill ok">on target</span></td><td>1.596.000</td></tr>
-                <tr data-why="w-kh"><td>Kopi Hitam</td><td>8.000</td><td>2.200</td><td>5.800</td><td>73%</td><td><span class="pill ok">on target</span></td><td>1.798.000</td></tr>
-                <tr data-why="w-ksga"><td>Kopi Susu Gula Aren</td><td>15.000</td><td>5.200</td><td>9.800</td><td>65%</td><td><span class="pill ok">on target</span></td><td>8.624.000</td></tr>
+                <tr class="sel" data-why="w-croissant"><td>Croissant</td><td>18.000</td><td>7.200</td><td>10.800</td><td>60%<span class="mbar" aria-hidden="true"><i style="width:60%"></i></span></td><td><span class="pill warn">below target</span></td><td>1.620.000</td></tr>
+                <tr data-why="w-eks"><td>Es Kopi Susu</td><td>22.000</td><td>6.500</td><td>15.500</td><td>70%<span class="mbar" aria-hidden="true"><i style="width:70%"></i></span></td><td><span class="pill ok">on target</span></td><td>19.220.000</td></tr>
+                <tr data-why="w-etm"><td>Es Teh Manis</td><td>5.000</td><td>1.200</td><td>3.800</td><td>76%<span class="mbar" aria-hidden="true"><i style="width:76%"></i></span></td><td><span class="pill ok">on target</span></td><td>1.596.000</td></tr>
+                <tr data-why="w-kh"><td>Kopi Hitam</td><td>8.000</td><td>2.200</td><td>5.800</td><td>73%<span class="mbar" aria-hidden="true"><i style="width:73%"></i></span></td><td><span class="pill ok">on target</span></td><td>1.798.000</td></tr>
+                <tr data-why="w-ksga"><td>Kopi Susu Gula Aren</td><td>15.000</td><td>5.200</td><td>9.800</td><td>65%<span class="mbar" aria-hidden="true"><i style="width:65%"></i></span></td><td><span class="pill ok">on target</span></td><td>8.624.000</td></tr>
               </tbody>
             </table>
           </div>
@@ -243,6 +294,7 @@ tbody tr{transition:background .2s}
             <span id="w-kh" class="why" hidden>Margin 73%, at or above the 65% target.</span>
             <span id="w-ksga" class="why" hidden>Margin 65%, at or above the 65% target.</span>
           </div>
+          <div class="run-row two"><button class="ghost-btn back" type="button" data-go="menu">1. Your menu</button><button class="fake-btn next" type="button" data-go="apps">3. Delivery apps</button></div>
         </div>
 
         <!-- 3. delivery apps -->
@@ -259,29 +311,27 @@ tbody tr{transition:background .2s}
             <table id="appTbl">
               <thead><tr><th>Item</th><th>Price</th><th>App price</th><th>You keep</th><th>Taken</th><th>Loses below</th><th>Status</th></tr></thead>
               <tbody>
-                <tr data-app="go"><td>Es Kopi Susu</td><td>22.000</td><td>27.000</td><td>19.896</td><td>26%</td><td>10.000</td><td><span class="pill ok">ok</span></td></tr>
-                <tr data-app="go"><td>Es Teh Manis</td><td>5.000</td><td>6.500</td><td>3.947</td><td>39%</td><td>3.000</td><td><span class="pill ok">ok</span></td></tr>
-                <tr data-app="go"><td>Kopi Hitam</td><td>8.000</td><td>10.000</td><td>6.670</td><td>33%</td><td>4.500</td><td><span class="pill ok">ok</span></td></tr>
-                <tr data-app="go"><td>Kopi Susu Gula Aren</td><td>15.000</td><td>18.000</td><td>12.894</td><td>28%</td><td>8.500</td><td><span class="pill ok">ok</span></td></tr>
-                <tr data-app="grab" hidden><td>Es Kopi Susu</td><td>22.000</td><td>28.000</td><td>19.453</td><td>31%</td><td>9.500</td><td><span class="pill ok">ok</span></td></tr>
-                <tr data-app="grab" hidden><td>Es Teh Manis</td><td>5.000</td><td>6.500</td><td>4.516</td><td>31%</td><td>2.000</td><td><span class="pill ok">ok</span></td></tr>
-                <tr data-app="grab" hidden><td>Kopi Hitam</td><td>8.000</td><td>10.000</td><td>6.948</td><td>31%</td><td>3.500</td><td><span class="pill ok">ok</span></td></tr>
-                <tr data-app="grab" hidden><td>Kopi Susu Gula Aren</td><td>15.000</td><td>19.000</td><td>13.200</td><td>31%</td><td>7.500</td><td><span class="pill ok">ok</span></td></tr>
-                <tr data-app="shopee" hidden><td>Es Kopi Susu</td><td>22.000</td><td>26.000</td><td>20.228</td><td>22%</td><td>8.500</td><td><span class="pill ok">ok</span></td></tr>
-                <tr data-app="shopee" hidden><td>Es Teh Manis</td><td>5.000</td><td>6.000</td><td>4.668</td><td>22%</td><td>2.000</td><td><span class="pill ok">ok</span></td></tr>
-                <tr data-app="shopee" hidden><td>Kopi Hitam</td><td>8.000</td><td>10.000</td><td>7.780</td><td>22%</td><td>3.000</td><td><span class="pill ok">ok</span></td></tr>
-                <tr data-app="shopee" hidden><td>Kopi Susu Gula Aren</td><td>15.000</td><td>18.000</td><td>14.004</td><td>22%</td><td>7.000</td><td><span class="pill ok">ok</span></td></tr>
+                <tr data-app="go"><td>Es Kopi Susu</td><td>22.000</td><td>27.000</td><td>19.896</td><td>26%<span class="mbar take" aria-hidden="true"><i style="width:26%"></i></span></td><td>10.000</td><td><span class="pill ok">ok</span></td></tr>
+                <tr data-app="go"><td>Es Teh Manis</td><td>5.000</td><td>6.500</td><td>3.947</td><td>39%<span class="mbar take" aria-hidden="true"><i style="width:39%"></i></span></td><td>3.000</td><td><span class="pill ok">ok</span></td></tr>
+                <tr data-app="go"><td>Kopi Hitam</td><td>8.000</td><td>10.000</td><td>6.670</td><td>33%<span class="mbar take" aria-hidden="true"><i style="width:33%"></i></span></td><td>4.500</td><td><span class="pill ok">ok</span></td></tr>
+                <tr data-app="go"><td>Kopi Susu Gula Aren</td><td>15.000</td><td>18.000</td><td>12.894</td><td>28%<span class="mbar take" aria-hidden="true"><i style="width:28%"></i></span></td><td>8.500</td><td><span class="pill ok">ok</span></td></tr>
+                <tr data-app="grab" hidden><td>Es Kopi Susu</td><td>22.000</td><td>28.000</td><td>19.453</td><td>31%<span class="mbar take" aria-hidden="true"><i style="width:31%"></i></span></td><td>9.500</td><td><span class="pill ok">ok</span></td></tr>
+                <tr data-app="grab" hidden><td>Es Teh Manis</td><td>5.000</td><td>6.500</td><td>4.516</td><td>31%<span class="mbar take" aria-hidden="true"><i style="width:31%"></i></span></td><td>2.000</td><td><span class="pill ok">ok</span></td></tr>
+                <tr data-app="grab" hidden><td>Kopi Hitam</td><td>8.000</td><td>10.000</td><td>6.948</td><td>31%<span class="mbar take" aria-hidden="true"><i style="width:31%"></i></span></td><td>3.500</td><td><span class="pill ok">ok</span></td></tr>
+                <tr data-app="grab" hidden><td>Kopi Susu Gula Aren</td><td>15.000</td><td>19.000</td><td>13.200</td><td>31%<span class="mbar take" aria-hidden="true"><i style="width:31%"></i></span></td><td>7.500</td><td><span class="pill ok">ok</span></td></tr>
+                <tr data-app="shopee" hidden><td>Es Kopi Susu</td><td>22.000</td><td>26.000</td><td>20.228</td><td>22%<span class="mbar take" aria-hidden="true"><i style="width:22%"></i></span></td><td>8.500</td><td><span class="pill ok">ok</span></td></tr>
+                <tr data-app="shopee" hidden><td>Es Teh Manis</td><td>5.000</td><td>6.000</td><td>4.668</td><td>22%<span class="mbar take" aria-hidden="true"><i style="width:22%"></i></span></td><td>2.000</td><td><span class="pill ok">ok</span></td></tr>
+                <tr data-app="shopee" hidden><td>Kopi Hitam</td><td>8.000</td><td>10.000</td><td>7.780</td><td>22%<span class="mbar take" aria-hidden="true"><i style="width:22%"></i></span></td><td>3.000</td><td><span class="pill ok">ok</span></td></tr>
+                <tr data-app="shopee" hidden><td>Kopi Susu Gula Aren</td><td>15.000</td><td>18.000</td><td>14.004</td><td>22%<span class="mbar take" aria-hidden="true"><i style="width:22%"></i></span></td><td>7.000</td><td><span class="pill ok">ok</span></td></tr>
               </tbody>
             </table>
           </div>
           <div class="why-box"><span class="k">Note</span><span>GoFood 20% + Rp 1.000 per order (published). GrabFood 27.5% and ShopeeFood 20% are estimates: neither publishes its Indonesian rate. PPN 11% on the platform fee. One item per order (the safest case).</span></div>
+          <div class="run-row two"><button class="ghost-btn back" type="button" data-go="walkin">2. Walk-in audit</button><a class="fake-btn next" href="https://contact.margindatalab.com/">Get in touch</a></div>
         </div>
       </div>
     </div>
 
-    <p class="caption" id="cap-menu">Type or paste your menu: price, HPP, units sold and app prices. "23k", "23.000" and "Rp 23.000" all work.</p>
-    <p class="caption" id="cap-walkin" hidden>Every item gets a margin, a status and a reason in plain words. Tap a row to read it.</p>
-    <p class="caption" id="cap-apps" hidden>What each app really leaves you per order, and the app price under which an order loses money.</p>
     <p class="fine">Made-up café and numbers. Arithmetic, not a forecast: at a higher price some customers may buy less.</p>
   </div>
 </section>
@@ -418,14 +468,32 @@ tbody tr{transition:background .2s}
   $$('#navLinks a').forEach(function(a){a.addEventListener('click',function(){setMenu(false)})});
   document.addEventListener('keydown',function(e){if(e.key==='Escape')setMenu(false)});
 
-  // screens
-  var tabs=$$('[role=tab]');
-  function show(name,focus){
-    tabs.forEach(function(t){var on=t.dataset.tab===name;t.setAttribute('aria-selected',String(on));t.tabIndex=on?0:-1;if(on&&focus)t.focus()});
-    ['menu','walkin','apps'].forEach(function(n){
-      $('#p-'+n).classList.toggle('on',n===name);
-      $('#cap-'+n).hidden=n!==name;
+  // the three screens, as steps
+  var RM=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var ORDER=['menu','walkin','apps'], tabs=$$('[role=tab]'), stepper=$('.stepper'), win=$('#win');
+  $$('#walkTbl tbody tr').forEach(function(r,k){r.style.setProperty('--r',k)});
+  ['go','grab','shopee'].forEach(function(a){$$('#appTbl tbody tr[data-app="'+a+'"]').forEach(function(r,k){r.style.setProperty('--r',k)})});
+  // numbers count up when the audit has run (1.620.000 style, the same in both languages)
+  function fmt(n){return String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g,'.')}
+  function countCells(){
+    if(RM) return;
+    $$('#walkTbl tbody td:nth-child(4), #walkTbl tbody td:last-child').forEach(function(td){
+      var end=td.dataset.v||(td.dataset.v=td.textContent.trim()), target=parseInt(end.replace(/\./g,''),10);
+      if(!target) return;
+      var t0=performance.now()+(parseFloat(td.parentNode.style.getPropertyValue('--r'))||0)*70;
+      (function tick(now){var p=Math.max(0,Math.min(1,(now-t0)/900)), e=1-Math.pow(1-p,3);
+        td.textContent=p<1?fmt(target*e):end; if(p<1) requestAnimationFrame(tick)})(performance.now());
     });
+  }
+  function show(name,focus,scroll){
+    var idx=ORDER.indexOf(name);
+    tabs.forEach(function(t,k){var on=t.dataset.tab===name;t.setAttribute('aria-selected',String(on));t.tabIndex=on?0:-1;
+      t.classList.toggle('done',k<idx);if(on&&focus)t.focus()});
+    if(stepper) stepper.setAttribute('data-step',String(idx));
+    ORDER.forEach(function(n){$('#p-'+n).classList.toggle('on',n===name);$('#cap-'+n).hidden=n!==name});
+    if(name==='walkin') countCells();
+    if(scroll&&stepper){var top=stepper.getBoundingClientRect().top;
+      if(top<0||top>window.innerHeight*.5) stepper.scrollIntoView({behavior:RM?'auto':'smooth',block:'start'});}
   }
   tabs.forEach(function(t,i){
     t.addEventListener('click',function(){show(t.dataset.tab)});
@@ -434,12 +502,25 @@ tbody tr{transition:background .2s}
       e.preventDefault(); show(tabs[(i+d+tabs.length)%tabs.length].dataset.tab,true);
     });
   });
-  $$('[data-go]').forEach(function(b){b.addEventListener('click',function(){show(b.dataset.go)})});
+  $$('[data-go]').forEach(function(b){b.addEventListener('click',function(){show(b.dataset.go,false,true)})});
+  // run audit: a short run, then the result
+  var run=$('#runBtn');
+  if(run) run.addEventListener('click',function(){
+    if(RM){show('walkin');return}
+    run.classList.add('busy'); win.classList.remove('running'); void win.offsetWidth; win.classList.add('running');
+    setTimeout(function(){run.classList.remove('busy');show('walkin',false,true)},850);
+    setTimeout(function(){win.classList.remove('running')},1000);
+  });
+  // a light follows the pointer over the window
+  if(win) win.addEventListener('pointermove',function(e){var r=win.getBoundingClientRect();
+    win.style.setProperty('--mx',(e.clientX-r.left)+'px');win.style.setProperty('--my',(e.clientY-r.top)+'px')});
 
-  // walk-in: a row shows its reason
+  // walk-in: a row shows its reason (a dot shows where to tap until the first tap)
+  var walk=$('#walkTbl'); if(walk) walk.classList.add('hint');
   $$('#walkTbl tbody tr').forEach(function(tr){
     tr.tabIndex=0;
     function pick(){
+      walk.classList.remove('hint');
       $$('#walkTbl tbody tr').forEach(function(r){r.classList.toggle('sel',r===tr)});
       $$('.why').forEach(function(w){w.hidden=w.id!==tr.dataset.why});
     }
@@ -464,6 +545,7 @@ tbody tr{transition:background .2s}
 })();
 </script>
 <script src="/form.js"></script>
+<script src="/motion.js"></script>
 <script src="/id.js"></script><script src="/lang.js"></script>
 <div class="ml-cw" data-no-t><style>
 .ml-cw{position:fixed;left:50%;bottom:16px;transform:translateX(-50%);z-index:9998;display:flex;flex-wrap:wrap;gap:6px;
