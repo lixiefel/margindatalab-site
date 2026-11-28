@@ -114,6 +114,9 @@
   }
 
   function initial() {
+    // a link can ask for a language: /sample-audit?lang=id (what /contoh-audit-id points to)
+    var q = /[?&]lang=(en|id)\b/.exec(location.search || "");
+    if (q) return q[1];
     try { var s = localStorage.getItem(KEY); if (s === "en" || s === "id") return s; } catch (e) {}
     var langs = navigator.languages || [navigator.language || ""];
     for (var i = 0; i < langs.length; i++) if (/^(id|in)\b/i.test(langs[i])) return "id";
