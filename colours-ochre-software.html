@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="theme-color" content="#0c0a09" />
 <title>The software — MarginLab</title>
-<meta name="description" content="The MarginLab menu audit, run on a made-up café: the menu, the walk-in margins and what each delivery app leaves you." />
+<meta name="description" content="The MarginLab menu audit, run on a made-up Jakarta café: the menu, every item's margin after full costs, and where to look first." />
 <meta property="og:url" content="https://margindatalab.com/software">
 <meta property="og:title" content="The software — MarginLab">
 <meta property="og:type" content="website">
@@ -57,24 +57,25 @@ h2 .em{font-style:italic;color:var(--ochre)}
 .fake-btn.busy{pointer-events:none;opacity:.85}
 .fake-btn.busy::after{content:"";display:inline-block;width:12px;height:12px;margin-left:10px;vertical-align:-1px;border-radius:50%;
   border:2px solid currentColor;border-right-color:transparent;animation:prespin .7s linear infinite}
-.fake-btn.next:not(.busy)::after{content:" →";display:inline-block;transition:transform .35s var(--ease)}
+.fake-btn.next:not(.busy)::after{content:"→";display:inline-block;margin-left:.5em;transition:transform .35s var(--ease)}
 .fake-btn.next:hover::after{transform:translateX(4px)}
 .ghost-btn{font:600 .84rem var(--sans);border-radius:100px;padding:11px 20px;cursor:pointer;background:none;color:var(--cream-dim);
   border:1px solid var(--line-2);transition:border-color .3s,color .3s}
 .ghost-btn:hover{border-color:var(--ochre);color:var(--ochre)}
-.ghost-btn.back::before{content:"← "}
+.ghost-btn.back::before{content:"←";display:inline-block;margin-right:.5em;transition:transform .35s var(--ease)}
+.ghost-btn.back:hover::before{transform:translateX(-4px)}
 .run-row.two{justify-content:space-between;gap:10px;flex-wrap:wrap}
 a.fake-btn{text-decoration:none;display:inline-block}
 /* rows come in one by one; bars grow */
 @keyframes rowIn{from{opacity:0;transform:translateX(-10px)}to{opacity:1;transform:none}}
 .panel.on tbody tr{animation:rowIn .5s var(--ease-out) both;animation-delay:calc(var(--r,0) * 70ms + 80ms)}
 .mbar{display:block;position:relative;height:3px;margin-top:6px;border-radius:3px;background:var(--surface-3);min-width:60px}
-.mbar i{position:absolute;left:0;top:0;bottom:0;border-radius:3px;background:var(--sage);transform-origin:left;animation:barIn 1s var(--ease-out) both;animation-delay:calc(var(--r,0) * 70ms + 300ms)}
+.mbar i{position:absolute;left:0;top:0;bottom:0;border-radius:3px;background:var(--ochre);transform-origin:left;animation:barIn 1s var(--ease-out) both;animation-delay:calc(var(--r,0) * 70ms + 300ms)}
 .pick .mbar::after{content:"";position:absolute;left:65%;top:-3px;bottom:-3px;width:1px;background:var(--cream-dim)}
 .pick tr:has(.warn) .mbar i{background:var(--terra)}
 .mbar.take i{background:var(--terra)}
 @keyframes barIn{from{transform:scaleX(0)}to{transform:scaleX(1)}}
-.pick.hint tbody tr:nth-child(2) td:first-child::after{content:"";display:inline-block;width:7px;height:7px;margin-left:10px;border-radius:50%;
+.pick.hint tbody tr[data-hint] td:first-child::after{content:"";display:inline-block;width:7px;height:7px;margin-left:10px;border-radius:50%;
   background:var(--ochre);vertical-align:1px;animation:hintPulse 1.6s ease-in-out infinite}
 @keyframes hintPulse{0%,100%{box-shadow:0 0 0 0 rgba(208,154,71,.55)}50%{box-shadow:0 0 0 7px rgba(208,154,71,0)}}
 @keyframes prespin{to{transform:rotate(360deg)}}
@@ -118,7 +119,7 @@ tbody tr{transition:background .2s}
 .pick tbody tr:hover{background:rgba(244,238,227,.04)}
 .pick tbody tr.sel{background:rgba(208,154,71,.10);box-shadow:inset 2px 0 0 var(--ochre)}
 .pill{display:inline-block;font:500 .62rem var(--mono);letter-spacing:.12em;text-transform:uppercase;padding:4px 9px;border-radius:100px;border:1px solid}
-.pill.ok{color:var(--sage);border-color:currentColor}
+.pill.ok{color:var(--ochre);border-color:currentColor}
 .pill.warn{color:var(--terra);border-color:currentColor}
 
 .summary{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:16px}
@@ -134,6 +135,68 @@ tbody tr{transition:background .2s}
 .apps button[aria-pressed=true]{background:var(--surface-3);color:var(--cream)}
 .caption{max-width:640px;margin:26px auto 0;text-align:center;color:var(--cream-dim);font-size:1rem;min-height:3em;line-height:1.6}
 .fine{text-align:center;color:var(--muted-2);font:400 .72rem var(--mono);letter-spacing:.04em;margin-top:10px}
+
+
+/* the example café */
+.cafe-card{display:grid;grid-template-columns:auto 1fr;gap:16px 24px;align-items:center;margin-bottom:18px;padding:16px 18px;border:1px solid var(--line);border-radius:14px;background:var(--bg-2)}
+.cafe-id{display:flex;align-items:center;gap:14px}
+.cafe-logo{width:46px;height:46px;border-radius:12px;display:grid;place-items:center;font:500 1rem var(--serif);color:#1a1206;
+  background:linear-gradient(145deg,var(--ochre-bright),var(--ochre-deep));flex:none}
+.cafe-name{font:400 1.3rem/1.1 var(--serif);letter-spacing:-.01em;color:var(--cream)}
+.cafe-sub{font-size:.8rem;color:var(--muted);margin-top:3px}
+.cafe-card .fields{margin:0;grid-template-columns:repeat(4,minmax(0,1fr))}
+.cafe-card .field{background:var(--surface);padding:9px 12px}
+.cafe-card .field .v{font-size:1.02rem}
+.menu-tbl tr.grp td{font:500 .62rem var(--mono);letter-spacing:.18em;text-transform:uppercase;color:var(--ochre);background:rgba(208,154,71,.05);padding:8px 14px}
+td.near{color:var(--muted)}
+.stats{display:grid;grid-template-columns:repeat(3,minmax(0,.7fr)) minmax(0,1.6fr);gap:10px;margin-bottom:16px}
+.stat{border:1px solid var(--line);border-radius:12px;padding:12px 16px;background:var(--bg-2)}
+.stat .n{font:400 1.7rem/1.1 var(--serif);color:var(--cream);letter-spacing:-.02em}
+.stat .l{font:500 .62rem var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-top:4px}
+.stat.ok .n{color:var(--ochre)}.stat.warn .n{color:var(--terra)}.stat.wide .n{color:var(--cream)}
+.tbl-note{font:400 .72rem var(--mono);color:var(--muted-2);margin-top:10px;letter-spacing:.02em}
+.look-lead{font:340 clamp(1.05rem,1.8vw,1.3rem)/1.45 var(--serif);color:var(--cream);max-width:62ch;margin-bottom:20px}
+.looks{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.look{position:relative;overflow:hidden;isolation:isolate;border:1px solid var(--line);border-radius:14px;padding:18px;background:var(--bg-2);
+  display:flex;flex-direction:column;gap:12px;transition:transform .5s var(--ease),border-color .4s;animation:rowIn .55s var(--ease-out) both;animation-delay:calc(var(--r,0) * 110ms + 80ms)}
+.look:hover{border-color:rgba(198,106,61,.45)}
+.look::after{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;opacity:0;transition:opacity .45s;border-radius:inherit;
+  background:radial-gradient(240px 180px at var(--mx,50%) var(--my,50%),rgba(231,183,95,.1),transparent 60%)}
+.look:hover::after{opacity:1}
+.look-head{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.look-head h5{font:500 1.02rem var(--sans);color:var(--cream)}
+.look-m{display:flex;align-items:baseline;gap:6px;font-size:.82rem;color:var(--muted)}
+.look-m .n{font:400 1.6rem/1 var(--serif);color:var(--terra);margin-right:8px}
+.look-m .n.dim{font-size:1rem;color:var(--cream-dim)}
+.meter{position:relative;height:5px;border-radius:5px;background:var(--surface-3)}
+.meter i{position:absolute;left:0;top:0;bottom:0;border-radius:5px;background:var(--terra);transform-origin:left;animation:barIn 1s var(--ease-out) both .3s}
+.meter b{position:absolute;top:-4px;bottom:-4px;width:2px;border-radius:2px;background:var(--cream)}
+.scale{position:relative;height:30px;margin-top:6px;border-bottom:1px dashed var(--line-2)}
+.scale .band{position:absolute;bottom:0;height:14px;border-radius:4px 4px 0 0;background:rgba(93,145,138,.32);border:1px solid rgba(93,145,138,.6);border-bottom:0}
+.scale .mk{position:absolute;bottom:-5px;width:10px;height:10px;margin-left:-5px;border-radius:50%}
+.scale .mk.you{background:var(--cream);box-shadow:0 0 0 3px var(--bg-2)}
+.scale .mk.need{background:var(--terra);box-shadow:0 0 0 3px var(--bg-2);animation:needIn .9s var(--ease-out) both .5s}
+@keyframes needIn{from{opacity:0;transform:translateX(-24px)}to{opacity:1;transform:none}}
+.legend{display:flex;flex-direction:column;gap:5px;margin-top:4px}
+.legend>div{display:grid;grid-template-columns:12px 1fr auto;align-items:center;gap:8px;font-size:.8rem;color:var(--muted)}
+.legend .n,.look-cost .n{font:500 .78rem var(--mono);color:var(--cream-dim)}
+.lg{width:10px;height:10px;border-radius:50%}
+.lg.band-i{border-radius:3px;background:rgba(93,145,138,.5)}.lg.you-i{background:var(--cream)}.lg.need-i{background:var(--terra)}
+.look-cost{display:grid;grid-template-columns:1fr auto;gap:2px 8px;font-size:.8rem;color:var(--muted);padding-top:10px;border-top:1px solid var(--line)}
+.look-cost .parts{grid-column:1/-1;text-align:right;font:400 .7rem var(--mono);color:var(--muted-2)}
+.look-do{margin-top:auto;font-size:.88rem;line-height:1.5;color:var(--cream);border-left:2px solid var(--ochre);padding-left:10px}
+.month{margin-top:22px;border:1px solid var(--line);border-radius:14px;padding:16px 18px;background:var(--bg-2)}
+.month-h{font:500 .66rem var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-bottom:12px}
+.mrow{display:grid;grid-template-columns:minmax(0,190px) 1fr auto;align-items:center;gap:12px;padding:5px 0;font-size:.84rem}
+.mrow .mn{color:var(--cream-dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mrow .mb{height:8px;border-radius:8px;background:var(--surface-3);position:relative;overflow:hidden}
+.mrow .mb i{position:absolute;left:0;top:0;bottom:0;border-radius:8px;background:var(--ochre);transform-origin:left;animation:barIn 1s var(--ease-out) both;animation-delay:calc(var(--r,0) * 70ms + 200ms)}
+.mrow.warn .mb i{background:var(--terra)}
+.mrow .mv{font:500 .78rem var(--mono);color:var(--cream-dim);min-width:92px;text-align:right}
+@media(max-width:900px){.looks{grid-template-columns:1fr}.stats{grid-template-columns:repeat(3,minmax(0,1fr))}.stat.wide{grid-column:1/-1}
+  .cafe-card{grid-template-columns:1fr}.cafe-card .fields{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:560px){.mrow{grid-template-columns:minmax(0,1fr) auto;gap:4px 10px}.mrow .mb{grid-column:1/-1;grid-row:2}}
+@media (prefers-reduced-motion:reduce){.look,.meter i,.mrow .mb i,.scale .mk.need{animation:none}}
 
 /* sections */
 .alt{background:var(--bg-2)}
@@ -181,7 +244,7 @@ tbody tr{transition:background .2s}
 <meta name="twitter:card" content="summary_large_image">
 <link rel="apple-touch-icon" href="/icon-180.png">
 <link rel="manifest" href="/site.webmanifest">
-<meta property="og:description" content="The MarginLab menu audit, run on a made-up café: the menu, the walk-in margins and what each delivery app leaves you.">
+<meta property="og:description" content="The MarginLab menu audit, run on a made-up Jakarta café: the menu, every item's margin after full costs, and where to look first.">
 <script>(function(){var l;try{l=localStorage.getItem("ml_lang")}catch(e){}if(!l){l=(navigator.languages||[navigator.language||""]).some(function(x){return/^(id|in)\b/i.test(x)})?"id":"en"}if(l==="id"){var d=document.documentElement;d.classList.add("ml-pending");setTimeout(function(){d.classList.remove("ml-pending")},1500)}})()</script><style>.ml-pending body{opacity:0}</style>
 </head>
 <body>
@@ -200,7 +263,6 @@ tbody tr{transition:background .2s}
   </a>
   <ul class="nav-links" id="navLinks">
     <li><a href="/#method" class="navlink">Method</a></li>
-    <li><a href="/sample-audit-en" data-href-id="/contoh-audit-id" class="navlink">Sample audit</a></li>
     <li><a href="/#process" class="navlink">Process</a></li>
     <li><a href="/colours-ochre-software" class="navlink active" aria-current="page">Software</a></li>
     <li class="lang-li"><div class="lang-sw" data-no-t><button data-set-lang="en">EN</button><button data-set-lang="id">ID</button></div></li>
@@ -222,15 +284,15 @@ tbody tr{transition:background .2s}
   <p class="guide-line reveal in d2">Three screens, in order. Start with your menu.</p>
   <div class="stepper reveal in d2" role="tablist" aria-label="Screens" data-step="0">
     <button role="tab" id="t-menu" aria-controls="p-menu" aria-selected="true" data-tab="menu"><span class="st-n" id="n-menu">1</span><span class="st-t">Your menu</span></button>
-    <button role="tab" id="t-walkin" aria-controls="p-walkin" aria-selected="false" data-tab="walkin"><span class="st-n" id="n-walkin">2</span><span class="st-t">Walk-in audit</span></button>
-    <button role="tab" id="t-apps" aria-controls="p-apps" aria-selected="false" data-tab="apps"><span class="st-n" id="n-apps">3</span><span class="st-t">Delivery apps</span></button>
+    <button role="tab" id="t-walkin" aria-controls="p-walkin" aria-selected="false" data-tab="walkin"><span class="st-n" id="n-walkin">2</span><span class="st-t">Your margins</span></button>
+    <button role="tab" id="t-look" aria-controls="p-look" aria-selected="false" data-tab="look"><span class="st-n" id="n-look">3</span><span class="st-t">Where to look first</span></button>
   </div>
 
   <div class="stage reveal in d3">
     <div class="guide-box" aria-live="polite">
-      <p class="caption" id="cap-menu"><span class="sg-k" id="sg-1">Step 1 of 3</span>Type or paste your menu: price, HPP, units sold and app prices. "23k", "23.000" and "Rp 23.000" all work.</p>
-      <p class="caption" id="cap-walkin" hidden><span class="sg-k" id="sg-2">Step 2 of 3</span>Every item gets a margin, a status and a reason in plain words. Tap a row to read it.</p>
-      <p class="caption" id="cap-apps" hidden><span class="sg-k" id="sg-3">Step 3 of 3</span>What each app really leaves you per order, and the app price under which an order loses money.</p>
+      <p class="caption" id="cap-menu"><span class="sg-k" id="sg-1">Step 1 of 3</span>The menu as it is today: price, HPP, how many sell a day, and what cafés nearby charge.</p>
+      <p class="caption" id="cap-walkin" hidden><span class="sg-k" id="sg-2">Step 2 of 3</span>Every item gets a margin after its full cost, a status and a reason in plain words. Tap a row to read it.</p>
+      <p class="caption" id="cap-look" hidden><span class="sg-k" id="sg-3">Step 3 of 3</span>The items under target, each next to what cafés nearby charge, and where the month's margin comes from.</p>
     </div>
     <div class="window" id="win">
       <div class="run-bar" aria-hidden="true"></div>
@@ -245,94 +307,150 @@ tbody tr{transition:background .2s}
           <div class="app-sub">Runs in this page; nothing is sent anywhere.</div>
         </div>
 
-        <!-- 1. menu -->
+        <!-- 1. your menu -->
         <div class="panel on" id="p-menu" role="tabpanel" aria-labelledby="t-menu">
-          <div class="fields">
-            <div class="field"><div class="k">Cafe name</div><div class="v">Kopi Contoh</div></div>
-            <div class="field"><div class="k">Target margin</div><div class="v">65%</div></div>
-            <div class="field"><div class="k">Thin below</div><div class="v">15%</div></div>
-            <div class="field"><div class="k">Paid by QRIS</div><div class="v">100%</div></div>
+          <div class="cafe-card">
+            <div class="cafe-id"><div class="cafe-logo" aria-hidden="true" data-no-t>KT</div><div><div class="cafe-name" data-no-t>Kopi Teras</div><div class="cafe-sub">Neighbourhood café, South Jakarta · made-up example</div></div></div>
+            <div class="fields">
+              <div class="field"><div class="k">Target margin</div><div class="v" data-no-t>65%</div></div>
+              <div class="field"><div class="k">Waste</div><div class="v" data-no-t>3%</div></div>
+              <div class="field"><div class="k">Takeaway</div><div class="v" data-no-t>30%</div></div>
+              <div class="field"><div class="k">Cup &amp; bag</div><div class="v" data-no-t>Rp 1.500</div></div>
+            </div>
           </div>
           <div class="tbl-wrap">
-            <table>
-              <thead><tr><th>Item</th><th>Price (Rp)</th><th>HPP (Rp)</th><th>Units / month</th><th>GoFood</th><th>GrabFood</th><th>ShopeeFood</th></tr></thead>
+            <table class="menu-tbl">
+              <thead><tr><th>Item</th><th>Price</th><th>HPP</th><th>Sold / day</th><th>Cafés nearby</th></tr></thead>
               <tbody>
-                <tr><td>Es Teh Manis</td><td>5.000</td><td>1.200</td><td>420</td><td>6.500</td><td>6.500</td><td>6.000</td></tr>
-                <tr><td>Kopi Hitam</td><td>8.000</td><td>2.200</td><td>310</td><td>10.000</td><td>10.000</td><td>10.000</td></tr>
-                <tr><td>Kopi Susu Gula Aren</td><td>15.000</td><td>5.200</td><td>880</td><td>18.000</td><td>19.000</td><td>18.000</td></tr>
-                <tr><td>Es Kopi Susu</td><td>22.000</td><td>6.500</td><td>1.240</td><td>27.000</td><td>28.000</td><td>26.000</td></tr>
-                <tr><td>Croissant</td><td>18.000</td><td>40%</td><td>150</td><td class="dim">–</td><td class="dim">–</td><td class="dim">–</td></tr>
+                <tr class="grp"><td colspan="5">Coffee</td></tr>
+                <tr><td data-no-t>Es Kopi Susu Gula Aren</td><td>25.000</td><td>7.800</td><td>45</td><td class="near">22.000 – 28.000</td></tr>
+                <tr><td data-no-t>Americano</td><td>22.000</td><td>5.200</td><td>18</td><td class="near">20.000 – 25.000</td></tr>
+                <tr><td data-no-t>Cafe Latte</td><td>30.000</td><td>9.000</td><td>20</td><td class="near">28.000 – 35.000</td></tr>
+                <tr class="grp"><td colspan="5">Non-coffee</td></tr>
+                <tr><td data-no-t>Matcha Latte</td><td>32.000</td><td>13.500</td><td>14</td><td class="near">30.000 – 38.000</td></tr>
+                <tr><td data-no-t>Es Teh Leci</td><td>22.000</td><td>6.000</td><td>12</td><td class="near">18.000 – 25.000</td></tr>
+                <tr class="grp"><td colspan="5">Pastry</td></tr>
+                <tr><td data-no-t>Butter Croissant</td><td>26.000</td><td>13.000</td><td>16</td><td class="near">25.000 – 32.000</td></tr>
+                <tr><td data-no-t>Banana Bread</td><td>24.000</td><td>6.500</td><td>8</td><td class="near">22.000 – 28.000</td></tr>
+                <tr class="grp"><td colspan="5">Food</td></tr>
+                <tr><td data-no-t>Nasi Ayam Sambal Matah</td><td>45.000</td><td>19.500</td><td>10</td><td class="near">40.000 – 50.000</td></tr>
               </tbody>
             </table>
           </div>
           <div class="run-row"><button class="fake-btn next" type="button" id="runBtn">Run audit</button></div>
         </div>
 
-        <!-- 2. walk-in -->
+        <!-- 2. your margins -->
         <div class="panel" id="p-walkin" role="tabpanel" aria-labelledby="t-walkin">
-          <div class="summary">
-            <div class="sum">Of 5 items with an HPP: <b>0</b> lose money, <b>0</b> thin, <b>1</b> below target, <b>4</b> on target.</div>
-            <div class="sum">Contribution per month: <b>Rp 32.858.000</b></div>
+          <div class="stats">
+            <div class="stat"><div class="n" data-no-t>8</div><div class="l">items on the menu</div></div>
+            <div class="stat ok"><div class="n" data-no-t>5</div><div class="l">on target</div></div>
+            <div class="stat warn"><div class="n" data-no-t>3</div><div class="l">below target</div></div>
+            <div class="stat wide"><div class="n" data-no-t>Rp 73.374.960</div><div class="l">left after full costs, per month</div></div>
           </div>
           <div class="tbl-wrap">
             <table class="pick" id="walkTbl">
-              <thead><tr><th>Item</th><th>Price</th><th>HPP</th><th>Contribution</th><th>Margin</th><th>Status</th><th>Per month</th></tr></thead>
+              <thead><tr><th>Item</th><th>Price</th><th>Full cost</th><th>Margin</th><th>Status</th><th>Per month</th></tr></thead>
               <tbody>
-                <tr class="sel" data-why="w-croissant"><td>Croissant</td><td>18.000</td><td>7.200</td><td>10.800</td><td>60%<span class="mbar" aria-hidden="true"><i style="width:60%"></i></span></td><td><span class="pill warn">below target</span></td><td>1.620.000</td></tr>
-                <tr data-why="w-eks"><td>Es Kopi Susu</td><td>22.000</td><td>6.500</td><td>15.500</td><td>70%<span class="mbar" aria-hidden="true"><i style="width:70%"></i></span></td><td><span class="pill ok">on target</span></td><td>19.220.000</td></tr>
-                <tr data-why="w-etm"><td>Es Teh Manis</td><td>5.000</td><td>1.200</td><td>3.800</td><td>76%<span class="mbar" aria-hidden="true"><i style="width:76%"></i></span></td><td><span class="pill ok">on target</span></td><td>1.596.000</td></tr>
-                <tr data-why="w-kh"><td>Kopi Hitam</td><td>8.000</td><td>2.200</td><td>5.800</td><td>73%<span class="mbar" aria-hidden="true"><i style="width:73%"></i></span></td><td><span class="pill ok">on target</span></td><td>1.798.000</td></tr>
-                <tr data-why="w-ksga"><td>Kopi Susu Gula Aren</td><td>15.000</td><td>5.200</td><td>9.800</td><td>65%<span class="mbar" aria-hidden="true"><i style="width:65%"></i></span></td><td><span class="pill ok">on target</span></td><td>8.624.000</td></tr>
+                <tr data-why="w-0"><td data-no-t>Es Kopi Susu Gula Aren</td><td>25.000</td><td>8.484</td><td>66%<span class="mbar" aria-hidden="true"><i style="width:66%"></i></span></td><td><span class="pill ok">on target</span></td><td>22.296.600</td></tr>
+                <tr data-hint data-why="w-1"><td data-no-t>Cafe Latte</td><td>30.000</td><td>9.720</td><td>68%<span class="mbar" aria-hidden="true"><i style="width:68%"></i></span></td><td><span class="pill ok">on target</span></td><td>12.168.000</td></tr>
+                <tr data-why="w-2"><td data-no-t>Americano</td><td>22.000</td><td>5.806</td><td>74%<span class="mbar" aria-hidden="true"><i style="width:74%"></i></span></td><td><span class="pill ok">on target</span></td><td>8.744.760</td></tr>
+                <tr class="sel" data-why="w-3"><td data-no-t>Matcha Latte</td><td>32.000</td><td>14.355</td><td>55%<span class="mbar" aria-hidden="true"><i style="width:55%"></i></span></td><td><span class="pill warn">below target</span></td><td>7.410.900</td></tr>
+                <tr data-why="w-4"><td data-no-t>Nasi Ayam Sambal Matah</td><td>45.000</td><td>20.535</td><td>54%<span class="mbar" aria-hidden="true"><i style="width:54%"></i></span></td><td><span class="pill warn">below target</span></td><td>7.339.500</td></tr>
+                <tr data-why="w-5"><td data-no-t>Butter Croissant</td><td>26.000</td><td>13.840</td><td>47%<span class="mbar" aria-hidden="true"><i style="width:47%"></i></span></td><td><span class="pill warn">below target</span></td><td>5.836.800</td></tr>
+                <tr data-why="w-6"><td data-no-t>Es Teh Leci</td><td>22.000</td><td>6.630</td><td>70%<span class="mbar" aria-hidden="true"><i style="width:70%"></i></span></td><td><span class="pill ok">on target</span></td><td>5.533.200</td></tr>
+                <tr data-why="w-7"><td data-no-t>Banana Bread</td><td>24.000</td><td>7.145</td><td>70%<span class="mbar" aria-hidden="true"><i style="width:70%"></i></span></td><td><span class="pill ok">on target</span></td><td>4.045.200</td></tr>
               </tbody>
             </table>
           </div>
+          <p class="tbl-note">Full cost = HPP, plus 3% waste, plus a cup and bag on the 30% sold to take away.</p>
           <div class="why-box" aria-live="polite">
             <span class="k">Why</span>
-            <span id="w-croissant" class="why">Margin 60%, under the 65% target. Cost-plus floor for your target margin: Rp 21.000. That is not a price to print: whether your customers would pay it is not known. First check its cost and portion.</span>
-            <span id="w-eks" class="why" hidden>Margin 70%, at or above the 65% target.</span>
-            <span id="w-etm" class="why" hidden>Margin 76%, at or above the 65% target.</span>
-            <span id="w-kh" class="why" hidden>Margin 73%, at or above the 65% target.</span>
-            <span id="w-ksga" class="why" hidden>Margin 65%, at or above the 65% target.</span>
+            <span id="w-0" class="why" hidden>Margin 66%, at or above your 65% target; neighbours charge Rp 20.900-29.400, you are in that band.</span>
+            <span id="w-1" class="why" hidden>Margin 68%, at or above your 65% target; neighbours charge Rp 26.600-36.750, you are in that band.</span>
+            <span id="w-2" class="why" hidden>Margin 74%, at or above your 65% target; neighbours charge Rp 19.000-26.250, you are in that band.</span>
+            <span id="w-3" class="why">Margin 55%, under your 65% target; cost-plus floor for your 65% target margin: Rp 42.000 (not a price to print: whether your customers would pay it is not known), above what neighbours charge: look at the recipe, portion or supplier before the price; neighbours charge Rp 28.500-39.900, you are in that band.</span>
+            <span id="w-4" class="why" hidden>Margin 54%, under your 65% target; cost-plus floor for your 65% target margin: Rp 59.000 (not a price to print: whether your customers would pay it is not known), above what neighbours charge: look at the recipe, portion or supplier before the price; neighbours charge Rp 38.000-52.500, you are in that band.</span>
+            <span id="w-5" class="why" hidden>Margin 47%, under your 65% target; cost-plus floor for your 65% target margin: Rp 40.000 (not a price to print: whether your customers would pay it is not known), above what neighbours charge: look at the recipe, portion or supplier before the price; neighbours charge Rp 23.750-33.600, you are in that band.</span>
+            <span id="w-6" class="why" hidden>Margin 70%, at or above your 65% target; neighbours charge Rp 17.100-26.250, you are in that band.</span>
+            <span id="w-7" class="why" hidden>Margin 70%, at or above your 65% target; neighbours charge Rp 20.900-29.400, you are in that band.</span>
           </div>
-          <div class="run-row two"><button class="ghost-btn back" type="button" data-go="menu">1. Your menu</button><button class="fake-btn next" type="button" data-go="apps">3. Delivery apps</button></div>
+          <div class="run-row two"><button class="ghost-btn back" type="button" data-go="menu">1. Your menu</button><button class="fake-btn next" type="button" data-go="look">3. Where to look first</button></div>
         </div>
 
-        <!-- 3. delivery apps -->
-        <div class="panel" id="p-apps" role="tabpanel" aria-labelledby="t-apps">
-          <div class="apps" data-no-t>
-            <button type="button" aria-pressed="true" data-app="go">GoFood</button>
-            <button type="button" aria-pressed="false" data-app="grab">GrabFood</button>
-            <button type="button" aria-pressed="false" data-app="shopee">ShopeeFood</button>
+        <!-- 3. where to look first -->
+        <div class="panel" id="p-look" role="tabpanel" aria-labelledby="t-look">
+          <p class="look-lead">3 items are under the 65% target. For each, the price the target would need is above what cafés nearby charge, so the place to start is the cost, not the price.</p>
+          <div class="looks">
+            <div class="look" data-tilt>
+              <div class="look-head"><h5 data-no-t>Butter Croissant</h5><span class="pill warn">below target</span></div>
+              <div class="look-m"><div class="t">Margin</div><div class="n" data-no-t>47%</div><div class="t dim">target</div><div class="n dim" data-no-t>65%</div></div>
+              <div class="meter" aria-hidden="true"><i style="width:47%"></i><b style="left:65%"></b></div>
+              <div class="scale" aria-hidden="true">
+                <div class="band" style="left:14.4%;width:calc(48.1% - 14.4%)"></div>
+                <div class="mk you" style="left:19.2%"></div>
+                <div class="mk need" style="left:86.5%"></div>
+              </div>
+              <div class="legend">
+                <div><i class="lg band-i"></i><div class="t">Cafés nearby</div><div class="n" data-no-t>25.000 – 32.000</div></div>
+                <div><i class="lg you-i"></i><div class="t">Your price</div><div class="n" data-no-t>26.000</div></div>
+                <div><i class="lg need-i"></i><div class="t">A 65% margin needs</div><div class="n" data-no-t>40.000</div></div>
+              </div>
+              <div class="look-cost"><div class="t">Full cost</div><div class="n" data-no-t>13.840</div><div class="parts" data-no-t>13.000 + 390 + 450</div></div>
+              <p class="look-do">Look at the recipe, portion or supplier before the price.</p>
+            </div>
+            <div class="look" data-tilt>
+              <div class="look-head"><h5 data-no-t>Nasi Ayam Sambal Matah</h5><span class="pill warn">below target</span></div>
+              <div class="look-m"><div class="t">Margin</div><div class="n" data-no-t>54%</div><div class="t dim">target</div><div class="n dim" data-no-t>65%</div></div>
+              <div class="meter" aria-hidden="true"><i style="width:54%"></i><b style="left:65%"></b></div>
+              <div class="scale" aria-hidden="true">
+                <div class="band" style="left:17.2%;width:calc(53.0% - 17.2%)"></div>
+                <div class="mk you" style="left:35.1%"></div>
+                <div class="mk need" style="left:85.2%"></div>
+              </div>
+              <div class="legend">
+                <div><i class="lg band-i"></i><div class="t">Cafés nearby</div><div class="n" data-no-t>40.000 – 50.000</div></div>
+                <div><i class="lg you-i"></i><div class="t">Your price</div><div class="n" data-no-t>45.000</div></div>
+                <div><i class="lg need-i"></i><div class="t">A 65% margin needs</div><div class="n" data-no-t>59.000</div></div>
+              </div>
+              <div class="look-cost"><div class="t">Full cost</div><div class="n" data-no-t>20.535</div><div class="parts" data-no-t>19.500 + 585 + 450</div></div>
+              <p class="look-do">Look at the recipe, portion or supplier before the price.</p>
+            </div>
+            <div class="look" data-tilt>
+              <div class="look-head"><h5 data-no-t>Matcha Latte</h5><span class="pill warn">below target</span></div>
+              <div class="look-m"><div class="t">Margin</div><div class="n" data-no-t>55%</div><div class="t dim">target</div><div class="n dim" data-no-t>65%</div></div>
+              <div class="meter" aria-hidden="true"><i style="width:55%"></i><b style="left:65%"></b></div>
+              <div class="scale" aria-hidden="true">
+                <div class="band" style="left:19.4%;width:calc(62.6% - 19.4%)"></div>
+                <div class="mk you" style="left:30.2%"></div>
+                <div class="mk need" style="left:84.1%"></div>
+              </div>
+              <div class="legend">
+                <div><i class="lg band-i"></i><div class="t">Cafés nearby</div><div class="n" data-no-t>30.000 – 38.000</div></div>
+                <div><i class="lg you-i"></i><div class="t">Your price</div><div class="n" data-no-t>32.000</div></div>
+                <div><i class="lg need-i"></i><div class="t">A 65% margin needs</div><div class="n" data-no-t>42.000</div></div>
+              </div>
+              <div class="look-cost"><div class="t">Full cost</div><div class="n" data-no-t>14.355</div><div class="parts" data-no-t>13.500 + 405 + 450</div></div>
+              <p class="look-do">Look at the recipe, portion or supplier before the price.</p>
+            </div>
           </div>
-          <div class="summary">
-            <div class="sum">Of 4 listed prices: <b>0</b> lose money on every order, <b>0</b> more are short.</div>
+          <div class="month">
+            <div class="month-h">Where the month's margin comes from</div>
+            <div class="mrow"><div class="mn" data-no-t>Es Kopi Susu Gula Aren</div><div class="mb" aria-hidden="true"><i style="width:100.0%"></i></div><div class="mv" data-no-t>22.296.600</div></div>
+            <div class="mrow"><div class="mn" data-no-t>Cafe Latte</div><div class="mb" aria-hidden="true"><i style="width:54.6%"></i></div><div class="mv" data-no-t>12.168.000</div></div>
+            <div class="mrow"><div class="mn" data-no-t>Americano</div><div class="mb" aria-hidden="true"><i style="width:39.2%"></i></div><div class="mv" data-no-t>8.744.760</div></div>
+            <div class="mrow warn"><div class="mn" data-no-t>Matcha Latte</div><div class="mb" aria-hidden="true"><i style="width:33.2%"></i></div><div class="mv" data-no-t>7.410.900</div></div>
+            <div class="mrow warn"><div class="mn" data-no-t>Nasi Ayam Sambal Matah</div><div class="mb" aria-hidden="true"><i style="width:32.9%"></i></div><div class="mv" data-no-t>7.339.500</div></div>
+            <div class="mrow warn"><div class="mn" data-no-t>Butter Croissant</div><div class="mb" aria-hidden="true"><i style="width:26.2%"></i></div><div class="mv" data-no-t>5.836.800</div></div>
+            <div class="mrow"><div class="mn" data-no-t>Es Teh Leci</div><div class="mb" aria-hidden="true"><i style="width:24.8%"></i></div><div class="mv" data-no-t>5.533.200</div></div>
+            <div class="mrow"><div class="mn" data-no-t>Banana Bread</div><div class="mb" aria-hidden="true"><i style="width:18.1%"></i></div><div class="mv" data-no-t>4.045.200</div></div>
           </div>
-          <div class="tbl-wrap">
-            <table id="appTbl">
-              <thead><tr><th>Item</th><th>Price</th><th>App price</th><th>You keep</th><th>Taken</th><th>Loses below</th><th>Status</th></tr></thead>
-              <tbody>
-                <tr data-app="go"><td>Es Kopi Susu</td><td>22.000</td><td>27.000</td><td>19.896</td><td>26%<span class="mbar take" aria-hidden="true"><i style="width:26%"></i></span></td><td>10.000</td><td><span class="pill ok">ok</span></td></tr>
-                <tr data-app="go"><td>Es Teh Manis</td><td>5.000</td><td>6.500</td><td>3.947</td><td>39%<span class="mbar take" aria-hidden="true"><i style="width:39%"></i></span></td><td>3.000</td><td><span class="pill ok">ok</span></td></tr>
-                <tr data-app="go"><td>Kopi Hitam</td><td>8.000</td><td>10.000</td><td>6.670</td><td>33%<span class="mbar take" aria-hidden="true"><i style="width:33%"></i></span></td><td>4.500</td><td><span class="pill ok">ok</span></td></tr>
-                <tr data-app="go"><td>Kopi Susu Gula Aren</td><td>15.000</td><td>18.000</td><td>12.894</td><td>28%<span class="mbar take" aria-hidden="true"><i style="width:28%"></i></span></td><td>8.500</td><td><span class="pill ok">ok</span></td></tr>
-                <tr data-app="grab" hidden><td>Es Kopi Susu</td><td>22.000</td><td>28.000</td><td>19.453</td><td>31%<span class="mbar take" aria-hidden="true"><i style="width:31%"></i></span></td><td>9.500</td><td><span class="pill ok">ok</span></td></tr>
-                <tr data-app="grab" hidden><td>Es Teh Manis</td><td>5.000</td><td>6.500</td><td>4.516</td><td>31%<span class="mbar take" aria-hidden="true"><i style="width:31%"></i></span></td><td>2.000</td><td><span class="pill ok">ok</span></td></tr>
-                <tr data-app="grab" hidden><td>Kopi Hitam</td><td>8.000</td><td>10.000</td><td>6.948</td><td>31%<span class="mbar take" aria-hidden="true"><i style="width:31%"></i></span></td><td>3.500</td><td><span class="pill ok">ok</span></td></tr>
-                <tr data-app="grab" hidden><td>Kopi Susu Gula Aren</td><td>15.000</td><td>19.000</td><td>13.200</td><td>31%<span class="mbar take" aria-hidden="true"><i style="width:31%"></i></span></td><td>7.500</td><td><span class="pill ok">ok</span></td></tr>
-                <tr data-app="shopee" hidden><td>Es Kopi Susu</td><td>22.000</td><td>26.000</td><td>20.228</td><td>22%<span class="mbar take" aria-hidden="true"><i style="width:22%"></i></span></td><td>8.500</td><td><span class="pill ok">ok</span></td></tr>
-                <tr data-app="shopee" hidden><td>Es Teh Manis</td><td>5.000</td><td>6.000</td><td>4.668</td><td>22%<span class="mbar take" aria-hidden="true"><i style="width:22%"></i></span></td><td>2.000</td><td><span class="pill ok">ok</span></td></tr>
-                <tr data-app="shopee" hidden><td>Kopi Hitam</td><td>8.000</td><td>10.000</td><td>7.780</td><td>22%<span class="mbar take" aria-hidden="true"><i style="width:22%"></i></span></td><td>3.000</td><td><span class="pill ok">ok</span></td></tr>
-                <tr data-app="shopee" hidden><td>Kopi Susu Gula Aren</td><td>15.000</td><td>18.000</td><td>14.004</td><td>22%<span class="mbar take" aria-hidden="true"><i style="width:22%"></i></span></td><td>7.000</td><td><span class="pill ok">ok</span></td></tr>
-              </tbody>
-            </table>
-          </div>
-          <div class="why-box"><span class="k">Note</span><span>GoFood 20% + Rp 1.000 per order (published). GrabFood 27.5% and ShopeeFood 20% are estimates: neither publishes its Indonesian rate. PPN 11% on the platform fee. One item per order (the safest case).</span></div>
-          <div class="run-row two"><button class="ghost-btn back" type="button" data-go="walkin">2. Walk-in audit</button><a class="fake-btn next" href="https://contact.margindatalab.com/">Get in touch</a></div>
+          <div class="run-row two"><button class="ghost-btn back" type="button" data-go="walkin">2. Your margins</button><a class="fake-btn next" href="https://contact.margindatalab.com/">Get in touch</a></div>
         </div>
       </div>
     </div>
 
-    <p class="fine">Made-up café and numbers. Arithmetic, not a forecast: at a higher price some customers may buy less.</p>
+    <p class="fine">Made-up café; the numbers come from the MarginLab walk-in audit. Arithmetic, not a forecast: at a higher price some customers may buy less.</p>
   </div>
 </section>
 
@@ -348,7 +466,6 @@ tbody tr{transition:background .2s}
         <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><rect x="6" y="2.5" width="12" height="19" rx="2.5"/><path d="M10.5 18.5h3"/></svg></div>
         <h4>A page for your phone</h4>
         <p>Item by item, in Bahasa or English. Open it anywhere, show it to your team.</p>
-        <a class="link-more" href="/sample-audit-en" data-href-id="/contoh-audit-id">See a sample audit</a>
       </div>
       <div class="tile reveal d1">
         <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2.5H6.5a2 2 0 0 0-2 2v15a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2V8Z"/><path d="M14 2.5V8h5.5M8.5 13h7M8.5 17h5"/></svg></div>
@@ -413,7 +530,7 @@ tbody tr{transition:background .2s}
     <p class="lede reveal d1">On a call, Felix runs it live on your menu, screen shared, in Bahasa or English.</p>
     <div class="hero-cta reveal d2">
       <a href="https://contact.margindatalab.com/" class="btn btn-primary">Get in touch</a>
-      <a href="/sample-audit-en" data-href-id="/contoh-audit-id" class="btn btn-ghost">See a sample audit</a>
+      <a href="/#method" class="btn btn-ghost">See the method</a>
     </div>
   </div>
 </section>
@@ -436,8 +553,6 @@ tbody tr{transition:background .2s}
         <div class="fcol">
           <h6>Explore</h6>
           <a href="/#method">The Method</a>
-          <a href="/sample-audit-en">Sample audit (EN)</a>
-          <a href="/contoh-audit-id">Contoh audit (ID)</a>
           <a href="/colours-ochre-software">Software</a>
           <a href="/privasi">Privacy</a>
         </div>
@@ -470,14 +585,14 @@ tbody tr{transition:background .2s}
 
   // the three screens, as steps
   var RM=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var ORDER=['menu','walkin','apps'], tabs=$$('[role=tab]'), stepper=$('.stepper'), win=$('#win');
+  var ORDER=['menu','walkin','look'], tabs=$$('[role=tab]'), stepper=$('.stepper'), win=$('#win');
   $$('#walkTbl tbody tr').forEach(function(r,k){r.style.setProperty('--r',k)});
-  ['go','grab','shopee'].forEach(function(a){$$('#appTbl tbody tr[data-app="'+a+'"]').forEach(function(r,k){r.style.setProperty('--r',k)})});
+  $$('.mrow,.look').forEach(function(r,k){r.style.setProperty('--r',k)});
   // numbers count up when the audit has run (1.620.000 style, the same in both languages)
   function fmt(n){return String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g,'.')}
   function countCells(){
     if(RM) return;
-    $$('#walkTbl tbody td:nth-child(4), #walkTbl tbody td:last-child').forEach(function(td){
+    $$('#walkTbl tbody td:last-child').forEach(function(td){
       var end=td.dataset.v||(td.dataset.v=td.textContent.trim()), target=parseInt(end.replace(/\./g,''),10);
       if(!target) return;
       var t0=performance.now()+(parseFloat(td.parentNode.style.getPropertyValue('--r'))||0)*70;
@@ -526,14 +641,6 @@ tbody tr{transition:background .2s}
     }
     tr.addEventListener('click',pick);
     tr.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();pick()}});
-  });
-
-  // delivery: one app at a time
-  $$('.apps button').forEach(function(b){
-    b.addEventListener('click',function(){
-      $$('.apps button').forEach(function(x){x.setAttribute('aria-pressed',String(x===b))});
-      $$('#appTbl tbody tr').forEach(function(r){r.hidden=r.dataset.app!==b.dataset.app});
-    });
   });
 
   // reveal
