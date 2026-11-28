@@ -25,7 +25,8 @@
 .sa-stats .n{font-family:var(--serif);font-size:clamp(1.5rem,3vw,2.2rem);line-height:1.1;letter-spacing:-.02em;color:var(--cream)}
 .sa-stats .st.ok .n{color:var(--ochre)}.sa-stats .st.warn .n{color:var(--terra)}
 .sa-stats .l{font:500 .64rem var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-top:6px}
-.print-btn{margin-top:26px;font-size:.84rem;padding:11px 20px}
+.sa-btns{display:flex;flex-wrap:wrap;gap:12px;margin-top:26px}.print-btn{font-size:.84rem;padding:11px 20px}
+.link-more{display:inline-block;margin-top:10px;color:var(--ochre);text-decoration:none;font-weight:600;font-size:.88rem}.link-more::after{content:" →"}.link-more:hover{color:var(--ochre-bright)}
 .sa-sec{padding:clamp(64px,10vh,120px) 0;position:relative;z-index:2}
 .sa-sec.alt{background:var(--bg-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
 .sa-sec h2{font-size:clamp(1.9rem,4.4vw,3.2rem);line-height:1.04;font-weight:350;letter-spacing:-.03em;margin-top:18px;max-width:22ch}
@@ -92,7 +93,7 @@ td.near{color:var(--muted)}
 @media(max-width:900px){.looks,.steps-next{grid-template-columns:1fr}.sa-stats{grid-template-columns:repeat(3,minmax(0,1fr))}.sa-stats .st:first-child{grid-column:1/-1}}
 @media(max-width:560px){.mrow{grid-template-columns:minmax(0,1fr) auto;gap:4px 10px}.mrow .mb{grid-column:1/-1;grid-row:2}.why-box{flex-direction:column;gap:2px}.hero-cta .btn{width:100%;justify-content:center}}
 @media print{
-  .nav,.grain,.scroll-prog,.print-btn,.hero-cta,.footer,.wa-float,.theme-btn,.lang-sw{display:none!important}
+  .nav,.grain,.scroll-prog,.sa-btns,.link-more,.hero-cta,.footer,.wa-float,.theme-btn,.lang-sw{display:none!important}
   body{background:#fff}*{-webkit-print-color-adjust:exact;print-color-adjust:exact}
   .reveal{opacity:1!important;transform:none!important}.sa-sec{padding:28px 0;break-inside:avoid-page}
   .why{display:block!important}.why-box{display:block}.pick tbody tr.sel{background:none;box-shadow:none}
@@ -146,7 +147,8 @@ td.near{color:var(--muted)}
       <div class="st ok"><div class="n" data-no-t>5 / 8</div><div class="l">items on target</div></div>
       <div class="st warn"><div class="n" data-no-t>3</div><div class="l">to look at first</div></div>
     </div>
-    <button class="btn btn-ghost print-btn reveal in d4" type="button" onclick="print()">Print or save as PDF</button>
+    <div class="sa-btns reveal in d4"><button class="btn btn-ghost print-btn" type="button" onclick="print()">Print or save as PDF</button>
+      <a class="btn btn-primary print-btn" href="/final-report-example-en.pdf" data-href-id="/laporan-akhir-contoh-id.pdf" target="_blank" rel="noopener">Sample final report (PDF)</a></div>
   </div>
 </header>
 
@@ -242,7 +244,8 @@ td.near{color:var(--muted)}
     <div class="steps-next">
       <div class="sn reveal"><span class="ck" data-no-t>1</span><div><h4>Check the three costs</h4><p>Recipe, portion and supplier for the matcha, the nasi ayam and the croissant.</p></div></div>
       <div class="sn reveal d1"><span class="ck" data-no-t>2</span><div><h4>One price test, if it can settle</h4><p>Only on an item that sells enough for a test to say something, and only inside the prices nearby.</p></div></div>
-      <div class="sn reveal d2"><span class="ck" data-no-t>3</span><div><h4>A final report</h4><p>What changed, what was measured and where the menu stands, in one document.</p></div></div>
+      <div class="sn reveal d2"><span class="ck" data-no-t>3</span><div><h4>A final report</h4><p>What changed, what was measured and where the menu stands, in one document.</p>
+        <a class="link-more" href="/final-report-example-en.pdf" data-href-id="/laporan-akhir-contoh-id.pdf" target="_blank" rel="noopener">See a sample final report (PDF)</a></div></div>
     </div>
     <div class="hero-cta reveal">
       <a href="https://contact.margindatalab.com/" class="btn btn-primary">Get in touch</a>
